@@ -1,4 +1,10 @@
 {
   "name": "Codename_Hermes",
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@3.4.1",
+  "devDependencies": {
+    "@types/express": "^4.17.17"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
