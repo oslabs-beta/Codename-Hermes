@@ -1,0 +1,14 @@
+{
+  "name": "landing",
+  "packageManager": "yarn@3.3.1",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "tsc": "^2.0.4",
+    "typescript": "^4.9.5",
+    "webpack": "^5.75.0",
+    "webpack-dev-server": "^4.11.1"
+  }
+}

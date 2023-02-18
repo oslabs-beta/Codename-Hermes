@@ -1,4 +1,13 @@
 {
   "name": "Codename_Hermes",
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@3.4.1",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "yarn workspaces foreach -vpti run start",
+    "build": "yarn workspaces foreach -vpti run build",
+    "dev": "yarn workspaces foreach -vpti run dev"
+  }
 }
