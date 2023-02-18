@@ -7,6 +7,10 @@
     "start:dev": "yarn webpack serve",
     "build": "yarn webpack"
   },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
     "@svgr/webpack": "^6.5.1",
     "@types/node": "^18.14.0",
