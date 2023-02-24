@@ -1,9 +1,8 @@
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+.yarn/cache
+.yarn/install-state.gz
+# It would not block these with the above
+packages/demo_app/.yarn/cache
+packages/demo_app/.yarn/install-state.gz
 
 node_modules
 
