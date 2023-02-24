@@ -58,7 +58,7 @@ module.exports = {
   // Webpack dev server
   devServer: {
     static: './build',
-    port: process.env.PORT ?? 8080,
+    port: process.env.PORT ?? 8082,
     watchFiles: {
       // Which files do you want to monitor for changes so you can hot-reload them?
       paths: ['src/**/*'],
