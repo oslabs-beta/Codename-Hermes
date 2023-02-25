@@ -1,12 +1,13 @@
 {
   "name": "demo_app",
-  "packageManager": "yarn@3.3.1",
-  "version": "1.0.0",
-  "devDependencies": {
-    "@types/node": "^18.14.0",
-    "nodemon": "^2.0.20",
-    "ts-node": "^10.9.1",
-    "tsc": "^2.0.4",
-    "typescript": "^4.9.5"
+  "packageManager": "yarn@3.4.1",
+  "private": true,
+  "workspaces": [
+    "services/*"
+  ],
+  "scripts": {
+    "start": "yarn workspaces foreach -vpti run start",
+    "start:dev": "yarn workspaces foreach -vpti run start:dev",
+    "build": "yarn workspaces foreach -vpti run build"
   }
 }

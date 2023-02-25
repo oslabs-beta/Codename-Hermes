@@ -4,7 +4,7 @@
     "target": "ES6",
     "lib": ["DOM"],
     "jsx": "react",
-    "experimentalDecorators": true,               
+    "experimentalDecorators": true,
     "module": "commonjs",
     "rootDir": "./",
     "moduleResolution": "node",
@@ -12,12 +12,12 @@
     "allowJs": false,
     "sourceMap": true,
     "outDir": "./build",
-    "removeComments": true,    
-    "esModuleInterop": true,      
-    "forceConsistentCasingInFileNames": true,            
-    "strict": true,    
-    "noImplicitAny": true,     
-    "strictNullChecks": true,  
+    "removeComments": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
     "strictFunctionTypes": true,
     "alwaysStrict": true,
     "noUnusedLocals": true,
@@ -26,7 +26,7 @@
     "skipLibCheck": true
   },
 
-  "watchOptions": { 
+  "watchOptions": {
     "excludeDirectories": ["**/node_modules", "**/build"]
   }
 }

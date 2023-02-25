@@ -1,6 +1,7 @@
 {
-  "name": "landing",
+  "name": "frontend",
   "packageManager": "yarn@3.3.1",
+  "version": "1.0.0",
   "scripts": {
     "start": "yarn start:dev",
     "start:dev": "yarn webpack serve",
