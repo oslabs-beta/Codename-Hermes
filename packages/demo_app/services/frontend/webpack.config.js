@@ -8,7 +8,10 @@ module.exports = {
   mode: process.env.TARGET ?? 'production',
 
   // The main file for the project
-  entry: './src/index.tsx',
+  entry: path.resolve(
+    __dirname,
+    `${process.env.TARGET === 'production' ? './' : './src'}/index.tsx`
+  ),
 
   module: {
     rules: [
@@ -57,7 +60,7 @@ module.exports = {
 
   // Webpack dev server
   devServer: {
-    static: './build',
+    static: path.resolve(__dirname, './build'),
     port: process.env.PORT ?? 8080,
     watchFiles: {
       // Which files do you want to monitor for changes so you can hot-reload them?
@@ -68,14 +71,21 @@ module.exports = {
   // What do you want to have the final bundle be called? Where do you want it stored?
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, './build'),
+  },
+
+  performance: {
+    hints: false,
   },
 
   // Any extra functionality?
   plugins: [
     // This will create a new index.html file based on the specified template.
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: path.resolve(
+        __dirname,
+        `${process.env.TARGET === 'production' ? './' : './src'}/index.html`
+      ),
     }),
   ],
 };
