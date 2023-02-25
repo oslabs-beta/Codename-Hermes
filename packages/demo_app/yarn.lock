@@ -2398,16 +2398,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"big.js@npm:^5.2.2":
-  version: 5.2.2
-  resolution: "big.js@npm:5.2.2"
-  checksum: b89b6e8419b097a8fb4ed2399a1931a68c612bce3cfd5ca8c214b2d017531191070f990598de2fc6f3f993d91c0f08aa82697717f6b3b8732c9731866d233c9e
-  languageName: node
-  linkType: hard
-
-"billing@workspace:services/billing":
+"bidding@workspace:services/bidding":
   version: 0.0.0-use.local
-  resolution: "billing@workspace:services/billing"
+  resolution: "bidding@workspace:services/bidding"
   dependencies:
     "@types/express": ^4.17.17
     "@types/node": ^18.14.0
@@ -2419,6 +2412,13 @@ __metadata:
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
+
+"big.js@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "big.js@npm:5.2.2"
+  checksum: b89b6e8419b097a8fb4ed2399a1931a68c612bce3cfd5ca8c214b2d017531191070f990598de2fc6f3f993d91c0f08aa82697717f6b3b8732c9731866d233c9e
+  languageName: node
+  linkType: hard
 
 "binary-extensions@npm:^2.0.0":
   version: 2.2.0
