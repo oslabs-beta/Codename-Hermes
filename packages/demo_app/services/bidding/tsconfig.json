@@ -2,8 +2,6 @@
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
     "target": "ES6",
-    "lib": ["DOM"],
-    "jsx": "react",
     "experimentalDecorators": true,
     "module": "commonjs",
     "rootDir": "./",
