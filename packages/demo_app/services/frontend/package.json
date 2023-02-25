@@ -5,7 +5,8 @@
   "scripts": {
     "start": "yarn start:dev",
     "start:dev": "yarn webpack serve",
-    "build": "yarn webpack"
+    "build": "yarn webpack",
+    "docker:build": "docker build . -t ch_demo-app_frontend"
   },
   "dependencies": {
     "react": "^18.2.0",
