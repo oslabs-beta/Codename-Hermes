@@ -1509,6 +1509,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@remix-run/router@npm:1.3.2":
+  version: 1.3.2
+  resolution: "@remix-run/router@npm:1.3.2"
+  checksum: ee2108b87d4a1241cdea137dd7e1741ee679228bd33fd81e22a6bb2940f81186cefe9a85e26d60cc49bbcc1bdbc57d1954b7d4d62f8a51ef69feddfc899f55fa
+  languageName: node
+  linkType: hard
+
 "@svgr/babel-plugin-add-jsx-attribute@npm:^6.5.1":
   version: 6.5.1
   resolution: "@svgr/babel-plugin-add-jsx-attribute@npm:6.5.1"
@@ -2398,16 +2405,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"big.js@npm:^5.2.2":
-  version: 5.2.2
-  resolution: "big.js@npm:5.2.2"
-  checksum: b89b6e8419b097a8fb4ed2399a1931a68c612bce3cfd5ca8c214b2d017531191070f990598de2fc6f3f993d91c0f08aa82697717f6b3b8732c9731866d233c9e
-  languageName: node
-  linkType: hard
-
-"billing@workspace:services/billing":
+"bidding@workspace:services/bidding":
   version: 0.0.0-use.local
-  resolution: "billing@workspace:services/billing"
+  resolution: "bidding@workspace:services/bidding"
   dependencies:
     "@types/express": ^4.17.17
     "@types/node": ^18.14.0
@@ -2419,6 +2419,13 @@ __metadata:
     typescript: ^4.9.5
   languageName: unknown
   linkType: soft
+
+"big.js@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "big.js@npm:5.2.2"
+  checksum: b89b6e8419b097a8fb4ed2399a1931a68c612bce3cfd5ca8c214b2d017531191070f990598de2fc6f3f993d91c0f08aa82697717f6b3b8732c9731866d233c9e
+  languageName: node
+  linkType: hard
 
 "binary-extensions@npm:^2.0.0":
   version: 2.2.0
@@ -3502,6 +3509,7 @@ __metadata:
     nodemon: ^2.0.20
     react: ^18.2.0
     react-dom: ^18.2.0
+    react-router-dom: ^6.8.1
     sass-loader: ^13.2.0
     style-loader: ^3.3.1
     ts-loader: ^9.4.2
@@ -5123,6 +5131,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-router-dom@npm:^6.8.1":
+  version: 6.8.1
+  resolution: "react-router-dom@npm:6.8.1"
+  dependencies:
+    "@remix-run/router": 1.3.2
+    react-router: 6.8.1
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: fb1a9f5c7e4c83536ee7e6493f3c13f6abda66da69f9191fb8b087ab188ecc18a3a32575813a280cbeca67bcb8b0dcb6dbcef7ed599e03f38a44d694f4abcf14
+  languageName: node
+  linkType: hard
+
+"react-router@npm:6.8.1":
+  version: 6.8.1
+  resolution: "react-router@npm:6.8.1"
+  dependencies:
+    "@remix-run/router": 1.3.2
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 8e7cc7a516adeb6060911861af99d9b512893c15ec732cbf8574872919be4f3fe439ffa8c0876d1bcbced880d081bfeda3c01cb505b5a243565d10500ee0ac36
+  languageName: node
+  linkType: hard
+
 "react@npm:^18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
@@ -6024,11 +6056,11 @@ __metadata:
 
 "typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
   version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
+  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
   languageName: node
   linkType: hard
 
