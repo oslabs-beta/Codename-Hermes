@@ -7,7 +7,8 @@
   ],
   "scripts": {
     "start": "yarn workspaces foreach -vpti run start",
-    "docker:start": "docker-compose up",
+    "docker:start": "yarn docker:build && docker-compose up",
+    "docker:build": "yarn workspaces foreach -vpti run docker:build",
     "start:dev": "yarn workspaces foreach -vpti run start:dev",
     "build": "yarn workspaces foreach -vpti run build"
   }
