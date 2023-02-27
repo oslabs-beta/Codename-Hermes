@@ -21,41 +21,33 @@ const client = new KafkaClient({
   kafkaHost: process.env.KAFKA_HOST,
 });
 
-client.topicExists(['test'], (e) => {
-  if (e) {
-    console.log(e);
-    return;
-  }
+const producer = new Producer(client);
+const consumer = new Consumer(
+  client,
+  [
+    {
+      topic: 'bidding',
+      offset: 2,
+    },
+  ],
+  { autoCommit: true }
+);
 
-  const producer = new Producer(client);
-  const consumer = new Consumer(
-    client,
-    [
-      {
-        topic: 'test',
-      },
-    ],
-    { autoCommit: false }
-  );
+producer.on('ready', () => console.log('Bidding service ready.'));
+consumer.on('message', (message) => {
+  const { msg, code } = JSON.parse(message.value as string) as {
+    msg: string;
+    code: string;
+  };
 
-  producer.on('ready', () => console.log(`Producer is ready to be used. ✅`));
-
+  const newMsg = { response: `Hello, ${msg}!`, code };
   producer.send(
     [
       {
-        topic: 'test',
-        messages: ['hello', 'world'],
+        topic: 'gateway',
+        messages: JSON.stringify(newMsg),
       },
     ],
-    (err, data) => {
-      if (err) {
-        console.log(`Producer err: ${err}`);
-        return;
-      }
-
-      console.log('Sent');
-    }
+    () => console.log(`Sent ${newMsg.response} to the gateway.`)
   );
-
-  consumer.on('message', (msg) => console.log(`Received: ${msg.value}`));
 });
