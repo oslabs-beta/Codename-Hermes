@@ -17,7 +17,7 @@ services:
     environment:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_ADVERTISED_HOST_NAME=localhost
-      - KAFKA_CREATE_TOPICS=test:1:1,test1:1:1
+      - KAFKA_CREATE_TOPICS=gateway:1:1,bidding:1:1
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
