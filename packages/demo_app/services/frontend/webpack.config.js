@@ -63,6 +63,8 @@ module.exports = {
       // Which files do you want to monitor for changes so you can hot-reload them?
       paths: ['src/**/*'],
     },
+    //allows react router to be executed when no api route exists on server
+    historyApiFallback: true,
   },
 
   // What do you want to have the final bundle be called? Where do you want it stored?
@@ -78,4 +80,7 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
+  performance: {
+    hints: false,
+  }
 };

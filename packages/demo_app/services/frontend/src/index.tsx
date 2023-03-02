@@ -10,8 +10,8 @@ import Gallery from '../pages/gallery';
 const App = () => {
   return (
     <div>
-      <h1>Hello world!1</h1>
-      <BrowserRouter>
+      <h1>Hello world!</h1>
+      
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/userpage' element={<UserPage />} />
@@ -19,7 +19,7 @@ const App = () => {
           <Route path='/imgbidding' element={<ImgBidding />} />
           <Route path='/checkout' element={<Checkout />} />
         </Routes>
-      </BrowserRouter>
+      
     </div>
   );
 };
