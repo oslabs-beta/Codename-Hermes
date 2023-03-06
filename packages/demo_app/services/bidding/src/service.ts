@@ -2,52 +2,48 @@ import { KafkaClient, Producer, Consumer } from 'kafka-node';
 import env from 'dotenv';
 env.config();
 
-// export interface KafkaClientOptions {
-//   kafkaHost?: string;
-//   connectTimeout?: number;
-//   requestTimeout?: number;
-//   autoConnect?: boolean;
-//   connectRetryOptions?: RetryOptions;
-//   sslOptions?: any;
-//   clientId?: string;
-//   idleConnection?: number;
-//   reconnectOnIdle?: boolean;
-//   maxAsyncRequests?: number;
-//   sasl?: any;
-// }
-
 const client = new KafkaClient({
   // If the host is undefined, then it will default to localhost:9092
   kafkaHost: process.env.KAFKA_HOST,
 });
 
-const producer = new Producer(client);
+const producer = new Producer(client, {
+  // requireAcks: true,
+});
 const consumer = new Consumer(
   client,
   [
     {
       topic: 'bidding',
-      offset: 2,
+      // offset: 2,
     },
   ],
   { autoCommit: true }
 );
 
-producer.on('ready', () => console.log('Bidding service ready.'));
-consumer.on('message', (message) => {
-  const { msg, code } = JSON.parse(message.value as string) as {
-    msg: string;
-    code: string;
-  };
+let count = 0;
 
-  const newMsg = { response: `Hello, ${msg}!`, code };
+type KafkaData = {
+  code: string;
+  method: string;
+};
+
+producer.on('ready', () => console.log('Bidding service ready.'));
+
+consumer.on('message', (message) => {
+  const { code, method } = JSON.parse(message.value as string) as KafkaData;
+
+  console.log(`Received ${method ?? 'no method'} with code ${code}`);
+
+  if (method === 'POST') count += 1;
+
   producer.send(
     [
       {
         topic: 'gateway',
-        messages: JSON.stringify(newMsg),
+        messages: JSON.stringify({ code, count }),
       },
     ],
-    () => console.log(`Sent ${newMsg.response} to the gateway.`)
+    () => console.log(`Sent ${count} to the gateway.`)
   );
 });
