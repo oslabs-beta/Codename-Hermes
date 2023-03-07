@@ -17,9 +17,11 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "sass-loader": "^13.2.0",
-    "style-loader": "^3.3.1"
+    "style-loader": "^3.3.1",
+    "tailwindcss": "^3.2.7"
   },
   "dependencies": {
+    "next": "^13.2.3",
     "react-router-dom": "^6.8.1"
   }
 }

@@ -1,0 +1,18 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities"; */
+
+.galImg {
+   max-height: 300px; 
+}
+
+.galDisp {
+    columns: 500px 2;
+}

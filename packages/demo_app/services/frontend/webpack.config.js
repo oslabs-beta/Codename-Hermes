@@ -5,8 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   // Determine which env to build for
-  mode: process.env.TARGET ?? 'production',
-
+  // mode: process.env.TARGET ?? 'production',
+  mode: 'development',
   // The main file for the project
   entry: './src/index.tsx',
 
@@ -21,15 +21,17 @@ module.exports = {
         use: 'ts-loader',
         exclude: [/node_modules/],
       },
-
       /**
        * If the file end with .sass, .scss, or .css then run the loaders defined in the "use" key from right to left.
        */
       {
         test: /\.s[ac]ss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
       },
-
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+      },
       /**
        * This will check if the file is an image and it will get it, copy it to the build dir, then store a referance to it.
        */
@@ -63,6 +65,7 @@ module.exports = {
       // Which files do you want to monitor for changes so you can hot-reload them?
       paths: ['src/**/*'],
     },
+    historyApiFallback: true,
   },
 
   // What do you want to have the final bundle be called? Where do you want it stored?
@@ -78,4 +81,9 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
+  },
 };

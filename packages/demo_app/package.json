@@ -9,5 +9,9 @@
     "start": "yarn workspaces foreach -vpti run start",
     "start:dev": "yarn workspaces foreach -vpti run start:dev",
     "build": "yarn workspaces foreach -vpti run build"
+  },
+  "devDependencies": {
+    "postcss": "^8.4.21",
+    "postcss-loader": "^7.0.2"
   }
 }
