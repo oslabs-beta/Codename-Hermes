@@ -6,20 +6,13 @@ import ImgBidding from '../pages/imgbidding';
 import UserPage from '../pages/userhomepage';
 import Login from '../pages/login';
 import Gallery from '../pages/gallery';
-
+import './components/ImgDisplay/ImgStyleDisplay.css'
+import './styles/index.css'
+import './components/BiddingForm/biddingform.css'
 const App = () => {
   return (
-    <div>
-      <h1>Hello world!</h1>
-      
-        <Routes>
-          <Route path='/login' element={<Login />} />
-          <Route path='/userpage' element={<UserPage />} />
-          <Route path='/gallery' element={<Gallery />} />
-          <Route path='/imgbidding' element={<ImgBidding />} />
-          <Route path='/checkout' element={<Checkout />} />
-        </Routes>
-      
+    <div className='app'>
+     Hello World
     </div>
   );
 };
@@ -27,7 +20,14 @@ const App = () => {
 createRoot(document.querySelector('#AppRoot')!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Routes>
+        <Route path='/' element={<h1>Home route</h1>} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/userpage' element={<UserPage />} />
+        <Route path='/gallery' element={<Gallery />} />
+        <Route path='/imgbidding' element={<ImgBidding />} />
+        <Route path='/checkout' element={<Checkout />} />
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );

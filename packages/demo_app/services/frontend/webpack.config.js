@@ -26,7 +26,7 @@ module.exports = {
        * If the file end with .sass, .scss, or .css then run the loaders defined in the "use" key from right to left.
        */
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.s?[ac]ss$/i,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
 

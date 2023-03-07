@@ -8,9 +8,11 @@
     "build": "yarn webpack"
   },
   "dependencies": {
+    "next": "^13.2.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.1"
+    "react-router-dom": "^6.8.1",
+    "sass": "^1.58.3"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.5.1",

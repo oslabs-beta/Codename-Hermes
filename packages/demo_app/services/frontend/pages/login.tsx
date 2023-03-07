@@ -4,7 +4,8 @@ const Login = () => {
   return (
   <div>
     <h1>login route hit</h1>
-  </div>);
+  </div>
+  );
 };
 
 export default Login;
