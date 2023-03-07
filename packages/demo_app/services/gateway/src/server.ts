@@ -67,7 +67,7 @@ try {
 
     fs.appendFileSync('src/hi_log.txt', test, 'utf8')
 
-    console.log('this is process.stdin', process.stdin);
+    
     const messageFromGateWay = fs.createReadStream('src/hi_log.txt');
 
     const stdinTransform = new Transform({
@@ -87,11 +87,12 @@ try {
       }
     });
 
+   
     messageFromGateWay.setEncoding('utf8');
 
     messageFromGateWay.pipe(stdinTransform).pipe(producer);
 
-
+    
     // Send the message to the bidding service
     // producer.sendPayload(
     //   [
@@ -146,7 +147,7 @@ try {
       //   console.log(`Code mismatch! ${code} !== ${secret}`);
       //   return;
       // }
-
+     
       
       res.status(200).json(message);
     });
