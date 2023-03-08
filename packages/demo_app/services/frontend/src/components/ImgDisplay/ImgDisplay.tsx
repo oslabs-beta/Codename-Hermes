@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import BiddingForm from '../BiddingForm/BiddingForm';
-import styles from '../../styles/imgstyledisplay.module.css';
+import styles from '../ImgDisplay/imgstyledisplay.module.scss';
 
 const ImgDisplay = () => {
   const imgArr = [
