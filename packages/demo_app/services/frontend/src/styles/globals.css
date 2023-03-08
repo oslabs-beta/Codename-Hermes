@@ -1,0 +1,7 @@
+.galImg {
+  max-height: 300px;
+}
+
+.galDisp {
+  columns: 500px 2;
+}

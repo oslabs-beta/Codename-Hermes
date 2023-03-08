@@ -1,5 +1,7 @@
 import React from 'react';
+import Image from 'next/image';
 import BiddingForm from '../BiddingForm/BiddingForm';
+import styles from '../../styles/imgstyledisplay.module.css';
 
 const ImgDisplay = () => {
   const imgArr = [
@@ -9,12 +11,18 @@ const ImgDisplay = () => {
   ];
 
   return (
-    <div className='imgdisplay'>
+    <div className={styles.imgdisplay}>
       {imgArr.map((el, i) => {
         return (
-          <div>
-            <img className='bidimg' key={i} src={el} height='200px'></img>
-            <BiddingForm />
+          <div key={i + 2}>
+            <img
+              className={styles.bidimg}
+              key={i}
+              src={el}
+              width='200px'
+              alt=''
+            />
+            <BiddingForm key={i + 1} />
           </div>
         );
       })}
