@@ -55,6 +55,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   // When the gateway receives a response, send that to the client.
   // This is probobly really bad practice because this will accept any response even when there is no client waiting for a response.
   consumer.on('message', (message) => {
+
     const { count, code } = JSON.parse(message.value as string) as KafkaData;
     if (code !== secret) {
       // console.log('Code mismatch.');

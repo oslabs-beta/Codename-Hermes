@@ -63,20 +63,24 @@ consumer.on('message', (message) => {
       } 
   }
 
+  //original POST method
+  if (method === 'POST') count += 1;
+
+
   //Handle Bid incrementing
   if(method === 'POST'){
 
     // newBid = currentBid + postBid;
   }
 
-  //original POST method
-  if (method === 'POST') count += 1;
+
+  //TODO: change what is sent back to the client
 
   producer.send(
     [
       {
         topic: 'gateway',
-        messages: JSON.stringify({ bids }),
+        messages: JSON.stringify({ code, count }),
       },
     ],
     () => console.log(`Sent ${count} to the gateway.`)
