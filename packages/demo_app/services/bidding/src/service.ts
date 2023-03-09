@@ -30,8 +30,7 @@ let count = 0;
 
 interface Bid {
   galleryID: string,
-  currentBid: number,
-  postBid: number,
+  currentBid: number
 
 }
 
@@ -51,15 +50,23 @@ consumer.on('message', (message) => {
 
   const { code, method } = JSON.parse(message.value as string) as KafkaData;
 
-  const {galleryID, currentBid, postBid } = JSON.parse(message.value as string) as Bid;
+  const bids: {bid: Bid} = JSON.parse(message.value as string);
 
   console.log(`Received ${method ?? 'no method'} with code ${code}`);
 
-  let newBid;
+  const galleryID2Change = 'cool';
+  //iterate through bids
+  for(const [key, bid] of Object.entries(bids)){
+      //find the gallery item to update
+      if(bid.galleryID === galleryID2Change){
+        console.log('hello');
+      } 
+  }
+
   //Handle Bid incrementing
   if(method === 'POST'){
 
-    newBid = currentBid + postBid;
+    // newBid = currentBid + postBid;
   }
 
   //original POST method
@@ -69,7 +76,7 @@ consumer.on('message', (message) => {
     [
       {
         topic: 'gateway',
-        messages: JSON.stringify({ galleryID, newBid  }),
+        messages: JSON.stringify({ bids }),
       },
     ],
     () => console.log(`Sent ${count} to the gateway.`)
