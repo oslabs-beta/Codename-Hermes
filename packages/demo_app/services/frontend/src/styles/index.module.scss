@@ -8,7 +8,7 @@
     width: auto;
     border: outset;
     border-width:1.5em;
-    border-color: #0dd0cd;
+    border-color: #63c2ee;
     margin: auto;
     // margin-bottom: 5em;
   }
@@ -27,14 +27,16 @@
   background-color: rgb(243, 243, 246);
   margin: auto;
   margin-top: 5em;
+
 }
 
 .galHeading {
     width: 76vw;
     height: auto;
     font-weight: 900;
-    font-size: 10em;
+    font-size: 4em;
     margin: auto;
+    margin-top: 1em;
     align-self: center;
     justify-content: center;
     text-align: center;
@@ -42,7 +44,7 @@
 
 .galDescrip {
   width: 75vw;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 2em;
   margin: auto;
   justify-content: center;

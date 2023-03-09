@@ -8,6 +8,7 @@ import seaturtle from '../../public/seaturtle.png';
 import starrynightmixedmedia from '../../public/starrynightmixedmedia.png';
 import undertherainbow from '../../public/undertherainbow.png';
 import underwaterseascape from '../../public/underwaterseascape.png';
+import NavBar from '../components/NavBar/navBar';
 
 interface Art {
   title: string;
@@ -27,6 +28,7 @@ const artWork: Art[] = [
 const Gallery = () => {
   return (
     <div>
+      <NavBar />
       <div className={styles.galHeading}>Welcome to CH Gallery</div>
       <br />
       <p className={styles.galDescrip}>
@@ -58,7 +60,7 @@ const Gallery = () => {
           {artWork.map((obj, index) => (
             <div className={styles.galImg} key={index}>
               <Image src={obj.file} key={index} alt={"Mabel's art"} />
-              <p key={index}>{obj.title}</p>
+              <p key={index + 1}>{obj.title}</p>
             </div>
           ))}
         </div>
