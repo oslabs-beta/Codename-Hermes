@@ -1,25 +1,19 @@
-import { KafkaClient, Producer, Consumer } from 'kafka-node';
+// import { KafkaClient, Producer, Consumer } from 'kafka-node';
 import env from 'dotenv';
 env.config();
 
-const client = new KafkaClient({
-  // If the host is undefined, then it will default to localhost:9092
-  kafkaHost: process.env.KAFKA_HOST,
-});
+import CH from 'CodenameHermes';
 
-const producer = new Producer(client, {
-  // requireAcks: true,
-});
-const consumer = new Consumer(
-  client,
-  [
-    {
-      topic: 'bidding',
-      // offset: 2,
-    },
-  ],
-  { autoCommit: true }
+const kafka = new CH.kafka(
+  {
+    gateway: null,
+    bidding: null,
+  },
+  'localhost:9092',
+  (err) => console.log(err ?? 'Bidding listening')
 );
+
+kafka.listener(['bidding'], { autoCommit: true });
 
 let count = 0;
 
@@ -28,22 +22,13 @@ type KafkaData = {
   method: string;
 };
 
-producer.on('ready', () => console.log('Bidding service ready.'));
-
-consumer.on('message', (message) => {
+kafka.onMessage('bidding', (message) => {
+  console.log('---- New message ----');
   const { code, method } = JSON.parse(message.value as string) as KafkaData;
 
   console.log(`Received ${method ?? 'no method'} with code ${code}`);
 
   if (method === 'POST') count += 1;
 
-  producer.send(
-    [
-      {
-        topic: 'gateway',
-        messages: JSON.stringify({ code, count }),
-      },
-    ],
-    () => console.log(`Sent ${count} to the gateway.`)
-  );
+  kafka.send('gateway', JSON.stringify({ code, count }));
 });
