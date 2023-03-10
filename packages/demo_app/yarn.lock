@@ -723,6 +723,7 @@ __metadata:
     "@types/node": ^18.14.0
     dotenv: ^16.0.3
     kafka-node: ^5.0.0
+    library: ../../../library
     nodemon: ^2.0.20
     ts-node: ^10.9.1
     tsc: ^2.0.4
@@ -2651,6 +2652,15 @@ __metadata:
     prelude-ls: ^1.2.1
     type-check: ~0.4.0
   checksum: 12c5021c859bd0f5248561bf139121f0358285ec545ebf48bb3d346820d5c61a4309535c7f387ed7d84361cf821e124ce346c6b7cef8ee09a67c1473b46d0fc4
+  languageName: node
+  linkType: hard
+
+"library@file:../../../library::locator=bidding%40workspace%3Aservices%2Fbidding":
+  version: 0.0.0
+  resolution: "library@file:../../../library#../../../library::hash=c486ee&locator=bidding%40workspace%3Aservices%2Fbidding"
+  dependencies:
+    kafka-node: ^5.0.0
+  checksum: d5290bde6d8beb85356dce06a9a629a28e5332e2d40be03d2c039d929611f5d2d128b19921629cb781f71790b1bf250177bbbc5fb8155fe04125191c2ed5dbad
   languageName: node
   linkType: hard
 
