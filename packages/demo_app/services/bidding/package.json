@@ -17,6 +17,7 @@
     "docker:build": "docker build . -t ch_demo-app_bidding"
   },
   "dependencies": {
-    "kafka-node": "^5.0.0"
+    "kafka-node": "^5.0.0",
+    "library": "../../../library"
   }
 }
