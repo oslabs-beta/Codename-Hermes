@@ -30,7 +30,8 @@ let count = 0;
 
 interface Bid {
   galleryID: string,
-  currentBid: number
+  currentBid: number,
+  newBid: number | undefined,
 
 }
 
@@ -48,45 +49,42 @@ producer.on('ready', () => console.log('Bidding service ready.'));
 
 consumer.on('message', (message) => {
 
-  const { code, method } = JSON.parse(message.value as string) as KafkaData;
+  //Mathew's original work
+  // const { code, method } = JSON.parse(message.value as string) as KafkaData;
 
+  //{ {galleryID: 1, currentBid: 25, newBid: 60}, {galleryID: 2, currentBid:40, newBid: 25} }
   const bids: {bid: Bid} = JSON.parse(message.value as string);
 
-  console.log(`Received ${method ?? 'no method'} with code ${code}`);
+  //Mathew's original work
+  // console.log(`Received ${method ?? 'no method'} with code ${code}`);
 
-  const galleryID2Change = 'cool';
   //iterate through bids
-  for(const [key, bid] of Object.entries(bids)){
+  for(const bid of Object.values(bids)){
       //find the gallery item to update
-      if(bid.galleryID === galleryID2Change){
-        console.log('hello');
-      } 
+      if(!bid.newBid){
+        break;
+      }
+
+      if(bid.newBid > bid.currentBid){
+        bid.currentBid = bid.newBid;
+      }
   }
 
-  //original POST method
-  if (method === 'POST') count += 1;
-
-
-  //Handle Bid incrementing
-  if(method === 'POST'){
-
-    // newBid = currentBid + postBid;
-  }
-
-
-  //TODO: change what is sent back to the client
+  //Mathew's original work
+  // if (method === 'POST') count += 1;
 
   producer.send(
     [
       {
         topic: 'gateway',
-        messages: JSON.stringify({ code, count }),
+        messages: JSON.stringify({ bids }),
       },
     ],
     () => console.log(`Sent ${count} to the gateway.`)
   );
 
 
+  //Mathew's original work
   /**
    * Original send producer method
    */
