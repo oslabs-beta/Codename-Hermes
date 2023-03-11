@@ -12,6 +12,7 @@ import { Topic } from '../../types/kafka';
 //TODO: error handling lol
 //TODO: comments lol
 //TODO: unified class interface for kafka, rabbitmq, and redis
+// TODO: kafka cluster host support
 
 /**
  * TODO:
@@ -95,7 +96,7 @@ export default class CHKafka {
     // Format the provided topic strings to the accepted topic type for Consumer().
     const formattedTopics = topics.map((topic) => {
       // Is the topic valid?
-      if (!that.topics[topic])
+      if (!Object.keys(this.topics).includes(topic))
         throw new Error(`There is no registered topic "${topic}"`);
 
       // Cool it is, let's format.
@@ -129,5 +130,14 @@ export default class CHKafka {
       throw new Error(`No listener found for topic "${topic}"`);
     this.consumers[topic]!.on('message', (msg) => callback(msg, null));
     this.consumers[topic]!.on('error', (err) => callback(null, err));
+  }
+
+  /**
+   * Bi-directional kafka communication.
+   * @param message The message you want to send.
+   * @param callback The callback to be invoked when a message has been recevied.
+   */
+  duplex(message: string, callback: (message: Message) => void) {
+    throw new Error('Feature not implemented yet.');
   }
 }
