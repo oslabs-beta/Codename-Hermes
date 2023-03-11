@@ -1,3 +1,5 @@
+
+
 .galImg {
     display: flex;
     flex-direction: column;
@@ -7,7 +9,7 @@
     height: 30em;
     width: auto;
     border: outset;
-    border-width:1.5em;
+    border-width:1em;
     border-color: #63c2ee;
     margin: auto;
     // margin-bottom: 5em;
@@ -24,7 +26,6 @@
   flex-direction: row;
   flex-wrap: wrap;
   width: 80vw;
-  background-color: rgb(243, 243, 246);
   margin: auto;
   margin-top: 5em;
 
@@ -50,4 +51,8 @@
   justify-content: center;
 }
 
+.text {
+    font-family: var(--poppins-font);
+    font-weight: 300;
+}
  

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './NavBar.module.scss';
+import Link from 'next/link';
 
 const NavBar = () => {
   return (
@@ -15,7 +16,11 @@ const NavBar = () => {
         <p>Login</p>
       </div>
       <div className={styles.links}>
-        <p>Current Auction</p>
+        <p>
+          <a>
+            <Link href='/imgbidding'>Current Auction</Link>
+          </a>
+        </p>
       </div>
       <div className={styles.links}>
         <p>Private Sales</p>

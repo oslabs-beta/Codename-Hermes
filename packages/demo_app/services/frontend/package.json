@@ -10,6 +10,7 @@
     "docker:build": "docker build . -t ch_demo-app_frontend"
   },
   "dependencies": {
+    "@next/font": "^13.2.4",
     "@types/node": "18.14.4",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
