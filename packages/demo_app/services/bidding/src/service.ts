@@ -2,7 +2,7 @@
 import env from 'dotenv';
 env.config();
 
-import CH from 'CodenameHermes';
+import CH from 'library';
 
 const kafka = new CH.kafka(
   {
@@ -22,9 +22,10 @@ type KafkaData = {
   method: string;
 };
 
-kafka.onMessage('bidding', (message) => {
+kafka.onMessage('bidding', (message, err) => {
+  if (err) return;
   console.log('---- New message ----');
-  const { code, method } = JSON.parse(message.value as string) as KafkaData;
+  const { code, method } = JSON.parse(message!.value as string) as KafkaData;
 
   console.log(`Received ${method ?? 'no method'} with code ${code}`);
 

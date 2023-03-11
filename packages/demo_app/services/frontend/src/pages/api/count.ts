@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import CodenameHermes from 'CodenameHermes';
+import CodenameHermes from 'library';
 import { KafkaClient, Producer, Consumer } from 'kafka-node';
 
 const kafka = new CodenameHermes.kafka(
@@ -31,13 +31,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   // When the gateway receives a response, send that to the client.
   // This is probobly really bad practice because this will accept any response even when there is no client waiting for a response.
-  kafka.onMessage('gateway', (message) => {
-    const { count, code } = JSON.parse(message.value as string) as KafkaData;
+  kafka.onMessage('gateway', (message, err) => {
+    if (err) return;
+    const { count, code } = JSON.parse(message!.value as string) as KafkaData;
     if (code !== secret) {
       // console.log('Code mismatch.');
       return;
     }
-    console.log(`Received message: ${message.value}`);
+    console.log(`Received message: ${message!.value}`);
     res.status(200).json({ count });
   });
   // })
