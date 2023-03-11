@@ -24,22 +24,9 @@ const consumer = new Consumer(
 let count = 0;
 
 /**
- * Bid interface
- * 
- */
-
-interface Bid {
-  galleryID: string,
-  currentBid: number,
-  newBid: number | undefined,
-
-}
-
-/**
  * KafkaData 
  * 
  */
-
 type KafkaData = {
   code: string;
   method: string;
@@ -52,36 +39,39 @@ consumer.on('message', (message) => {
   //Mathew's original work
   // const { code, method } = JSON.parse(message.value as string) as KafkaData;
 
-  //{ {galleryID: 1, currentBid: 25, newBid: 60}, {galleryID: 2, currentBid:40, newBid: 25} }
-  const bids: {bid: Bid} = JSON.parse(message.value as string);
-
-  //Mathew's original work
+    //Mathew's original work
   // console.log(`Received ${method ?? 'no method'} with code ${code}`);
 
-  //iterate through bids
-  for(const bid of Object.values(bids)){
-      //find the gallery item to update
-      if(!bid.newBid){
-        break;
-      }
+  const bidData: {id: number, currBid: number, newBid: number} = JSON.parse(message.value as string);
 
-      if(bid.newBid > bid.currentBid){
-        bid.currentBid = bid.newBid;
-      }
+  let newBidValue = 0;
+
+  //check to see if the new bid value is greater than the curr bid. If so, then make new bid value equal to the new bid
+  if(bidData.newBid > bidData.currBid){
+
+    newBidValue = bidData.newBid;
+
+  }else{
+
+    newBidValue = bidData.currBid;
   }
 
-  //Mathew's original work
-  // if (method === 'POST') count += 1;
-
+  
   producer.send(
     [
       {
         topic: 'gateway',
-        messages: JSON.stringify({ bids }),
+        messages: newBidValue,
       },
     ],
-    () => console.log(`Sent ${count} to the gateway.`)
+    () => console.log(`Sent ${newBidValue} to the gateway.`)
   );
+
+
+  //Mathew's original work
+  // if (method === 'POST') count += 1;
+
+
 
 
   //Mathew's original work
