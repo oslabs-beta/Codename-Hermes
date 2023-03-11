@@ -8,23 +8,28 @@ import seaturtle from '../../public/seaturtle.png';
 import starrynightmixedmedia from '../../public/starrynightmixedmedia.png';
 import undertherainbow from '../../public/undertherainbow.png';
 import underwaterseascape from '../../public/underwaterseascape.png';
-// import heart from '../../public/heart.png'
-const artWork: any[] = [
-  apirateslifeforme,
-  dotsoncardstock,
-  heart,
-  seaturtle,
-  starrynightmixedmedia,
-  undertherainbow,
-  underwaterseascape,
+
+interface Art {
+  title: string;
+  file: string;
+}
+
+const artWork: Art[] = [
+  { title: 'A Pirates Life for Me', file: apirateslifeforme },
+  { title: 'Dots on Cardstock', file: dotsoncardstock },
+  { title: 'Heart', file: heart },
+  { title: 'Sea Turtle', file: seaturtle },
+  { title: 'Starry Night Mixed Media', file: starrynightmixedmedia },
+  { title: 'Under the Rainbow', file: undertherainbow },
+  { title: 'Underwater Seascape', file: underwaterseascape },
 ];
 
 const ImgBidding = () => {
   return (
     <div>
-      {artWork.map((el, i) => {
-        return <ImgDisplay imgsrc={el} key={i} id={i}></ImgDisplay>;
-      })}
+      {artWork.map((el, i) => (
+        <ImgDisplay imgsrc={el.file} title={el.title} key={i} id={i} />
+      ))}
     </div>
   );
 };

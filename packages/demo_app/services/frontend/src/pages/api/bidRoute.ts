@@ -30,7 +30,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   };
 
   // Send the message to the bidding service
-  kafka.send('bidding', JSON.stringify(message));
+  kafka.send('bidding', JSON.stringify(message), () =>
+    console.log(`\n\nSent ${newBid} to the bidding service.\n\n`)
+  );
 
   // When the gateway receives a response, send that to the client.
   // This is probobly really bad practice because this will accept any response even when there is no client waiting for a response.

@@ -9,13 +9,17 @@
   div:first-of-type {
     border: solid #fefff3 2px;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
   }
 
-  p {
+  p,
+  h2 {
     color: #fefff3;
   }
 
   img {
+    margin: auto;
     width: 200px;
     height: auto;
   }

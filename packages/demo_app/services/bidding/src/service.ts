@@ -1,8 +1,5 @@
-// import { KafkaClient, Producer, Consumer } from 'kafka-node';
-import env from 'dotenv';
-env.config();
-
 import CH from 'library';
+// import { KafkaClient, Producer, Consumer } from 'kafka-node';
 
 const kafka = new CH.kafka(
   {
@@ -12,35 +9,56 @@ const kafka = new CH.kafka(
   'localhost:9092',
   (err) => console.log(err ?? 'Bidding listening')
 );
+// const client = new KafkaClient({
+//   // If the host is undefined, then it will default to localhost:9092
+//   kafkaHost: process.env.KAFKA_HOST,
+// });
+
+// const producer = new Producer(client);
+
+// producer.on('ready', () => console.log('Bidding service ready.'));
 
 kafka.listener(['bidding'], { autoCommit: true });
-
-/**
- * KafkaData
- *
- */
-type KafkaData = {
-  code: string;
-  method: string;
-};
+// const consumer = new Consumer(
+//   client,
+//   [
+//     {
+//       topic: 'bidding',
+//       // offset: 2,
+//     },
+//   ],
+//   { autoCommit: true }
+// );
 
 kafka.onMessage('bidding', (message, err) => {
+  // consumer.on('message', (message) => {});
+
   if (err || !message) return;
-  const bidData: { id: number; currBid: number; newBid: number; code: string } =
-    JSON.parse(message.value as string);
 
-  let newBidValue = 0;
+  const bidData: BidData = JSON.parse(message.value as string);
 
-  //check to see if the new bid value is greater than the curr bid. If so, then make new bid value equal to the new bid
-  if (bidData.newBid > bidData.currBid) {
-    newBidValue = bidData.newBid;
-  } else {
-    newBidValue = bidData.currBid;
-  }
+  const newBidValue =
+    bidData.newBid > bidData.currBid ? bidData.newBid : bidData.currBid;
 
   kafka.send(
     'gateway',
     JSON.stringify({ newBidValue, code: bidData.code }),
-    () => console.log(`Sent ${newBidValue} to gateway`)
+    () => console.log(`Sent ${newBidValue} to gateway.`)
   );
+  //   producer.send(
+  //     [
+  //       {
+  //         topic: 'gateway',
+  //         messages: newBidValue,
+  //       },
+  //     ],
+  //     () => console.log(`Sent ${newBidValue} to the gateway.`)
+  //   );
 });
+
+type BidData = {
+  id: number;
+  currBid: number;
+  newBid: number;
+  code: string;
+};

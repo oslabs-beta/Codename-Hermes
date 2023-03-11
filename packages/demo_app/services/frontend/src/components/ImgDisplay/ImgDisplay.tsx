@@ -2,7 +2,11 @@ import React, { FC, useState } from 'react';
 import Image from 'next/image';
 import styles from './imgstyledisplay.module.scss';
 
-const ImgDisplay: FC<{ imgsrc: string; id: number }> = ({ imgsrc, id }) => {
+const ImgDisplay: FC<{ imgsrc: string; id: number; title: string }> = ({
+  imgsrc,
+  id,
+  title,
+}) => {
   const [currBid, setCurrBid] = useState(0);
   const [newBid, setNewBid] = useState(0);
 
@@ -28,6 +32,7 @@ const ImgDisplay: FC<{ imgsrc: string; id: number }> = ({ imgsrc, id }) => {
           alt=''
         />
         <br />
+        <h2>{title ?? 'Unnamed Work.'}</h2>
         <p>Current Bid: ${currBid}</p>
 
         <input
