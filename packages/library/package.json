@@ -3,8 +3,7 @@
   "packageManager": "yarn@3.3.1",
   "main": "./lib/index.js",
   "scripts": {
-    "build": "yarn tsc",
-    "build:install": "yarn build && yarn add ./"
+    "build": "yarn tsc"
   },
   "devDependencies": {
     "tsc": "^2.0.4",
