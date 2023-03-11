@@ -1,0 +1,39 @@
+.NavBar {
+    display: flex;
+    flex-direction: row;
+   position: static;
+    width: 100vw;
+   background-color: rgb(246, 248, 250);
+    box-shadow: 0px 12px 12px 12px #d0d3d8;
+    margin-top: 2em;
+  justify-content: center;
+  height: 4em;
+ div {
+    display: flex;
+    flex-grow: 1;
+    height: 100%;
+    p {
+        margin: auto;
+        text-align: center;
+        font-size: x-large;
+        // background-color: chartreuse;
+        a:link{text-decoration: none;}
+        }
+  div{ 
+    p {
+        font-size: 0.8em;
+        transform: rotate(-90deg);
+        margin: 1em 0;
+        position: relative;
+        
+    }
+  }
+  }
+  
+}
+
+
+.logo {
+    font-size: larger;
+
+}
