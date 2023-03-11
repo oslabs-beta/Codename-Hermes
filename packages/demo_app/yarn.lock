@@ -730,6 +730,7 @@ __metadata:
     "@types/node": ^18.14.0
     dotenv: ^16.0.3
     kafka-node: ^5.0.0
+    library: ../../../library
     nodemon: ^2.0.20
     ts-node: ^10.9.1
     tsc: ^2.0.4
@@ -1788,6 +1789,7 @@ __metadata:
     eslint: 8.35.0
     eslint-config-next: 13.2.3
     kafka-node: ^5.0.0
+    library: ../../../library
     next: 13.2.3
     react: 18.2.0
     react-dom: 18.2.0
@@ -2667,6 +2669,24 @@ __metadata:
     prelude-ls: ^1.2.1
     type-check: ~0.4.0
   checksum: 12c5021c859bd0f5248561bf139121f0358285ec545ebf48bb3d346820d5c61a4309535c7f387ed7d84361cf821e124ce346c6b7cef8ee09a67c1473b46d0fc4
+  languageName: node
+  linkType: hard
+
+"library@file:../../../library::locator=bidding%40workspace%3Aservices%2Fbidding":
+  version: 0.0.0
+  resolution: "library@file:../../../library#../../../library::hash=10f016&locator=bidding%40workspace%3Aservices%2Fbidding"
+  dependencies:
+    kafka-node: ^5.0.0
+  checksum: b045de05c6ac798c8f4d9f2246ec945c4191c11c32a124d800f52bf7fbb7db86208884f780f7f66be86d798811c4563ae7a94b65501b3ab294ee4cf82c81087a
+  languageName: node
+  linkType: hard
+
+"library@file:../../../library::locator=frontend%40workspace%3Aservices%2Ffrontend":
+  version: 0.0.0
+  resolution: "library@file:../../../library#../../../library::hash=10f016&locator=frontend%40workspace%3Aservices%2Ffrontend"
+  dependencies:
+    kafka-node: ^5.0.0
+  checksum: b045de05c6ac798c8f4d9f2246ec945c4191c11c32a124d800f52bf7fbb7db86208884f780f7f66be86d798811c4563ae7a94b65501b3ab294ee4cf82c81087a
   languageName: node
   linkType: hard
 

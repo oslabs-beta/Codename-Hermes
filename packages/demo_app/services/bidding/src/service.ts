@@ -1,49 +1,64 @@
-import { KafkaClient, Producer, Consumer } from 'kafka-node';
-import env from 'dotenv';
-env.config();
+import CH from 'library';
+// import { KafkaClient, Producer, Consumer } from 'kafka-node';
 
-const client = new KafkaClient({
-  // If the host is undefined, then it will default to localhost:9092
-  kafkaHost: process.env.KAFKA_HOST,
-});
-
-const producer = new Producer(client, {
-  // requireAcks: true,
-});
-const consumer = new Consumer(
-  client,
-  [
-    {
-      topic: 'bidding',
-      // offset: 2,
-    },
-  ],
-  { autoCommit: true }
+const kafka = new CH.kafka(
+  {
+    gateway: null,
+    bidding: null,
+  },
+  'localhost:9092',
+  (err) => console.log(err ?? 'Bidding listening')
 );
+// const client = new KafkaClient({
+//   // If the host is undefined, then it will default to localhost:9092
+//   kafkaHost: process.env.KAFKA_HOST,
+// });
 
-let count = 0;
+// const producer = new Producer(client);
 
-type KafkaData = {
-  code: string;
-  method: string;
-};
+// producer.on('ready', () => console.log('Bidding service ready.'));
 
-producer.on('ready', () => console.log('Bidding service ready.'));
+kafka.listener(['bidding'], { autoCommit: true });
+// const consumer = new Consumer(
+//   client,
+//   [
+//     {
+//       topic: 'bidding',
+//       // offset: 2,
+//     },
+//   ],
+//   { autoCommit: true }
+// );
 
-consumer.on('message', (message) => {
-  const { code, method } = JSON.parse(message.value as string) as KafkaData;
+kafka.onMessage('bidding', (message, err) => {
+  // consumer.on('message', (message) => {});
 
-  console.log(`Received ${method ?? 'no method'} with code ${code}`);
+  if (err || !message) return;
 
-  if (method === 'POST') count += 1;
+  const bidData: BidData = JSON.parse(message.value as string);
 
-  producer.send(
-    [
-      {
-        topic: 'gateway',
-        messages: JSON.stringify({ code, count }),
-      },
-    ],
-    () => console.log(`Sent ${count} to the gateway.`)
+  const newBidValue =
+    bidData.newBid > bidData.currBid ? bidData.newBid : bidData.currBid;
+
+  kafka.send(
+    'gateway',
+    JSON.stringify({ newBidValue, code: bidData.code }),
+    () => console.log(`Sent ${newBidValue} to gateway.`)
   );
+  //   producer.send(
+  //     [
+  //       {
+  //         topic: 'gateway',
+  //         messages: newBidValue,
+  //       },
+  //     ],
+  //     () => console.log(`Sent ${newBidValue} to the gateway.`)
+  //   );
 });
+
+type BidData = {
+  id: number;
+  currBid: number;
+  newBid: number;
+  code: string;
+};
