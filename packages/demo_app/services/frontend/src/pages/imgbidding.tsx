@@ -3,9 +3,12 @@ import React from 'react';
 import ImgDisplay from '../components/ImgDisplay/ImgDisplay';
 
 const ImgBidding = () => {
+
   return (
     <div>
-      <ImgDisplay></ImgDisplay>
+      <ImgDisplay/>
+      <ImgDisplay/>
+      <ImgDisplay/>
     </div>
   );
 };
