@@ -15,8 +15,6 @@ const kafka = new CH.kafka(
 
 kafka.listener(['bidding'], { autoCommit: true });
 
-let count = 0;
-
 /**
  * KafkaData
  *
@@ -27,15 +25,22 @@ type KafkaData = {
 };
 
 kafka.onMessage('bidding', (message, err) => {
-  if (err) return;
-  console.log('---- New message ----');
-  const { code, method } = JSON.parse(message!.value as string) as KafkaData;
+  if (err || !message) return;
+  const bidData: { id: number; currBid: number; newBid: number; code: string } =
+    JSON.parse(message.value as string);
 
-  //Mathew's original work
-  // const { code, method } = JSON.parse(message.value as string) as KafkaData;
+  let newBidValue = 0;
 
-  //Mathew's original work
-  // console.log(`Received ${method ?? 'no method'} with code ${code}`);
+  //check to see if the new bid value is greater than the curr bid. If so, then make new bid value equal to the new bid
+  if (bidData.newBid > bidData.currBid) {
+    newBidValue = bidData.newBid;
+  } else {
+    newBidValue = bidData.currBid;
+  }
 
-  kafka.send('gateway', JSON.stringify({ code, count }));
+  kafka.send(
+    'gateway',
+    JSON.stringify({ newBidValue, code: bidData.code }),
+    () => console.log(`Sent ${newBidValue} to gateway`)
+  );
 });

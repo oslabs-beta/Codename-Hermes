@@ -37,6 +37,7 @@ var CHKafka = /** @class */ (function () {
     function CHKafka(topics, host, callback, options) {
         this.topics = topics;
         this.options = options !== null && options !== void 0 ? options : {};
+        console.log(topics);
         this.client = new kafka_node_1.KafkaClient(__assign(__assign({}, options), { kafkaHost: host }));
         this.producer = new kafka_node_1.Producer(this.client, options);
         this.consumers = {};
@@ -71,7 +72,8 @@ var CHKafka = /** @class */ (function () {
         // Format the provided topic strings to the accepted topic type for Consumer().
         var formattedTopics = topics.map(function (topic) {
             // Is the topic valid?
-            if (!that.topics[topic])
+            // TODO: fix this
+            if (!that.topics[topic] && that.topics[topic] !== null)
                 throw new Error("There is no registered topic \"".concat(topic, "\""));
             // Cool it is, let's format.
             return __assign({ topic: topic }, that.topics[topic]);
@@ -91,7 +93,8 @@ var CHKafka = /** @class */ (function () {
             throw new Error('No topic specified.');
         if (!this.consumers[topic])
             throw new Error("No listener found for topic \"".concat(topic, "\""));
-        this.consumers[topic].on('message', callback);
+        this.consumers[topic].on('message', function (msg) { return callback(msg, null); });
+        this.consumers[topic].on('error', function (err) { return callback(null, err); });
     };
     return CHKafka;
 }());

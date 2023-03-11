@@ -5,6 +5,20 @@
   /* background-color: rebeccapurple; */
   padding: 10px;
   justify-content: space-evenly;
+
+  div:first-of-type {
+    border: solid #fefff3 2px;
+    padding: 20px;
+  }
+
+  p {
+    color: #fefff3;
+  }
+
+  img {
+    width: 200px;
+    height: auto;
+  }
 }
 
 .bidimg {

@@ -43,5 +43,5 @@ export default class CHKafka {
      * @param topic The topic you want to listen to
      * @param callback The function to invoke when a message is received
      */
-    onMessage(topic: string, callback: (message: Message) => void): void;
+    onMessage(topic: string, callback: (message: Message | null, err?: any) => void): void;
 }

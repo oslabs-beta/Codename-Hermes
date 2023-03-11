@@ -95,7 +95,8 @@ export default class CHKafka {
     // Format the provided topic strings to the accepted topic type for Consumer().
     const formattedTopics = topics.map((topic) => {
       // Is the topic valid?
-      if (!that.topics[topic])
+      // TODO: fix this
+      if (!that.topics[topic] && that.topics[topic] !== null)
         throw new Error(`There is no registered topic "${topic}"`);
 
       // Cool it is, let's format.
