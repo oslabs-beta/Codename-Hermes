@@ -8,7 +8,7 @@ import seaturtle from '../../public/seaturtle.png';
 import starrynightmixedmedia from '../../public/starrynightmixedmedia.png';
 import undertherainbow from '../../public/undertherainbow.png';
 import underwaterseascape from '../../public/underwaterseascape.png';
-import NavBar from '../components/NavBar/navBar';
+import NavBar from '../components/NavBar/NavBar';
 import { Poppins } from '@next/font/google';
 
 interface Art {
