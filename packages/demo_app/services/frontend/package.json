@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "docker:build": "docker build . -t ch_demo-app_frontend",
-    "library:install": "yarn build && yarn add ./"
+    "library:install": "yarn add ../../../library"
   },
   "dependencies": {
     "@types/node": "18.14.4",
@@ -17,6 +17,7 @@
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.3",
     "kafka-node": "^5.0.0",
+    "library": "../../../library",
     "next": "13.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",

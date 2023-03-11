@@ -1781,6 +1781,7 @@ __metadata:
     eslint: 8.35.0
     eslint-config-next: 13.2.3
     kafka-node: ^5.0.0
+    library: ../../../library
     next: 13.2.3
     react: 18.2.0
     react-dom: 18.2.0
@@ -2657,10 +2658,19 @@ __metadata:
 
 "library@file:../../../library::locator=bidding%40workspace%3Aservices%2Fbidding":
   version: 0.0.0
-  resolution: "library@file:../../../library#../../../library::hash=c486ee&locator=bidding%40workspace%3Aservices%2Fbidding"
+  resolution: "library@file:../../../library#../../../library::hash=39e7fe&locator=bidding%40workspace%3Aservices%2Fbidding"
   dependencies:
     kafka-node: ^5.0.0
-  checksum: d5290bde6d8beb85356dce06a9a629a28e5332e2d40be03d2c039d929611f5d2d128b19921629cb781f71790b1bf250177bbbc5fb8155fe04125191c2ed5dbad
+  checksum: 48ed1640b0ceaaf53eb1a31c891a325da101666552a273ddf598b17bad49f196f4f0085beeded0de9ce146b33fc8eb4f593a5ac9269bb5afaa8aabf180f6959d
+  languageName: node
+  linkType: hard
+
+"library@file:../../../library::locator=frontend%40workspace%3Aservices%2Ffrontend":
+  version: 0.0.0
+  resolution: "library@file:../../../library#../../../library::hash=39e7fe&locator=frontend%40workspace%3Aservices%2Ffrontend"
+  dependencies:
+    kafka-node: ^5.0.0
+  checksum: 48ed1640b0ceaaf53eb1a31c891a325da101666552a273ddf598b17bad49f196f4f0085beeded0de9ce146b33fc8eb4f593a5ac9269bb5afaa8aabf180f6959d
   languageName: node
   linkType: hard
 
@@ -4318,11 +4328,11 @@ __metadata:
 
 "typescript@patch:typescript@4.9.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
   version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
+  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
   languageName: node
   linkType: hard
 

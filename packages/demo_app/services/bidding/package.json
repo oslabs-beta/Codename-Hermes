@@ -15,7 +15,7 @@
     "start:dev": "yarn nodemon src/service.ts",
     "build": "yarn tsc",
     "docker:build": "docker build . -t ch_demo-app_bidding",
-    "library:install": "yarn build && yarn add ./"
+    "library:install": "yarn add ../../../library"
   },
   "dependencies": {
     "kafka-node": "^5.0.0",
