@@ -120,10 +120,14 @@ export default class CHKafka {
    * @param topic The topic you want to listen to
    * @param callback The function to invoke when a message is received
    */
-  onMessage(topic: string, callback: (message: Message) => void) {
+  onMessage(
+    topic: string,
+    callback: (message: Message | null, err?: any) => void
+  ) {
     if (!topic) throw new Error('No topic specified.');
     if (!this.consumers[topic])
       throw new Error(`No listener found for topic "${topic}"`);
-    this.consumers[topic]!.on('message', callback);
+    this.consumers[topic]!.on('message', (msg) => callback(msg, null));
+    this.consumers[topic]!.on('error', (err) => callback(null, err));
   }
 }
