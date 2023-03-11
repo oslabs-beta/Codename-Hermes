@@ -8,7 +8,7 @@ const [currBid, setCurrBid] = useState(0);
 const [newBid, setNewBid ] = useState(0)
 
 const handleClick = async () => {
-  const response = await fetch('/api/bidRoute', {
+  const response = await fetch('/api/testroute', {
     method: 'POST',
     body: JSON.stringify({currBid,id, newBid }),
     headers: {
@@ -16,6 +16,8 @@ const handleClick = async () => {
     }
   })
   const data = await response.json();
+  console.log(data, 'frontend received')
+  setCurrBid(data);
 }
   
 
@@ -32,7 +34,7 @@ const handleClick = async () => {
             <br/>
             <p>Current Bid: ${currBid}</p>
           
-            <input type='number' placeholder='enter bid'></input>
+            <input type='number' placeholder='enter bid' value={newBid} onChange={e => setNewBid(Number(e.target.value))}></input>
             <br/>
             <button onClick={handleClick}>Submit bid</button>
           </div>
