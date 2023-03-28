@@ -5910,19 +5910,19 @@ __metadata:
 
 "library@file:../../../library::locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding":
   version: 0.0.0
-  resolution: "library@file:../../../library#../../../library::hash=1719da&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
+  resolution: "library@file:../../../library#../../../library::hash=7be987&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
   dependencies:
     kafka-node: ^5.0.0
-  checksum: ee4ea45ac3d30792119c111bb9061fd0a95fd2e726b1749ac738a11601f52e644f76d3794b08ef97a4cc40d6f8e7f1aac96d1cc85e9c37bdeb3f899023063114
+  checksum: d5c0619d9e0b580e99958365a3102379fce17f499e79f3c00a2b2c53fea9211983c8508b474dfe6244a128bd901934a3593836a9f78350a6baf4d51cc2c46d8e
   languageName: node
   linkType: hard
 
 "library@file:../../../library::locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend":
   version: 0.0.0
-  resolution: "library@file:../../../library#../../../library::hash=1719da&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
+  resolution: "library@file:../../../library#../../../library::hash=7be987&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
   dependencies:
     kafka-node: ^5.0.0
-  checksum: ee4ea45ac3d30792119c111bb9061fd0a95fd2e726b1749ac738a11601f52e644f76d3794b08ef97a4cc40d6f8e7f1aac96d1cc85e9c37bdeb3f899023063114
+  checksum: d5c0619d9e0b580e99958365a3102379fce17f499e79f3c00a2b2c53fea9211983c8508b474dfe6244a128bd901934a3593836a9f78350a6baf4d51cc2c46d8e
   languageName: node
   linkType: hard
 
@@ -8550,11 +8550,11 @@ __metadata:
 
 "typescript@patch:typescript@4.9.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
   version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
+  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
   languageName: node
   linkType: hard
 

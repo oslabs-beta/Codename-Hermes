@@ -2674,19 +2674,19 @@ __metadata:
 
 "library@file:../../../library::locator=bidding%40workspace%3Aservices%2Fbidding":
   version: 0.0.0
-  resolution: "library@file:../../../library#../../../library::hash=10f016&locator=bidding%40workspace%3Aservices%2Fbidding"
+  resolution: "library@file:../../../library#../../../library::hash=c1d71d&locator=bidding%40workspace%3Aservices%2Fbidding"
   dependencies:
     kafka-node: ^5.0.0
-  checksum: b045de05c6ac798c8f4d9f2246ec945c4191c11c32a124d800f52bf7fbb7db86208884f780f7f66be86d798811c4563ae7a94b65501b3ab294ee4cf82c81087a
+  checksum: 157d3fd8eca4902531a522a92acee3b5041ac0a91f0db834bd7efb20a8e7b56937f458e092c10e4ed2b69c5b3e35c63b212654cdb103214c24e9f0dbebc1fcc8
   languageName: node
   linkType: hard
 
 "library@file:../../../library::locator=frontend%40workspace%3Aservices%2Ffrontend":
   version: 0.0.0
-  resolution: "library@file:../../../library#../../../library::hash=10f016&locator=frontend%40workspace%3Aservices%2Ffrontend"
+  resolution: "library@file:../../../library#../../../library::hash=c1d71d&locator=frontend%40workspace%3Aservices%2Ffrontend"
   dependencies:
     kafka-node: ^5.0.0
-  checksum: b045de05c6ac798c8f4d9f2246ec945c4191c11c32a124d800f52bf7fbb7db86208884f780f7f66be86d798811c4563ae7a94b65501b3ab294ee4cf82c81087a
+  checksum: 157d3fd8eca4902531a522a92acee3b5041ac0a91f0db834bd7efb20a8e7b56937f458e092c10e4ed2b69c5b3e35c63b212654cdb103214c24e9f0dbebc1fcc8
   languageName: node
   linkType: hard
 
