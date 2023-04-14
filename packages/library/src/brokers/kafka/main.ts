@@ -1,17 +1,49 @@
 import {
   Consumer,
+  ConsumerGroup,
   ConsumerOptions,
   KafkaClient,
   KafkaClientOptions,
   Message,
   Producer,
+  ProduceRequest,
   ProducerOptions,
 } from 'kafka-node';
-import { Topic } from '../../types/kafka';
+import MessageBroker from '../MessageBroker';
+
+type Topic = {
+  [name: string]: null | {
+    partition?: number;
+    offset?: number;
+  };
+};
+
+type MessageCallback = (message: Message | null, err?: any) => void;
+type ErrorCallback = (err?: any) => void;
+type BiDiCallback = (
+  message: Message | null,
+  done: (message: string) => void,
+  err?: any
+) => void;
+type BiDiMessageData = {
+  secret: string;
+  message: string;
+  point: 'send' | 'recv';
+};
+type SendOptions = {
+  key?: string | Buffer;
+  partition?: number;
+  attributes?: number;
+};
 
 //TODO: error handling lol
 //TODO: comments lol
-//TODO: unified class interface for kafka, rabbitmq, and redis
+//TODO: unified class interface for kafka, rabbitmq, and redis (config options, broker host, etc)
+//TODO: kafka cluster host support
+//TODO: convert to promise based
+//TODO: clarify error messages.
+//TODO: use types in seperate file
+//TODO: REFACTOR: Everything needed to create a new KafkaClient should be encapsulated in a class-wide config.
 
 /**
  * TODO:
@@ -36,6 +68,7 @@ export default class CHKafka {
   private topics: Topic;
   private options?: KafkaClientOptions & ProducerOptions;
   private client: KafkaClient;
+  private host: string;
   private producer: Producer;
   private consumers: {
     [topic: string]: Consumer;
@@ -58,6 +91,8 @@ export default class CHKafka {
     this.producer = new Producer(this.client, options);
     this.consumers = {};
 
+    this.host = host;
+
     // Invoke the provided callback when the producer is ready or if there is an error.
     if (callback) {
       this.producer.on('ready', callback);
@@ -71,12 +106,18 @@ export default class CHKafka {
    * @param message The message to send to a topic.
    * @param callback The callback to invoke when the message has been sent or errors out.
    */
-  send(topic: string, message: string, callback?: (err?: string) => void) {
+  send(
+    topic: string,
+    message: string,
+    callback?: ErrorCallback,
+    options?: SendOptions
+  ) {
     this.producer.send(
       [
         {
           topic,
           messages: message,
+          ...(options ?? {}),
         },
       ],
       callback ?? (() => {})
@@ -95,8 +136,7 @@ export default class CHKafka {
     // Format the provided topic strings to the accepted topic type for Consumer().
     const formattedTopics = topics.map((topic) => {
       // Is the topic valid?
-      // TODO: fix this
-      if (!that.topics[topic] && that.topics[topic] !== null)
+      if (!this.topics.hasOwnProperty(topic))
         throw new Error(`There is no registered topic "${topic}"`);
 
       // Cool it is, let's format.
@@ -121,10 +161,7 @@ export default class CHKafka {
    * @param topic The topic you want to listen to
    * @param callback The function to invoke when a message is received
    */
-  onMessage(
-    topic: string,
-    callback: (message: Message | null, err?: any) => void
-  ) {
+  onMessage(topic: string, callback: MessageCallback) {
     if (!topic) throw new Error('No topic specified.');
     if (!this.consumers[topic])
       throw new Error(`No listener found for topic "${topic}"`);
