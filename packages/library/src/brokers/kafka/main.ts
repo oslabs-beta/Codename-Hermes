@@ -1,17 +1,76 @@
+import MessageBroker, {
+  GenericClientOptions,
+  GenericListenerOptions,
+  GenericMessage,
+  GenericTopic,
+  MessageCallback,
+  ErrorCallback,
+} from '../MessageBroker';
 import {
   Consumer,
-  ConsumerOptions,
   KafkaClient,
-  KafkaClientOptions,
   Message,
   Producer,
   ProducerOptions,
+  RetryOptions,
 } from 'kafka-node';
-import { Topic } from '../../types/kafka';
+import {
+  formatMessageToKafkaMessage,
+  formatTopics,
+} from './utils/utilFunctions';
+
+export type KafkaClientOptions = GenericClientOptions & {
+  connectTimeout?: number;
+  requestTimeout?: number;
+  autoConnect?: boolean;
+  connectRetryOptions?: RetryOptions;
+  idleConnection?: number;
+  reconnectOnIdle?: boolean;
+  maxAsyncRequests?: number;
+  // Figure out kafka-node ssl options
+  // sslOptions?: null;
+  // Figure out kafka-node sasl options
+  // sasl?: null;
+};
+
+export type KafkaTopic = GenericTopic<{
+  partition?: number;
+  offset?: number;
+}>;
+
+export type KafkaSendOptions = {
+  key?: string;
+  partition?: number;
+  attributes?: number;
+};
+
+// Based off the ConsumerOptions from kafka-node
+export type KafkaListenerOptions = GenericListenerOptions & {
+  groupId?: string;
+  autoCommit?: boolean;
+  autoCommitIntervalMs?: number;
+  fetchMaxWaitMs?: number;
+  fetchMinBytes?: number;
+  fetchMaxBytes?: number;
+  fromOffset?: boolean;
+  // encoding?: 'buffer' | 'utf8';
+  // keyEncoding?: 'buffer' | 'utf8';
+};
+
+export type KafkaMessage = GenericMessage & {
+  offset?: number;
+  partition?: number;
+  highWaterOffset?: number;
+  key?: string;
+};
 
 //TODO: error handling lol
 //TODO: comments lol
-//TODO: unified class interface for kafka, rabbitmq, and redis
+//TODO: unified class interface for kafka, rabbitmq, and redis (config options, broker host, etc)
+//TODO: kafka cluster host support
+//TODO: convert to promise based
+//TODO: clarify error messages.
+//TODO: REFACTOR: use types in seperate file
 
 /**
  * TODO:
@@ -32,35 +91,63 @@ import { Topic } from '../../types/kafka';
  * @param options Kafka client options
  * @param callback Callback to be called when the producer has connected to kafka.
  */
-export default class CHKafka {
-  private topics: Topic;
-  private options?: KafkaClientOptions & ProducerOptions;
+export default class Kafka extends MessageBroker {
+  private topics: KafkaTopic;
   private client: KafkaClient;
   private producer: Producer;
   private consumers: {
     [topic: string]: Consumer;
   };
-
+  private host: string;
   constructor(
-    topics: Topic,
-    host: string,
-    callback?: (err?: any) => void,
-    options?: KafkaClientOptions & ProducerOptions
+    connection: KafkaClientOptions,
+    topics: KafkaTopic,
+    producerOptions: ProducerOptions,
+    callback: ErrorCallback
+  );
+  constructor(
+    connection: KafkaClientOptions,
+    topics: KafkaTopic,
+    producerOptions: ProducerOptions
+  );
+  constructor(
+    connection: KafkaClientOptions,
+    topics: KafkaTopic,
+    callback: ErrorCallback
+  );
+  constructor(connection: KafkaClientOptions, topics: KafkaTopic);
+  constructor(
+    connection: KafkaClientOptions,
+    topics: KafkaTopic,
+    producerOptionsOrCallback?: ProducerOptions | ErrorCallback,
+    callback?: ErrorCallback
   ) {
+    let producerOptions: ProducerOptions | undefined;
+    if (
+      typeof producerOptionsOrCallback === 'object' ||
+      producerOptionsOrCallback === undefined
+    ) {
+      producerOptions = producerOptionsOrCallback;
+    } else {
+      callback = producerOptionsOrCallback;
+    }
+
+    super(connection, topics);
+
     this.topics = topics;
-    this.options = options ?? {};
+    this.host = `${connection.host}:${connection.port}`;
 
     this.client = new KafkaClient({
-      ...options,
-      kafkaHost: host,
+      ...producerOptions,
+      kafkaHost: this.host,
     });
 
-    this.producer = new Producer(this.client, options);
+    this.producer = new Producer(this.client, producerOptions);
     this.consumers = {};
 
     // Invoke the provided callback when the producer is ready or if there is an error.
-    if (callback) {
-      this.producer.on('ready', callback);
+    if (callback !== undefined) {
+      this.producer.on('ready', () => callback!(null));
       this.producer.on('error', callback);
     }
   }
@@ -71,12 +158,37 @@ export default class CHKafka {
    * @param message The message to send to a topic.
    * @param callback The callback to invoke when the message has been sent or errors out.
    */
-  send(topic: string, message: string, callback?: (err?: string) => void) {
+  send(
+    topic: string,
+    message: string,
+    options: KafkaSendOptions,
+    callback: ErrorCallback
+  ): void;
+  send(topic: string, message: string, options: KafkaSendOptions): void;
+  send(topic: string, message: string, callback: ErrorCallback): void;
+  send(topic: string, message: string): void;
+  send(
+    topic: string,
+    message: string,
+    optionsOrCallback?: KafkaSendOptions | ErrorCallback,
+    callback?: ErrorCallback
+  ) {
+    let options: KafkaSendOptions | undefined;
+    if (
+      typeof optionsOrCallback === 'object' ||
+      optionsOrCallback === undefined
+    ) {
+      options = optionsOrCallback;
+    } else {
+      callback = optionsOrCallback;
+    }
+
     this.producer.send(
       [
         {
           topic,
           messages: message,
+          ...(options ?? {}),
         },
       ],
       callback ?? (() => {})
@@ -88,26 +200,22 @@ export default class CHKafka {
    * @param topics The topics to create listeners for.
    * @param options Options for the consumer.
    */
-  listener(topics: string[], options?: ConsumerOptions) {
+  listener(topics: string[], options?: KafkaListenerOptions) {
     // Just so we still have access to "this" in the map and forEach methods.
     const that = this;
 
     // Format the provided topic strings to the accepted topic type for Consumer().
-    const formattedTopics = topics.map((topic) => {
-      // Is the topic valid?
-      // TODO: fix this
-      if (!that.topics[topic] && that.topics[topic] !== null)
-        throw new Error(`There is no registered topic "${topic}"`);
-
-      // Cool it is, let's format.
-      return {
-        topic,
-        ...that.topics[topic],
-      };
-    });
+    const formattedTopics = topics.map((topic) => ({
+      topic,
+      ...that.topics[topic],
+    }));
 
     // Create new Consumers for each topic.
     formattedTopics.forEach((topic) => {
+      // Is the topic valid?
+      if (!this.topics.hasOwnProperty(topic.topic))
+        throw new Error(`There is no registered topic "${topic}"`);
+
       that.consumers[topic.topic] = new Consumer(
         that.client,
         [topic],
@@ -121,14 +229,14 @@ export default class CHKafka {
    * @param topic The topic you want to listen to
    * @param callback The function to invoke when a message is received
    */
-  onMessage(
-    topic: string,
-    callback: (message: Message | null, err?: any) => void
-  ) {
+  consume(topic: string, callback: MessageCallback<KafkaMessage | null>): void {
     if (!topic) throw new Error('No topic specified.');
     if (!this.consumers[topic])
       throw new Error(`No listener found for topic "${topic}"`);
-    this.consumers[topic]!.on('message', (msg) => callback(msg, null));
-    this.consumers[topic]!.on('error', (err) => callback(null, err));
+
+    this.consumers[topic]!.on('message', (msg: Message) =>
+      callback(null, formatMessageToKafkaMessage(msg))
+    );
+    this.consumers[topic]!.on('error', (err: any) => callback(err, null));
   }
 }
