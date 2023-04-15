@@ -4,6 +4,7 @@ import MessageBroker, {
   GenericMessage,
   GenericTopic,
   MessageCallback,
+  ErrorCallback,
 } from '../MessageBroker';
 import {
   Consumer,
@@ -101,9 +102,37 @@ export default class Kafka extends MessageBroker {
   constructor(
     connection: KafkaClientOptions,
     topics: KafkaTopic,
-    producerOptions?: ProducerOptions
+    producerOptions: ProducerOptions,
+    callback: ErrorCallback
+  );
+  constructor(
+    connection: KafkaClientOptions,
+    topics: KafkaTopic,
+    producerOptions: ProducerOptions
+  );
+  constructor(
+    connection: KafkaClientOptions,
+    topics: KafkaTopic,
+    callback: ErrorCallback
+  );
+  constructor(
+    connection: KafkaClientOptions,
+    topics: KafkaTopic,
+    producerOptionsOrCallback?: ProducerOptions | ErrorCallback,
+    callback?: ErrorCallback
   ) {
+    let producerOptions: ProducerOptions | undefined;
+    if (
+      typeof producerOptionsOrCallback === 'object' ||
+      producerOptionsOrCallback === undefined
+    ) {
+      producerOptions = producerOptionsOrCallback;
+    } else {
+      callback = producerOptionsOrCallback;
+    }
+
     super(connection, topics);
+
     this.topics = topics;
     this.host = `${connection.host}:${connection.port}`;
 
@@ -116,11 +145,10 @@ export default class Kafka extends MessageBroker {
     this.consumers = {};
 
     // Invoke the provided callback when the producer is ready or if there is an error.
-    // TODO: Re add this
-    // if (callback) {
-    //   this.producer.on('ready', callback);
-    //   this.producer.on('error', callback);
-    // }
+    if (callback !== undefined) {
+      this.producer.on('ready', () => callback!(null));
+      this.producer.on('error', callback);
+    }
   }
 
   /**
