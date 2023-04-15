@@ -115,6 +115,7 @@ export default class Kafka extends MessageBroker {
     topics: KafkaTopic,
     callback: ErrorCallback
   );
+  constructor(connection: KafkaClientOptions, topics: KafkaTopic);
   constructor(
     connection: KafkaClientOptions,
     topics: KafkaTopic,
