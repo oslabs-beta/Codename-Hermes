@@ -1,4 +1,10 @@
-import Kafka from './brokers/kafka/main';
+import Kafka, {
+  KafkaClientOptions,
+  KafkaListenerOptions,
+  KafkaMessage,
+  KafkaSendOptions,
+  KafkaTopic,
+} from './brokers/kafka/main';
 
 const CodenameHermes = {
   kafka: Kafka,
@@ -7,3 +13,13 @@ const CodenameHermes = {
 };
 
 export default CodenameHermes;
+
+// Individual Kafka exports
+export {
+  Kafka,
+  KafkaClientOptions,
+  KafkaListenerOptions,
+  KafkaMessage,
+  KafkaSendOptions,
+  KafkaTopic,
+};
