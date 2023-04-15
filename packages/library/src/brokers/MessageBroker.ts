@@ -1,8 +1,8 @@
 import { Message } from 'kafka-node';
 
 // The Message type should be created by us at a later point. It must be compatible with Kafka and
-export type MessageCallback = (message: Message | null, err?: any) => void;
-export type ErrorCallback = (err?: any) => void;
+export type MessageCallback<T> = (err: any, message: T) => void;
+export type ErrorCallback = (err: any) => void;
 
 // export type GenericTopicOptions = {
 // };
@@ -15,6 +15,7 @@ export type GenericTopic<T = any> = {
 
 // The generic options for "listeners"
 // Each broker will have their own specific options as well.
+// TODO: this
 export type GenericListenerOptions = {};
 
 // The generic client options for every broker.
@@ -31,21 +32,18 @@ export type GenericMessage = {
   message: string;
 };
 
+// TODO: add overloads to abstract class.
+
 export default abstract class MessageBroker {
   constructor(connection: GenericClientOptions, topics: GenericTopic) {}
 
   // This will be defined in the specific broker class
-  abstract listener(
-    topics: string[],
-    options: GenericListenerOptions | GenericListenerOptions[]
-  ): void;
+  abstract listener(topics: string[], options: GenericListenerOptions): void;
 
   // This will be defined in the specific broker class
   abstract send(topic: string, message: string | string[]): void;
 
   // This will be defined in the specific broker class
-  abstract consume(
-    topic: string,
-    callback?: Function
-  ): void | Promise<GenericMessage>;
+  // abstract consume(topic: string): Promise<GenericMessage | null>;
+  abstract consume(topic: string, callback: Function): void;
 }
