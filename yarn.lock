@@ -1946,6 +1946,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/amqplib@npm:^0.10.1":
+  version: 0.10.1
+  resolution: "@types/amqplib@npm:0.10.1"
+  dependencies:
+    "@types/node": "*"
+  checksum: 9f7dd964d15df82f73c26e84f028a5fe91ee96878e34625cf09d0153079007d3d506fcf9d327463227e6e30a357e0220bfb0848fb40c121ccd795154004d3733
+  languageName: node
+  linkType: hard
+
 "@types/body-parser@npm:*":
   version: 1.19.2
   resolution: "@types/body-parser@npm:1.19.2"
@@ -5947,19 +5956,21 @@ __metadata:
 
 "library@file:../../../library::locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding":
   version: 0.0.0
-  resolution: "library@file:../../../library#../../../library::hash=89210f&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
+  resolution: "library@file:../../../library#../../../library::hash=100b23&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
   dependencies:
+    amqplib: ^0.10.3
     kafka-node: ^5.0.0
-  checksum: ae89d9215623f43493e8b0b0e37c43685990481f34455bbe2e5abca8bb9e38532020fd07ce1997f9a00b771041fa06d093bbd17079de654e02a1f568e3afa828
+  checksum: d75dfaaf46b562e3079f188f0d0de841b3801d21b5966424305bbf9b9567ee281fff82ac1c7f356c334cb229184ae751e9f71aca5f4a61b0d8ca8181dc31de3e
   languageName: node
   linkType: hard
 
 "library@file:../../../library::locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend":
   version: 0.0.0
-  resolution: "library@file:../../../library#../../../library::hash=89210f&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
+  resolution: "library@file:../../../library#../../../library::hash=100b23&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
   dependencies:
+    amqplib: ^0.10.3
     kafka-node: ^5.0.0
-  checksum: ae89d9215623f43493e8b0b0e37c43685990481f34455bbe2e5abca8bb9e38532020fd07ce1997f9a00b771041fa06d093bbd17079de654e02a1f568e3afa828
+  checksum: d75dfaaf46b562e3079f188f0d0de841b3801d21b5966424305bbf9b9567ee281fff82ac1c7f356c334cb229184ae751e9f71aca5f4a61b0d8ca8181dc31de3e
   languageName: node
   linkType: hard
 
@@ -5967,6 +5978,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "library@workspace:packages/library"
   dependencies:
+    "@types/amqplib": ^0.10.1
     amqplib: ^0.10.3
     kafka-node: ^5.0.0
     tsc: ^2.0.4
