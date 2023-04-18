@@ -23,7 +23,9 @@ export type RabbitClientOptions = GenericClientOptions & {
 
 export type RabbitExchange = {
   [exchangeName: string]: {
-    config: amqp.Options.AssertExchange;
+    config: amqp.Options.AssertExchange & {
+      type?: 'direct' | 'topic' | 'headers' | 'fanout' | 'match';
+    };
     topics: RabbitTopic;
   };
 };
@@ -109,7 +111,7 @@ export default class Rabbit extends MessageBroker {
           // POSSIBLE REFACTOR: Don't know if we need await
           await that.channel?.assertExchange(
             exchange,
-            topic,
+            exchanges[exchange].config.type ?? 'topic',
             exchanges[exchange].config ?? {}
           );
           await that.channel?.assertQueue(
