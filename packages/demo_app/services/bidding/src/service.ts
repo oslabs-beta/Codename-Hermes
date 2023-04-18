@@ -18,7 +18,7 @@ const kafka = new CH.kafka(
 
 // producer.on('ready', () => console.log('Bidding service ready.'));
 
-kafka.listener(['bidding'], { autoCommit: true });
+kafka.listener(['bidding', 'gateway'], { autoCommit: true });
 // const consumer = new Consumer(
 //   client,
 //   [

@@ -106,6 +106,7 @@ export default class CHKafka {
       };
     });
 
+
     // Create new Consumers for each topic.
     formattedTopics.forEach((topic) => {
       that.consumers[topic.topic] = new Consumer(
