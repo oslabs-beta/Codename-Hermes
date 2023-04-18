@@ -115,8 +115,8 @@ export default class Rabbit extends MessageBroker {
       //   }
       // }
 
-      exchanges['t'].config.arguments;
-      exchanges['t'].topics['t']?.arguments;
+      // exchanges['t'].config.arguments;
+      // exchanges['t'].topics['t']?.arguments;
       Object.keys(exchanges).forEach((exchange) =>
         Object.keys(exchanges[exchange].topics).forEach(async (topic) => {
           // POSSIBLE REFACTOR: Don't know if we need await
