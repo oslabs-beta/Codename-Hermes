@@ -21,6 +21,24 @@ export type RabbitClientOptions = GenericClientOptions & {
   heartbeat?: number;
 };
 
+export type RabbitExchange = {
+  [echangeName: string]: RabbitTopic;
+};
+// What the RabbitExchange should look like
+// {
+//   exchange: {
+//     topic: {
+//       // topicstuff
+//     }
+//   },
+
+//   exchange2: {
+//     topic: {
+//       //topic stuff
+//     }
+//   }
+// }
+
 // TODO: add the rest of the options
 export type RabbitTopic = GenericTopic<{
   exclusive?: boolean;
@@ -44,8 +62,9 @@ export type RabbitMessage = GenericMessage & {};
 export default class Rabbit extends MessageBroker {
   private connection: Connection | null;
   private channel: amqp.Channel | null;
-  constructor(connection: RabbitClientOptions, topics: RabbitTopic) {
-    super(connection, topics);
+  private exchanges: RabbitExchange;
+  constructor(connection: RabbitClientOptions, exchanges: RabbitExchange) {
+    super(connection, exchanges);
 
     // Let's create a default config, we are also relying on default options for the connect method.
     const defaultConfig: RabbitClientOptions = {
@@ -66,10 +85,26 @@ export default class Rabbit extends MessageBroker {
       if (this.channel === null) throw new Error('No channel for Rabbit.');
 
       const that = this;
-      Object.keys(topics).forEach((topic) =>
-        that.channel?.assertQueue(topic, topics[topic] ?? {})
+
+      Object.keys(exchanges).forEach((exchange) =>
+        Object.keys(exchange).forEach(async (topic) => {
+          // Don't know if we need await
+          await that.channel?.assertExchange(
+            exchange,
+            topic,
+            exchanges[exchange][topic] ?? {}
+          );
+          await that.channel?.assertQueue(
+            topic,
+            exchanges[exchange][topic] ?? {}
+          );
+          // TODO: research and implement "args"
+          await that.channel?.bindQueue(topic, exchange, topic);
+        })
       );
     }).bind(this)();
+
+    this.exchanges = exchanges;
   }
 
   // TODO: Add support for multi messages
