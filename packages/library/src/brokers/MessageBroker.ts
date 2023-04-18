@@ -38,10 +38,10 @@ export default abstract class MessageBroker {
   constructor(connection: GenericClientOptions, topics: GenericTopic) {}
 
   // This will be defined in the specific broker class
-  abstract listener(topics: string[], options: GenericListenerOptions): void;
+  abstract send(topic: string, message: string | string[]): void;
 
   // This will be defined in the specific broker class
-  abstract send(topic: string, message: string | string[]): void;
+  abstract listener(topics: string[], options: GenericListenerOptions): void;
 
   // This will be defined in the specific broker class
   // abstract consume(topic: string): Promise<GenericMessage | null>;
