@@ -22,7 +22,10 @@ export type RabbitClientOptions = GenericClientOptions & {
 };
 
 export type RabbitExchange = {
-  [echangeName: string]: RabbitTopic;
+  [exchangeName: string]: {
+    config: amqp.Options.AssertExchange;
+    topics: RabbitTopic;
+  };
 };
 // What the RabbitExchange should look like
 // {
@@ -40,18 +43,7 @@ export type RabbitExchange = {
 // }
 
 // TODO: add the rest of the options
-export type RabbitTopic = GenericTopic<{
-  exclusive?: boolean;
-  durable?: boolean;
-  autoDelete?: boolean;
-  arguments?: any;
-  messageTtl?: number;
-  expires?: number;
-  deadLetterExchange?: string;
-  deadLetterRoutingKey?: string;
-  maxLength?: number;
-  maxPriority?: number;
-}>;
+export type RabbitTopic = GenericTopic<amqp.Options.AssertQueue>;
 
 export type RabbitListenerOptions = GenericListenerOptions & {};
 
@@ -86,17 +78,43 @@ export default class Rabbit extends MessageBroker {
 
       const that = this;
 
+      // {
+      //   exchange: {
+      //     config: {
+
+      //     }
+      //     topics: {
+      //       topicName: {
+
+      //       }
+      //     }
+      //   },
+
+      //   exchange: {
+      //     config: {
+
+      //     }
+      //     topics: {
+      //       topicName: {
+
+      //       }
+      //     }
+      //   }
+      // }
+
+      // exchanges['t'].config.arguments;
+      // exchanges['t'].topics['t']?.arguments;
       Object.keys(exchanges).forEach((exchange) =>
-        Object.keys(exchange).forEach(async (topic) => {
-          // Don't know if we need await
+        Object.keys(exchanges[exchange].topics).forEach(async (topic) => {
+          // POSSIBLE REFACTOR: Don't know if we need await
           await that.channel?.assertExchange(
             exchange,
             topic,
-            exchanges[exchange][topic] ?? {}
+            exchanges[exchange].config ?? {}
           );
           await that.channel?.assertQueue(
             topic,
-            exchanges[exchange][topic] ?? {}
+            exchanges[exchange].topics[topic] ?? {}
           );
           // TODO: research and implement "args"
           await that.channel?.bindQueue(topic, exchange, topic);
