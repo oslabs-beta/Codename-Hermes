@@ -22,7 +22,7 @@ export type RabbitClientOptions = GenericClientOptions & {
 };
 
 export type RabbitExchange = {
-  [echangeName: string]: RabbitTopic;
+  [exchangeName: string]: RabbitTopic;
 };
 // What the RabbitExchange should look like
 // {
@@ -89,6 +89,7 @@ export default class Rabbit extends MessageBroker {
       Object.keys(exchanges).forEach((exchange) =>
         Object.keys(exchange).forEach(async (topic) => {
           // Don't know if we need await
+          // TODO: REFACTOR: Change how the exchange gets the config details.
           await that.channel?.assertExchange(
             exchange,
             topic,
