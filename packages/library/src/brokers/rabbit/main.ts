@@ -44,6 +44,7 @@ export type RabbitMessage = GenericMessage & {};
 export default class Rabbit extends MessageBroker {
   private connection: Connection | null;
   private channel: amqp.Channel | null;
+  private topics: RabbitTopic;
   constructor(connection: RabbitClientOptions, topics: RabbitTopic) {
     super(connection, topics);
 
@@ -70,6 +71,8 @@ export default class Rabbit extends MessageBroker {
         that.channel?.assertQueue(topic, topics[topic] ?? {})
       );
     }).bind(this)();
+
+    this.topics = topics;
   }
 
   // TODO: Add support for multi messages
