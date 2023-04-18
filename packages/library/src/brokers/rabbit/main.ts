@@ -21,22 +21,9 @@ export type RabbitClientOptions = GenericClientOptions & {
   heartbeat?: number;
 };
 
-export type RabbitQueueExchangeOptions = {
-  exclusive?: boolean;
-  durable?: boolean;
-  autoDelete?: boolean;
-  arguments?: any;
-  messageTtl?: number;
-  expires?: number;
-  deadLetterExchange?: string;
-  deadLetterRoutingKey?: string;
-  maxLength?: number;
-  maxPriority?: number;
-};
-
 export type RabbitExchange = {
   [exchangeName: string]: {
-    config: RabbitQueueExchangeOptions;
+    config: amqp.Options.AssertExchange;
     topics: RabbitTopic;
   };
 };
@@ -56,7 +43,7 @@ export type RabbitExchange = {
 // }
 
 // TODO: add the rest of the options
-export type RabbitTopic = GenericTopic<RabbitQueueExchangeOptions>;
+export type RabbitTopic = GenericTopic<amqp.Options.AssertQueue>;
 
 export type RabbitListenerOptions = GenericListenerOptions & {};
 
