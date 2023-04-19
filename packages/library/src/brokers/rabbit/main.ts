@@ -21,21 +21,6 @@ export type RabbitClientOptions = GenericClientOptions & {
   heartbeat?: number;
 };
 
-// What the RabbitExchange should look like
-// {
-//   exchange: {
-//     topic: {
-//       // topicstuff
-//     }
-//   },
-
-//   exchange2: {
-//     topic: {
-//       //topic stuff
-//     }
-//   }
-// }
-
 // TODO: add the rest of the options
 export type RabbitTopic = GenericTopic<
   {
