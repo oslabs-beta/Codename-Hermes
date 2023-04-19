@@ -21,14 +21,6 @@ export type RabbitClientOptions = GenericClientOptions & {
   heartbeat?: number;
 };
 
-export type RabbitExchange = {
-  [exchangeName: string]: {
-    config: amqp.Options.AssertExchange & {
-      type?: 'direct' | 'topic' | 'headers' | 'fanout' | 'match';
-    };
-    topics: RabbitTopic;
-  };
-};
 // What the RabbitExchange should look like
 // {
 //   exchange: {
@@ -45,7 +37,14 @@ export type RabbitExchange = {
 // }
 
 // TODO: add the rest of the options
-export type RabbitTopic = GenericTopic<amqp.Options.AssertQueue>;
+export type RabbitTopic = GenericTopic<
+  {
+    exchange: string;
+    exchangeConfig: amqp.Options.AssertExchange & {
+      type?: 'direct' | 'topic' | 'headers' | 'fanout' | 'match';
+    };
+  } & amqp.Options.AssertQueue
+>;
 
 export type RabbitListenerOptions = GenericListenerOptions & {};
 
@@ -56,9 +55,9 @@ export type RabbitMessage = GenericMessage & {};
 export default class Rabbit extends MessageBroker {
   private connection: Connection | null;
   private channel: amqp.Channel | null;
-  private exchanges: RabbitExchange;
-  constructor(connection: RabbitClientOptions, exchanges: RabbitExchange) {
-    super(connection, exchanges);
+  private topics: RabbitTopic;
+  constructor(connection: RabbitClientOptions, topics: RabbitTopic) {
+    super(connection, topics);
 
     // Let's create a default config, we are also relying on default options for the connect method.
     const defaultConfig: RabbitClientOptions = {
@@ -66,6 +65,8 @@ export default class Rabbit extends MessageBroker {
       port: connection.port ?? 5672,
       protocol: connection.protocol ?? 'amqp',
     };
+
+    this.topics = topics;
 
     // This is jank... I'm sorry
     // REFACTOR: all this 👇
@@ -80,30 +81,34 @@ export default class Rabbit extends MessageBroker {
       if (this.channel === null) throw new Error('No channel for Rabbit.');
 
       const that = this;
-      Object.keys(exchanges).forEach((exchange) =>
-        Object.keys(exchanges[exchange].topics).forEach(async (topic) => {
-          // POSSIBLE REFACTOR: Don't know if we need await
-          await that.channel?.assertExchange(
-            exchange,
-            exchanges[exchange].config.type ?? 'topic',
-            exchanges[exchange].config ?? {}
-          );
-          await that.channel?.assertQueue(
-            topic,
-            exchanges[exchange].topics[topic] ?? {}
-          );
-          // TODO: research and implement "args"
-          await that.channel?.bindQueue(topic, exchange, topic);
-        })
-      );
-    }).bind(this)();
+      Object.keys(topics).forEach(async (topic) => {
+        // POSSIBLE REFACTOR: Don't know if we need await
+        await that.channel?.assertExchange(
+          that.topics[topic].exchange,
+          that.topics[topic].exchangeConfig.type ?? 'topic',
+          that.topics[topic].exchangeConfig ?? {}
+        );
 
-    this.exchanges = exchanges;
+        await that.channel?.assertQueue(topic, that.topics[topic] ?? {});
+
+        // TODO: research and implement "args"
+        await that.channel?.bindQueue(
+          topic,
+          that.topics[topic].exchange,
+          topic
+        );
+      });
+    }).bind(this)();
   }
 
   // TODO: Add support for multi messages
   send(topic: string, message: string, options?: amqp.Options.Publish) {
-    this.channel?.sendToQueue(topic, Buffer.from(message), options);
+    this.channel?.publish(
+      this.topics[topic].exchange,
+      topic,
+      Buffer.from(message),
+      options
+    );
   }
 
   listener(topics: string[], options: RabbitListenerOptions) {}
