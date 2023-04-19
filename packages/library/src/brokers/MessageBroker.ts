@@ -10,7 +10,7 @@ export type ErrorCallback = (err: any) => void;
 // A generic topic layout
 //
 export type GenericTopic<T = any> = {
-  [topicName: string]: null | T;
+  [topicName: string]: T;
 };
 
 // The generic options for "listeners"

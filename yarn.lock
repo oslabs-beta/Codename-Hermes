@@ -5954,23 +5954,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lib_test@workspace:packages/lib_test":
+  version: 0.0.0-use.local
+  resolution: "lib_test@workspace:packages/lib_test"
+  dependencies:
+    amqplib: ^0.10.3
+  languageName: unknown
+  linkType: soft
+
 "library@file:../../../library::locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding":
   version: 0.0.0
-  resolution: "library@file:../../../library#../../../library::hash=ee3c92&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
+  resolution: "library@file:../../../library#../../../library::hash=3baff4&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
   dependencies:
     amqplib: ^0.10.3
     kafka-node: ^5.0.0
-  checksum: d70246ba5346fc9487570e2c5344d7186dae8854bad899c33601dcd1cae16539a480e973a1011ae7eb66506e760f66851a9067035818b26896e490473155cab8
+  checksum: 729b204c1655ed47587dc19148404cb107f639c720c3b61ff7739b0cce02497f262a24cf3ad41627199af0bae07a5b635f3d872ec2ea6a25917f0dd82da00d6b
   languageName: node
   linkType: hard
 
 "library@file:../../../library::locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend":
   version: 0.0.0
-  resolution: "library@file:../../../library#../../../library::hash=ee3c92&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
+  resolution: "library@file:../../../library#../../../library::hash=3baff4&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
   dependencies:
     amqplib: ^0.10.3
     kafka-node: ^5.0.0
-  checksum: d70246ba5346fc9487570e2c5344d7186dae8854bad899c33601dcd1cae16539a480e973a1011ae7eb66506e760f66851a9067035818b26896e490473155cab8
+  checksum: 729b204c1655ed47587dc19148404cb107f639c720c3b61ff7739b0cce02497f262a24cf3ad41627199af0bae07a5b635f3d872ec2ea6a25917f0dd82da00d6b
   languageName: node
   linkType: hard
 

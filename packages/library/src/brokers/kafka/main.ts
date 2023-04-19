@@ -33,7 +33,7 @@ export type KafkaClientOptions = GenericClientOptions & {
   // sasl?: null;
 };
 
-export type KafkaTopic = GenericTopic<{
+export type KafkaTopic = GenericTopic<null | {
   partition?: number;
   offset?: number;
 }>;
@@ -102,18 +102,18 @@ export default class Kafka extends MessageBroker {
   constructor(
     connection: KafkaClientOptions,
     topics: KafkaTopic,
-    producerOptions: ProducerOptions,
-    callback: ErrorCallback
+    producerOptions?: ProducerOptions,
+    callback?: ErrorCallback
   );
   constructor(
     connection: KafkaClientOptions,
     topics: KafkaTopic,
-    producerOptions: ProducerOptions
+    producerOptions?: ProducerOptions
   );
   constructor(
     connection: KafkaClientOptions,
     topics: KafkaTopic,
-    callback: ErrorCallback
+    callback?: ErrorCallback
   );
   constructor(connection: KafkaClientOptions, topics: KafkaTopic);
   constructor(
