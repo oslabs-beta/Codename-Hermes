@@ -69,15 +69,16 @@ export default class Rabbit extends MessageBroker {
     // REFACTOR: all this 👇
     this.connection = null;
     this.channel = null;
+    const that = this;
     (async () => {
-      this.connection = await amqp.connect(defaultConfig);
-      if (this.connection === null)
+      that.connection = await amqp.connect(defaultConfig);
+      if (that.connection === null)
         throw new Error('No connection for Rabbit.');
 
-      this.channel = await this.connection!.createChannel();
-      if (this.channel === null) throw new Error('No channel for Rabbit.');
+      that.channel = await that.connection!.createChannel();
+      if (that.channel === null) throw new Error('No channel for Rabbit.');
 
-      const that = this;
+      // const that = that;
       Object.keys(topics).forEach(async (topic) => {
         // POSSIBLE REFACTOR: Don't know if we need await
         await that.channel?.assertExchange(
@@ -95,7 +96,7 @@ export default class Rabbit extends MessageBroker {
           that.topics[topic].key ?? topic
         );
       });
-    }).bind(this)();
+    })();
   }
 
   // TODO: Add support for multi messages
