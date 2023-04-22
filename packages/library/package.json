@@ -3,8 +3,29 @@
   "packageManager": "yarn@3.3.1",
   "version": "0.0.1",
   "main": "./lib/index.js",
+  "description": "A library to abstract away and standardize the initial setup and implementation of connecting with message brokers.",
+  "keywords": [
+    "kafka",
+    "rabbit"
+  ],
+  "homepage": "https://github.com/oslabs-beta/Codename-Hermes",
+  "bugs": {
+    "url": "https://github.com/oslabs-beta/Codename-Hermes/issues",
+    "email": "bugs@domain-tbd.tbd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oslabs-beta/Codename-Hermes"
+  },
+  "author": "Codename Hermes <hello@domain-tbd.tbd> (domain-tbd.tbd)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "engineStrict": true,
   "scripts": {
-    "build": "yarn tsc"
+    "build": "yarn tsc",
+    "publish": "npm publish"
   },
   "devDependencies": {
     "@types/amqplib": "^0.10.1",

@@ -16,7 +16,18 @@ export type GenericTopic<T = any> = {
 // The generic options for "listeners"
 // Each broker will have their own specific options as well.
 // TODO: this
-export type GenericListenerOptions = {};
+export type GenericListenerOptions = {
+  autoCommit?: boolean;
+};
+
+// Kafka - Rabbit simularities
+// groupId = NULL
+// autoCommit = noAck
+// autoCommitIntervalMs = NULL
+// fetchMaxWaitMs = NULL
+// fetchMinBytes = NULL
+// fetchMaxBytes = NULL
+// fromOffset = NULL
 
 // The generic client options for every broker.
 // Each broker will have their own specific options as well.
@@ -41,9 +52,16 @@ export default abstract class MessageBroker {
   abstract send(topic: string, message: string | string[]): void;
 
   // This will be defined in the specific broker class
-  abstract listener(topics: string[], options: GenericListenerOptions): void;
+  protected abstract listener(
+    topics: string,
+    options?: GenericListenerOptions
+  ): void;
 
   // This will be defined in the specific broker class
   // abstract consume(topic: string): Promise<GenericMessage | null>;
-  abstract consume(topic: string, callback: Function): void;
+  abstract consume(
+    topic: string,
+    listenerOptions: GenericListenerOptions,
+    callback: MessageCallback<any>
+  ): void;
 }

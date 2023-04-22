@@ -47,7 +47,6 @@ export type KafkaSendOptions = {
 // Based off the ConsumerOptions from kafka-node
 export type KafkaListenerOptions = GenericListenerOptions & {
   groupId?: string;
-  autoCommit?: boolean;
   autoCommitIntervalMs?: number;
   fetchMaxWaitMs?: number;
   fetchMinBytes?: number;
@@ -76,10 +75,10 @@ export type KafkaMessage = GenericMessage & {
  * TODO:
  * - ConsumerStream
  * - ProducerStream
- * - Bi-directional communication
  * - Add topic (maybe auto-add missing topics)
  * - Full Consumer functionality
  * - Full Producer functionality
+ * - Admin api
  * - Refactoring
  * - Abstraction of options to be interchangeable with rabbitmq/redis
  */
@@ -200,28 +199,21 @@ export default class Kafka extends MessageBroker {
    * @param topics The topics to create listeners for.
    * @param options Options for the consumer.
    */
-  listener(topics: string[], options?: KafkaListenerOptions) {
-    // Just so we still have access to "this" in the map and forEach methods.
-    const that = this;
-
+  protected listener(topic: string, options?: KafkaListenerOptions) {
     // Format the provided topic strings to the accepted topic type for Consumer().
-    const formattedTopics = topics.map((topic) => ({
+    const formattedTopic = {
       topic,
-      ...that.topics[topic],
-    }));
+      ...this.topics[topic],
+    };
+    // Is the topic valid?
+    if (!this.topics.hasOwnProperty(topic))
+      throw new Error(`There is no registered topic "${topic}"`);
 
-    // Create new Consumers for each topic.
-    formattedTopics.forEach((topic) => {
-      // Is the topic valid?
-      if (!this.topics.hasOwnProperty(topic.topic))
-        throw new Error(`There is no registered topic "${topic}"`);
-
-      that.consumers[topic.topic] = new Consumer(
-        that.client,
-        [topic],
-        options ?? {}
-      );
-    });
+    this.consumers[topic] = new Consumer(
+      this.client,
+      [formattedTopic],
+      options ?? {}
+    );
   }
 
   /**
@@ -229,14 +221,37 @@ export default class Kafka extends MessageBroker {
    * @param topic The topic you want to listen to
    * @param callback The function to invoke when a message is received
    */
-  consume(topic: string, callback: MessageCallback<KafkaMessage | null>): void {
+  consume(topic: string, callback: MessageCallback<KafkaMessage | null>): void;
+  consume(
+    topic: string,
+    listenerOptions: KafkaListenerOptions,
+    callback: MessageCallback<KafkaMessage | null>
+  ): void;
+  consume(
+    topic: string,
+    optionsOrCallback?:
+      | KafkaListenerOptions
+      | MessageCallback<KafkaMessage | null>,
+    callback?: MessageCallback<KafkaMessage | null>
+  ): void {
+    let listenerOptions;
+    if (
+      typeof optionsOrCallback === 'object' ||
+      optionsOrCallback === undefined
+    ) {
+      listenerOptions = optionsOrCallback;
+    } else {
+      callback = optionsOrCallback;
+    }
+
     if (!topic) throw new Error('No topic specified.');
+    this.listener(topic, listenerOptions);
     if (!this.consumers[topic])
       throw new Error(`No listener found for topic "${topic}"`);
 
     this.consumers[topic]!.on('message', (msg: Message) =>
-      callback(null, formatMessageToKafkaMessage(msg))
+      callback!(null, formatMessageToKafkaMessage(msg))
     );
-    this.consumers[topic]!.on('error', (err: any) => callback(err, null));
+    this.consumers[topic]!.on('error', (err: any) => callback!(err, null));
   }
 }

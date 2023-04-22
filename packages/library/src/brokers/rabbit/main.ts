@@ -8,6 +8,7 @@ import MessageBroker, {
 } from '../MessageBroker';
 
 import * as amqp from 'amqplib';
+import { convertGenericListenerConfigToRabbitAmqpConfig } from './utils/utilFunctions';
 
 export type RabbitClientOptions = GenericClientOptions & {
   username?: string;
@@ -31,7 +32,12 @@ export type RabbitTopic = GenericTopic<
   } & amqp.Options.AssertQueue
 >;
 
-export type RabbitListenerOptions = GenericListenerOptions & {};
+export type RabbitListenerOptions = GenericListenerOptions & {
+  consumerTag?: string;
+  exclusive?: boolean;
+  priority?: number;
+  arguments?: any;
+};
 
 export type RabbitMessage = GenericMessage & {};
 
@@ -41,6 +47,7 @@ export default class Rabbit extends MessageBroker {
   private connection: Connection | null;
   private channel: amqp.Channel | null;
   private topics: RabbitTopic;
+  private consumerTags: { [topicName: string]: RabbitListenerOptions };
   constructor(connection: RabbitClientOptions, topics: RabbitTopic) {
     super(connection, topics);
 
@@ -48,10 +55,13 @@ export default class Rabbit extends MessageBroker {
     const defaultConfig: RabbitClientOptions = {
       ...connection,
       port: connection.port ?? 5672,
-      protocol: connection.protocol ?? 'amqp',
+      // protocol: connection.protocol ?? 'amqp',
+      // TODO: remove this when we add secure connection support. This overwrites what the user wants.
+      protocol: 'amqp',
     };
 
     this.topics = topics;
+    this.consumerTags = {};
 
     // This is jank... I'm sorry
     // REFACTOR: all this 👇
@@ -96,7 +106,31 @@ export default class Rabbit extends MessageBroker {
     );
   }
 
-  listener(topics: string[], options: RabbitListenerOptions) {}
+  listener(topics: string, options?: RabbitListenerOptions) {
+    const convertedOptions = convertGenericListenerConfigToRabbitAmqpConfig(
+      options ?? {}
+    );
 
-  consume(topic: string, callback: MessageCallback<RabbitMessage>) {}
+    // "listener" doesn't do anything except store options right now
+  }
+
+  consume(topic: string, callback: MessageCallback<RabbitMessage | null>): void;
+  consume(
+    topic: string,
+    listenerOptions: RabbitListenerOptions,
+    callback: MessageCallback<RabbitMessage | null>
+  ): void;
+  consume(
+    topic: string,
+    optionsOrCallback?:
+      | RabbitListenerOptions
+      | MessageCallback<RabbitMessage | null>,
+    callback?: MessageCallback<RabbitMessage | null>
+  ): void {
+    const that = this;
+
+    // this.channel?.consume(topic, (message) => {
+    //   callback(null, )
+    // });
+  }
 }
