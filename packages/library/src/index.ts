@@ -6,13 +6,12 @@ import Kafka, {
   KafkaTopic,
 } from './brokers/kafka/main';
 
-const CodenameHermes = {
-  Kafka,
-  Rabbit: 'Not implemented.',
-  Redis: 'Not implemented.',
-};
-
-export default CodenameHermes;
+import Rabbit, {
+  RabbitClientOptions,
+  RabbitListenerOptions,
+  RabbitMessage,
+  RabbitTopic,
+} from './brokers/rabbit/main';
 
 // Individual Kafka exports
 export {
@@ -23,3 +22,21 @@ export {
   KafkaSendOptions,
   KafkaTopic,
 };
+
+// Individual Rabbit exports
+export {
+  Rabbit,
+  RabbitClientOptions,
+  RabbitListenerOptions,
+  RabbitMessage,
+  RabbitTopic,
+};
+
+// All export
+const CodenameHermes = {
+  Kafka,
+  Rabbit,
+  Redis: 'Not implemented.',
+};
+
+export default CodenameHermes;
