@@ -67,6 +67,7 @@ export default class Rabbit extends MessageBroker {
 
     // This is jank... I'm sorry
     // REFACTOR: all this 👇
+    // TODO: fix channel null issue
     this.connection = null;
     this.channel = null;
     const that = this;
