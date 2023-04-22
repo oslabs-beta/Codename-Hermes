@@ -29,7 +29,9 @@ export type RabbitTopic = GenericTopic<
       name: string;
       type?: 'direct' | 'topic' | 'headers' | 'fanout' | 'match';
     };
-  } & amqp.Options.AssertQueue
+  } & amqp.Options.AssertQueue & {
+      key?: string;
+    }
 >;
 
 export type RabbitListenerOptions = GenericListenerOptions & {
@@ -90,7 +92,7 @@ export default class Rabbit extends MessageBroker {
         await that.channel?.bindQueue(
           topic,
           that.topics[topic].exchange.name,
-          topic
+          that.topics[topic].key ?? topic
         );
       });
     }).bind(this)();
