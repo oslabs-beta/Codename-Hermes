@@ -25,8 +25,8 @@ export type RabbitClientOptions = GenericClientOptions & {
 // TODO: add the rest of the options
 export type RabbitTopic = GenericTopic<
   {
-    exchange: string;
-    exchangeConfig: amqp.Options.AssertExchange & {
+    exchange: amqp.Options.AssertExchange & {
+      name: string;
       type?: 'direct' | 'topic' | 'headers' | 'fanout' | 'match';
     };
   } & amqp.Options.AssertQueue
@@ -79,9 +79,9 @@ export default class Rabbit extends MessageBroker {
       Object.keys(topics).forEach(async (topic) => {
         // POSSIBLE REFACTOR: Don't know if we need await
         await that.channel?.assertExchange(
-          that.topics[topic].exchange,
-          that.topics[topic].exchangeConfig.type ?? 'topic',
-          that.topics[topic].exchangeConfig ?? {}
+          that.topics[topic].exchange.name,
+          that.topics[topic].exchange.type ?? 'topic',
+          that.topics[topic].exchange ?? {}
         );
 
         await that.channel?.assertQueue(topic, that.topics[topic] ?? {});
@@ -89,7 +89,7 @@ export default class Rabbit extends MessageBroker {
         // TODO: research and implement "args"
         await that.channel?.bindQueue(
           topic,
-          that.topics[topic].exchange,
+          that.topics[topic].exchange.name,
           topic
         );
       });
@@ -99,7 +99,7 @@ export default class Rabbit extends MessageBroker {
   // TODO: Add support for multi messages
   send(topic: string, message: string, options?: amqp.Options.Publish) {
     this.channel?.publish(
-      this.topics[topic].exchange,
+      this.topics[topic].exchange.name,
       topic,
       Buffer.from(message),
       options

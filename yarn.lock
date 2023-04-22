@@ -5944,21 +5944,21 @@ __metadata:
 
 "library@file:../../../library::locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding":
   version: 0.0.1
-  resolution: "library@file:../../../library#../../../library::hash=c4ef6d&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
+  resolution: "library@file:../../../library#../../../library::hash=65d010&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
   dependencies:
     amqplib: ^0.10.3
     kafka-node: ^5.0.0
-  checksum: e4c6dd08d18c53950c793f4edd0672f13b5ea53f45be6798e9814f85e73566b7ce44dea6b503d5f8335aafce56049ddc4349e874037c29a16c21407822ebb050
+  checksum: 79401b8277d1cba27caefc01fd6a174ae1ff31260c5cb5046aa1372b4ab90bcfb7bc1495d1a0089bf5e95f9cb2d4f66b8daed1720709265bd86a06f8b13cb74f
   languageName: node
   linkType: hard
 
 "library@file:../../../library::locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend":
   version: 0.0.1
-  resolution: "library@file:../../../library#../../../library::hash=c4ef6d&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
+  resolution: "library@file:../../../library#../../../library::hash=65d010&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
   dependencies:
     amqplib: ^0.10.3
     kafka-node: ^5.0.0
-  checksum: e4c6dd08d18c53950c793f4edd0672f13b5ea53f45be6798e9814f85e73566b7ce44dea6b503d5f8335aafce56049ddc4349e874037c29a16c21407822ebb050
+  checksum: 79401b8277d1cba27caefc01fd6a174ae1ff31260c5cb5046aa1372b4ab90bcfb7bc1495d1a0089bf5e95f9cb2d4f66b8daed1720709265bd86a06f8b13cb74f
   languageName: node
   linkType: hard
 
@@ -8614,11 +8614,11 @@ __metadata:
 
 "typescript@patch:typescript@4.9.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
   version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
+  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
   languageName: node
   linkType: hard
 
