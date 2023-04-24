@@ -43,15 +43,17 @@ export type RabbitListenerOptions = GenericListenerOptions & {
 
 export type RabbitMessage = GenericMessage & {};
 
-
 //function to act as asynchronous factory function
 /**
- * Purpose: to produce new Rabbit MQ objects
- * @param connection 
- * @param topics 
- * @returns Rabbit instantiation 
+ * Purpose: to produce new RabbitMQ message broker
+ * @param connection
+ * @param topics
+ * @returns RabbitMQ object to be used as a message broker
  */
-export async function createRabbitClass (connection: RabbitClientOptions, topics: RabbitTopic){
+export async function createRabbitClass(
+  connection: RabbitClientOptions,
+  topics: RabbitTopic
+) {
   const rabbit = new Rabbit(connection, topics);
   await rabbit.init();
   return rabbit;
@@ -78,13 +80,12 @@ export default class Rabbit extends MessageBroker {
     // };
 
     this.defaultConfig = {
-
       ...connection,
       port: connection.port ?? 5672,
       // protocol: connection.protocol ?? 'amqp',
       // TODO: remove this when we add secure connection support. This overwrites what the user wants.
       protocol: 'amqp',
-    }
+    };
 
     this.topics = topics;
     this.consumerTags = {};
@@ -127,16 +128,13 @@ export default class Rabbit extends MessageBroker {
     //     );
     //   });
 
-
     console.log('in constructor - channel', that.channel);
 
     console.log('in constructor - connection', that.connection);
 
     console.log('this is that in the constructor', that);
-
   }
 
-  
   //initialize method on Rabbit Class constructor to be used in the asynchronous factory function
   //The method is used to setup the following
   /**
@@ -148,19 +146,17 @@ export default class Rabbit extends MessageBroker {
    * reference: https://www.rabbitmq.com/tutorials/tutorial-four-javascript.html )
    */
   async init() {
-
-
     this.connection = await amqp.connect(this.defaultConfig);
     if (this.connection === null)
-      throw new Error('No connection for Rabbit. in init function');
+      throw new Error('No connection for Rabbit. Failed to initialize');
 
     this.channel = await this.connection!.createChannel();
-    if (this.channel === null) throw new Error('No channel for Rabbit. in init function');
+    if (this.channel === null)
+      throw new Error('No channel for Rabbit. Failed to initialize');
 
     // console.log('this is the channel', that.channel);
     // const that = that;
 
-  
     Object.keys(this.topics).forEach(async (topic) => {
       // POSSIBLE REFACTOR: Don't know if we need await
       await this.channel?.assertExchange(
@@ -169,7 +165,7 @@ export default class Rabbit extends MessageBroker {
         this.topics[topic].exchange ?? {}
       );
 
-    await this.channel?.assertQueue(topic, this.topics[topic] ?? {});
+      await this.channel?.assertQueue(topic, this.topics[topic] ?? {});
 
       // TODO: research and implement "args"
       await this.channel?.bindQueue(
@@ -178,10 +174,7 @@ export default class Rabbit extends MessageBroker {
         this.topics[topic].key ?? topic
       );
     });
-
-
   }
-
 
   // TODO: Add support for multi messages
   //! the second argument in the PUBLISH method NEEDS to be the "key". Before refactor it was the topic. The reason is because this is the routingkey that MUST MATCH the bindingKey
@@ -225,5 +218,3 @@ export default class Rabbit extends MessageBroker {
     // });
   }
 }
-
-
