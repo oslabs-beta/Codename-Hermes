@@ -11,6 +11,7 @@ import Rabbit, {
   RabbitListenerOptions,
   RabbitMessage,
   RabbitTopic,
+  createRabbitClass
 } from './brokers/rabbit/main';
 
 // Individual Kafka exports
@@ -30,6 +31,7 @@ export {
   RabbitListenerOptions,
   RabbitMessage,
   RabbitTopic,
+  createRabbitClass
 };
 
 // All export
