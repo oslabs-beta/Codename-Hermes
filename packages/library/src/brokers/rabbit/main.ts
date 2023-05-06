@@ -70,15 +70,7 @@ export default class Rabbit extends MessageBroker {
     super(connection, topics);
 
     // Let's create a default config, we are also relying on default options for the connect method.
-
-    // const defaultConfig: RabbitClientOptions = {
-    //   ...connection,
-    //   port: connection.port ?? 5672,
-    //   // protocol: connection.protocol ?? 'amqp',
-    //   // TODO: remove this when we add secure connection support. This overwrites what the user wants.
-    //   protocol: 'amqp',
-    // };
-
+    //updated to add default config to the new object returned
     this.defaultConfig = {
       ...connection,
       port: connection.port ?? 5672,
@@ -96,43 +88,6 @@ export default class Rabbit extends MessageBroker {
     this.channel = null;
     const that = this;
 
-    // (async () => {
-    //   that.connection = await amqp.connect(defaultConfig);
-    //   if (that.connection === null)
-    //     throw new Error('No connection for Rabbit.');
-
-    //   that.channel = await that.connection!.createChannel();
-    //   if (that.channel === null) throw new Error('No channel for Rabbit.');
-
-    //   // console.log('this is the channel', that.channel);
-    //   // const that = that;
-
-    //   console.log('lets look at the new topics', that.topics);
-    //   Object.keys(topics).forEach(async (topic) => {
-    //     // POSSIBLE REFACTOR: Don't know if we need await
-    //     await that.channel?.assertExchange(
-    //       that.topics[topic].exchange.name,
-    //       that.topics[topic].exchange.type ?? 'topic',
-    //       that.topics[topic].exchange ?? {}
-    //     );
-
-    //    const q = await that.channel?.assertQueue(topic, that.topics[topic] ?? {});
-
-    //    console.log('this is the created q', q);
-
-    //     // TODO: research and implement "args"
-    //     await that.channel?.bindQueue(
-    //       topic,
-    //       that.topics[topic].exchange.name,
-    //       that.topics[topic].key ?? topic
-    //     );
-    //   });
-
-    console.log('in constructor - channel', that.channel);
-
-    console.log('in constructor - connection', that.connection);
-
-    console.log('this is that in the constructor', that);
   }
 
   //initialize method on Rabbit Class constructor to be used in the asynchronous factory function
@@ -148,14 +103,12 @@ export default class Rabbit extends MessageBroker {
   async init() {
     this.connection = await amqp.connect(this.defaultConfig);
     if (this.connection === null)
-      throw new Error('No connection for Rabbit. Failed to initialize');
+      throw new Error('No connection for Rabbit. Failed to initialize - connection');
 
     this.channel = await this.connection!.createChannel();
     if (this.channel === null)
-      throw new Error('No channel for Rabbit. Failed to initialize');
+      throw new Error('No channel for Rabbit. Failed to initialize - channel');
 
-    // console.log('this is the channel', that.channel);
-    // const that = that;
 
     Object.keys(this.topics).forEach(async (topic) => {
       // POSSIBLE REFACTOR: Don't know if we need await
@@ -180,8 +133,6 @@ export default class Rabbit extends MessageBroker {
   //! the second argument in the PUBLISH method NEEDS to be the "key". Before refactor it was the topic. The reason is because this is the routingkey that MUST MATCH the bindingKey
   //! that is found within the init function
   async send(topic: string, message: string, options?: amqp.Options.Publish) {
-    console.log('hello from within send!');
-    console.log('this is "this" in the send method', this);
     this.channel?.publish(
       this.topics[topic].exchange.name,
       this.topics[topic].key ?? topic,
@@ -212,9 +163,5 @@ export default class Rabbit extends MessageBroker {
     callback?: MessageCallback<RabbitMessage | null>
   ): void {
     const that = this;
-
-    // this.channel?.consume(topic, (message) => {
-    //   callback(null, )
-    // });
   }
 }
