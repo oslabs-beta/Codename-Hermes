@@ -1,5 +1,3 @@
-import { Message } from 'kafka-node';
-
 // The Message type should be created by us at a later point. It must be compatible with Kafka and
 export type MessageCallback<T> = (err: any, message: T) => void;
 export type ErrorCallback = (err: any) => void;
