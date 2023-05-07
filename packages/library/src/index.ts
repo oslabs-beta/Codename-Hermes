@@ -6,13 +6,15 @@ import Kafka, {
   KafkaTopic,
 } from './brokers/kafka/main';
 
-import Rabbit, {
+import {
   RabbitClientOptions,
   RabbitListenerOptions,
   RabbitMessage,
   RabbitTopic,
-  createRabbitClass
+  createRabbitClass,
 } from './brokers/rabbit/main';
+
+const Rabbit = createRabbitClass;
 
 // Individual Kafka exports
 export {
@@ -31,7 +33,7 @@ export {
   RabbitListenerOptions,
   RabbitMessage,
   RabbitTopic,
-  createRabbitClass
+  createRabbitClass,
 };
 
 // All export
