@@ -45,7 +45,7 @@ export type RabbitMessage = GenericMessage & {};
 
 //function to act as asynchronous factory function
 /**
- * Purpose: to produce new RabbitMQ message broker
+ * Purpose: to produce new RabbitMQ message broker with async code.
  * @param connection
  * @param topics
  * @returns RabbitMQ object to be used as a message broker
@@ -88,7 +88,6 @@ export default class Rabbit extends MessageBroker {
     this.connection = null;
     this.channel = null;
     const that = this;
-
   }
 
   //initialize method on Rabbit Class constructor to be used in the asynchronous factory function
@@ -104,12 +103,13 @@ export default class Rabbit extends MessageBroker {
   async init() {
     this.connection = await amqp.connect(this.defaultConfig);
     if (this.connection === null)
-      throw new Error('No connection for Rabbit. Failed to initialize - connection');
+      throw new Error(
+        'No connection for Rabbit. Failed to initialize - connection'
+      );
 
     this.channel = await this.connection!.createChannel();
     if (this.channel === null)
       throw new Error('No channel for Rabbit. Failed to initialize - channel');
-
 
     Object.keys(this.topics).forEach(async (topic) => {
       // POSSIBLE REFACTOR: Don't know if we need await
