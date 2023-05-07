@@ -4,8 +4,8 @@
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./media/CH-Logo-White.png">
-    <source media="(prefers-color-scheme: light)" srcset="./media/CH-Logo-Dark.png">
-    <img alt="Codename Hermes Logo" src="./media/CH-Logo-Dark.png" width="300px" align="center">
+    <source media="(prefers-color-scheme: light)" srcset="./media/CH-Logo-Black.png">
+    <img alt="Codename Hermes Logo" src="./media/CH-Logo-Black.png" width="300px" align="center">
   </picture>
 
 <!-- Brief summary -->
