@@ -3223,12 +3223,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"checkout@workspace:packages/demo_app/services/checkout":
-  version: 0.0.0-use.local
-  resolution: "checkout@workspace:packages/demo_app/services/checkout"
-  languageName: unknown
-  linkType: soft
-
 "chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.5.2, chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
@@ -4771,12 +4765,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gallery@workspace:packages/demo_app/services/gallery":
-  version: 0.0.0-use.local
-  resolution: "gallery@workspace:packages/demo_app/services/gallery"
-  languageName: unknown
-  linkType: soft
-
 "gauge@npm:^4.0.3":
   version: 4.0.4
   resolution: "gauge@npm:4.0.4"
@@ -5955,22 +5943,22 @@ __metadata:
   linkType: hard
 
 "library@file:../../../library::locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding":
-  version: 0.0.0
-  resolution: "library@file:../../../library#../../../library::hash=100b23&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
+  version: 0.0.1
+  resolution: "library@file:../../../library#../../../library::hash=65d010&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
   dependencies:
     amqplib: ^0.10.3
     kafka-node: ^5.0.0
-  checksum: d75dfaaf46b562e3079f188f0d0de841b3801d21b5966424305bbf9b9567ee281fff82ac1c7f356c334cb229184ae751e9f71aca5f4a61b0d8ca8181dc31de3e
+  checksum: 79401b8277d1cba27caefc01fd6a174ae1ff31260c5cb5046aa1372b4ab90bcfb7bc1495d1a0089bf5e95f9cb2d4f66b8daed1720709265bd86a06f8b13cb74f
   languageName: node
   linkType: hard
 
 "library@file:../../../library::locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend":
-  version: 0.0.0
-  resolution: "library@file:../../../library#../../../library::hash=100b23&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
+  version: 0.0.1
+  resolution: "library@file:../../../library#../../../library::hash=65d010&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
   dependencies:
     amqplib: ^0.10.3
     kafka-node: ^5.0.0
-  checksum: d75dfaaf46b562e3079f188f0d0de841b3801d21b5966424305bbf9b9567ee281fff82ac1c7f356c334cb229184ae751e9f71aca5f4a61b0d8ca8181dc31de3e
+  checksum: 79401b8277d1cba27caefc01fd6a174ae1ff31260c5cb5046aa1372b4ab90bcfb7bc1495d1a0089bf5e95f9cb2d4f66b8daed1720709265bd86a06f8b13cb74f
   languageName: node
   linkType: hard
 
@@ -8741,12 +8729,6 @@ __metadata:
   checksum: fbdba6b1d83336aca2216bbdc38ba658d9cfb8fc7f665eb8b17852de638ff7d1a162c198a8e4ed66001ddbf6c9888d41e4798912c62b4fd777a31657989f7bdf
   languageName: node
   linkType: hard
-
-"user@workspace:packages/demo_app/services/user":
-  version: 0.0.0-use.local
-  resolution: "user@workspace:packages/demo_app/services/user"
-  languageName: unknown
-  linkType: soft
 
 "util-deprecate@npm:^1.0.1, util-deprecate@npm:^1.0.2, util-deprecate@npm:~1.0.1":
   version: 1.0.2

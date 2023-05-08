@@ -12,5 +12,8 @@
     "start:dev": "yarn workspaces foreach -vpti run start:dev",
     "build": "yarn workspaces foreach -vpti run build",
     "library:install": "yarn workspaces foreach -vpti run library:install"
+  },
+  "resolutions": {
+    "library": "portal:/Users/mathew/Documents/Code/Projects/Codename_Hermes/packages/library"
   }
 }
