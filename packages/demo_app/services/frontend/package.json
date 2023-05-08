@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "docker:build": "docker build . -t ch_demo-app_frontend",
-    "library:install": "yarn add ../../../library"
+    "library:install": "yarn add ../../../library && yarn link ../../../library"
   },
   "dependencies": {
     "@next/font": "^13.2.4",
