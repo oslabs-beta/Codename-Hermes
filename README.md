@@ -190,7 +190,39 @@ broker.send('topic1', 'Hello World!');
 
   <!-- Description for Kafka implementation -->
 
+Following the same [standards](#standards) as we've gone over previously; Our Kafka implementation will _hopefully_ seem fairly familiar.
+
+  <br>
+  <hr align="center" width="50%">
+  <br>
+
   <!-- Docs -->
+
+### Initilization
+
+Much like you've seen, initilizing Kafka will be the exact same as defined in the standards with the only differance being, we're assigning the returned value of the Kafka factory function.
+
+```TypeScript
+const kafka = Kafka(clientOptions, topics);
+
+```
+
+For now, another discrepancy would be Kafka specific `clientOptions` and `topics`.
+
+With Kafka we have some new options!
+
+```TypeScript
+{
+  connectTimeout?: number;
+  requestTimeout?: number;
+  autoConnect?: boolean;
+  connectRetryOptions?: RetryOptions;
+  idleConnection?: number;
+  reconnectOnIdle?: boolean;
+  maxAsyncRequests?: number;
+}
+```
+
 </section>
 
 <br>
