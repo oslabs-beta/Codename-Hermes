@@ -1,5 +1,5 @@
 {
-  "name": "library",
+  "name": "@codename-hermes/library",
   "packageManager": "yarn@3.3.1",
   "version": "0.0.1",
   "main": "./lib/index.js",
@@ -21,6 +21,9 @@
   "license": "MIT",
   "engines": {
     "node": ">=6.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "engineStrict": true,
   "scripts": {

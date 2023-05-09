@@ -1,5 +1,5 @@
 {
-  "name": "Codename_Hermes",
+  "name": "codename-hermes",
   "packageManager": "yarn@3.4.1",
   "private": true,
   "workspaces": [
