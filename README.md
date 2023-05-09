@@ -202,6 +202,26 @@ broker.send('topic1', 'Hello World!');
 
 ## **RabbitMQ**
 
+
+Rabbit API
+Create 
+Send
+
+send(topic: string, message: string, options?: amqp.Options.Publish)
+
+
+This method is used to send topics on the Rabbit server
+
+Topic: String
+Message: String
+Options: amqp.Options.Publish
+
+Example:
+rabbit.send('topic2', 'Hello world.', options);
+
+
+
+
   <!-- Description for Rabbit implementation -->
   <!-- Docs -->
 </section>
