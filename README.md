@@ -200,7 +200,7 @@ Following the same [standards](#standards) as we've gone over previously; Our Ka
 
 ### **Initilization**
 
-Much like you've seen, initilizing Kafka will be the exact same as defined in the standards with the only differance being, we're assigning the returned value of the Kafka factory function.
+Much like you've seen, initilizing Kafka will be the exact same as defined in the standards with the only differance being, we're assigning the returned value of the Kafka factory function to a variable.
 
 ```TypeScript
 const kafka = Kafka(clientOptions, topics);
@@ -209,7 +209,7 @@ const kafka = Kafka(clientOptions, topics);
 
 For now, another discrepancy would be Kafka specific `clientOptions` and `topics`.
 
-With Kafka we have some new options!
+Speaking of, we have some new options!
 
 ```TypeScript
 {
