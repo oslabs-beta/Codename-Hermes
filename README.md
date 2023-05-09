@@ -68,7 +68,7 @@ Our primary goal is to uniformize the implementation details of message brokers 
 Initilization of message brokers will follow the basic format shown below.
 
 ```TypeScript
-Broker(clientOptions: GenericClientOptions, topics: GenericTopic<any>[]);
+Broker(clientOptions: GenericClientOptions, topics: GenericTopic<any>);
 ```
 
 Currently, each broker will have it's own specific `clientOptions`, but will always contain `host` and `port` keys.
@@ -190,7 +190,83 @@ broker.send('topic1', 'Hello World!');
 
   <!-- Description for Kafka implementation -->
 
+Following the same [standards](#standards) as we've gone over previously; Our Kafka implementation will _hopefully_ seem fairly familiar.
+
+  <br>
+  <hr align="center" width="50%">
+  <br>
+
   <!-- Docs -->
+
+### **Initilization**
+
+Much like you've seen, initilizing Kafka will be the exact same as defined in the standards with the only differance being, we're assigning the returned value of the Kafka factory function to a variable.
+
+```TypeScript
+const kafka = Kafka(clientOptions, topics);
+
+```
+
+For now, another discrepancy would be Kafka specific `clientOptions` and `topics`.
+
+Speaking of, we have some new options!
+
+```TypeScript
+{
+  connectTimeout?: number;
+  requestTimeout?: number;
+  autoConnect?: boolean;
+  connectRetryOptions?: RetryOptions;
+  idleConnection?: number;
+  reconnectOnIdle?: boolean;
+  maxAsyncRequests?: number;
+}
+```
+
+But what do they do? Let's get into that.
+
+<br>
+
+**`connectTimeout`**
+
+<br>
+
+**`requestTimeout`**
+
+<br>
+
+**`autoConnect`**
+
+<br>
+
+**`connectRetryOptions`**
+
+These options are to further customize how you want the client to reconnect to the Kafka broker.
+
+```TypeScript
+{
+  retries?: number;
+  factor?: number;
+  minTimeout?: number;
+  maxTimeout?: number;
+  randomize?: boolean;
+}
+```
+
+<br>
+
+**`ildeConnection`**
+
+<br>
+
+**`reconnectOnIdle`**
+
+<br>
+ 
+**`maxAsyncRequests`**
+
+<br>
+
 </section>
 
 <br>
