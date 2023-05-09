@@ -198,7 +198,7 @@ Following the same [standards](#standards) as we've gone over previously; Our Ka
 
   <!-- Docs -->
 
-### Initilization
+### **Initilization**
 
 Much like you've seen, initilizing Kafka will be the exact same as defined in the standards with the only differance being, we're assigning the returned value of the Kafka factory function.
 
@@ -222,6 +222,50 @@ With Kafka we have some new options!
   maxAsyncRequests?: number;
 }
 ```
+
+But what do they do? Let's get into that.
+
+<br>
+
+**`connectTimeout`**
+
+<br>
+
+**`requestTimeout`**
+
+<br>
+
+**`autoConnect`**
+
+<br>
+
+**`connectRetryOptions`**
+
+These options are to further customize how you want the client to reconnect to the Kafka broker.
+
+```TypeScript
+{
+  retries?: number;
+  factor?: number;
+  minTimeout?: number;
+  maxTimeout?: number;
+  randomize?: boolean;
+}
+```
+
+<br>
+
+**`ildeConnection`**
+
+<br>
+
+**`reconnectOnIdle`**
+
+<br>
+ 
+**`maxAsyncRequests`**
+
+<br>
 
 </section>
 
