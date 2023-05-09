@@ -68,7 +68,7 @@ Our primary goal is to uniformize the implementation details of message brokers 
 Initilization of message brokers will follow the basic format shown below.
 
 ```TypeScript
-Broker(clientOptions: GenericClientOptions, topics: GenericTopic<any>[]);
+Broker(clientOptions: GenericClientOptions, topics: GenericTopic<any>);
 ```
 
 Currently, each broker will have it's own specific `clientOptions`, but will always contain `host` and `port` keys.
