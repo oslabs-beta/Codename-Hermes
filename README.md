@@ -351,9 +351,9 @@ Alright, so you might be asking yourself: "What does the `partition` and `offset
 
 `partition` is just telling the Kafka broker "hey, this topic has X amount of sub-sections" and `offset` is saying "hey, start each partition at the offset X."
 
-    <br>
-    <hr align="center" width="50%">
-    <br>
+  <br>
+  <hr align="center" width="50%">
+  <br>
 
 ### **Example**
 
