@@ -200,7 +200,7 @@ Following the same [standards](#standards) as we've gone over previously; Our Ka
 
   <!-- Docs -->
 
-<section id="kafka-init>
+  <section id="kafka-init">
 
 ### **Initilization**
 
@@ -215,7 +215,7 @@ For now, another discrepancy would be Kafka specific `clientOptions` and `topics
 
 Speaking of, we have some new options!
 
-<br>
+  <br>
 
 ### **`clientOptions`**
 
@@ -233,28 +233,28 @@ Speaking of, we have some new options!
 
 But what do they do? Let's get into that.
 
-<br>
+  <br>
 
 **`connectTimeout`** -
 _Default: 10,000ms_
 
 How long, in ms, it takes to wait for a successful connection.
 
-<br>
+  <br>
 
 **`requestTimeout`** -
 _Default: 30,000ms_
 
 How long, in ms, for a kafka request to timeout.
 
-<br>
+  <br>
 
 **`autoConnect`** -
 _Default: true_
 
 Should it automatically connect when Kafka is instantiated?
 
-<br>
+  <br>
 
 **`connectRetryOptions`** -
 
@@ -272,7 +272,7 @@ An object hash that applies to the initial connection to customize connection re
 
 _For more information about `connectRetryOptions`, please visit [here](https://www.npmjs.com/package/retry#user-content-retrytimeoutsoptions)._
 
-<br>
+  <br>
 
 **`ildeConnection`** -
 _Default: 5 minutes_
@@ -281,23 +281,23 @@ Allows the broker to disconnect an idle connection from a client.
 
 The value is elapsed time in ms without any data written to the TCP socket.
 
-<br>
+  <br>
 
 **`reconnectOnIdle`** -
 _Default: true_
 
 When the connection is closed due to client idling, will the client attempt to auto-reconnect?
 
-<br>
- 
-**`maxAsyncRequests`** -
-_Default: 10_
+  <br>
+  
+  **`maxAsyncRequests`** -
+  _Default: 10_
 
 The maximum async operations at a time toward the kafka cluster.
 
-  <br>
-  <hr align="center" width="50%">
-  <br>
+    <br>
+    <hr align="center" width="50%">
+    <br>
 
 ### **`topics`**
 
@@ -351,9 +351,9 @@ Alright, so you might be asking yourself: "What does the `partition` and `offset
 
 `partition` is just telling the Kafka broker "hey, this topic has X amount of sub-sections" and `offset` is saying "hey, start each partition at the offset X."
 
-  <br>
-  <hr align="center" width="50%">
-  <br>
+    <br>
+    <hr align="center" width="50%">
+    <br>
 
 ### **Example**
 
@@ -373,7 +373,7 @@ const topics = {
 const kafka = Kafka(clientOptions, topics);
 ```
 
-</section>
+  </section>
 
 </section>
 
