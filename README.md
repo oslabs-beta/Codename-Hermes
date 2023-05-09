@@ -278,24 +278,45 @@ These options are to further customize how you want the client to reconnect to t
 
 ## **RabbitMQ**
 
+### **Initilization**
 
-Rabbit API
-Create 
-Send
+Initializing rabbitMQ
 
-send(topic: string, message: string, options?: amqp.Options.Publish)
+Initilizing RabbitMQ will be similar as defined in the standards with the only differance being, we're assigning the returned value of the "createRabbitClass" factory function to a variable.
 
+```TypeScript
+const rabbit = await createRabbitClass(clientOptions, topics);
+
+```
+
+Rabbit MQ Topics
+
+```TypeScript
+const topics: RabbitTopic = {
+  topic1: {
+    exchange: {
+      name: "topics",
+      durable: false,
+      type: "topic",
+    },
+    durable: false,
+    key: "hermes",
+  },
+};
+
+```
+
+<br>
+
+**`Send`**
+
+<br>
 
 This method is used to send topics on the Rabbit server
 
-Topic: String
-Message: String
-Options: amqp.Options.Publish
-
-Example:
-rabbit.send('topic2', 'Hello world.', options);
-
-
+```TypeScript
+rabbit.send("topic1", "hello from sender.ts in ch lib test");
+```
 
 
   <!-- Description for Rabbit implementation -->
