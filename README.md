@@ -205,7 +205,7 @@ Following the same [standards](#standards) as we've gone over previously; Our Ka
 
   <section id="kafka-init">
 
-### **Initilization**
+## **Initilization**
 
 Much like you've seen, initilizing Kafka will be the exact same as defined in the standards with the only differance being, we're assigning the returned value of the Kafka factory function to a variable.
 
@@ -374,7 +374,7 @@ Alright, so you might be asking yourself: "What does the `partition` and `offset
   <hr align="center" width="50%">
   <br>
 
-### **Example**
+## **Example**
 
 Now that we have the background knowledge of what each argument is, let's see an example of how it would look in your code.
 
@@ -427,7 +427,7 @@ kafka.send(topicName, message, options, callback);
 
   <section id="kafka-consume">
 
-### **Consuming**
+## **Consuming**
 
 Compared to sending messages to topics, consuming them is a little more involve but still straight forward.
 
@@ -444,23 +444,162 @@ First, let's overview what you can expect in the callback.
 _Required_
 
 ```TypeScript
-(message: KafkaMessage, error?: any) => void
+(message: KafkaMessage | null, error?: any) => void
 ```
 
 A `KafkaMessage` contains the following:
 
 ```TypeScript
 {
-  topic: string; /* (The topic name.) */
-  message: string; /* (The message received.) */
-  offset?: number; /* (The offset of the message.) */
-  partition?: number; /* (The partition the message was sent to.) */
-  highWaterOffset?: number; /* () */
-  key?: string; /* (The key. This is specified by you when you send a message.) */
+  topic: string;
+  message: string;
+  offset?: number;
+  partition?: number;
+  highWaterOffset?: number;
+  key?: string;
 }
 ```
 
-  <!-- TODO: Finish adding in-depth desc of options. -->
+Let's go a bit more in-depth about what each key does.
+
+**`topic`**
+
+The name of the topic a message was consumed from.
+
+  <br>
+
+**`message`**
+
+The message sent to the topic.
+
+  <br>
+
+**`offset`**
+
+The offset of the message.
+
+Think of appending to an array.
+
+  <br>
+
+**`partition`**
+
+The partition, or sub-section, on the topic a message was sent to.
+
+  <br>
+
+**`highWaterOffset`**
+
+The last offset that was successfully replicated to all topics.
+
+  <br>
+
+**`key`**
+
+The identifier for a message.
+
+For example: if you have a `gateway` topic and you need user data from the `auth` topic, you can specify a key to differenciate between other messages sent to the `gateway` topic.
+
+  <br>
+
+Now, the message may be null. This will only occur when there is an error.
+
+### **`listenerOptions`**
+
+Finally, we can dive into what the listener options are and what they do.
+
+We provide a way to customize how you want listeners to behave. If you have no need for customization, there are also default options to fallback on.
+
+`KafkaListenerOptions`
+
+```TypeScript
+{
+  autoCommit?: boolean;
+  groupId?: string;
+  autoCommitIntervalMs?: number;
+  fetchMaxWaitMs?: number;
+  fetchMinBytes?: number;
+  fetchMaxBytes?: number;
+  fromOffset?: boolean;
+}
+```
+
+**`autoCommit`** -
+_Default: false_
+
+`autoCommit` will automagically mark the consumed messages as "read"
+
+  <br>
+
+**`groupId`** -
+_Default: 'kafka-node-group'_
+
+The consumer gorup id.
+
+  <br>
+
+**`autoCommitIntervalMs`** -
+_Default: 5000ms_
+
+How often, in ms, will the consumer mark messages as "sent"
+
+  <br>
+
+**`fetchMaxWaitMs`** -
+_Default: 100ms_
+
+The max time, in ms, to wait if there is insufficient data when receiving a message.
+
+  <br>
+
+**`fetchMinBytes`** -
+_Default: 1_
+
+The minimum number of bytes that must be available to respond.
+
+  <br>
+
+**`fetchMaxBytes`** -
+_Default: 2048_
+
+The maximum bytes to include in the message set for this partition.
+
+  <br>
+
+**`fromOffset`** -
+_Default: false_
+
+If set true, consumer will fetch message from the given offset in the KafkaMessage.
+
+  <br>
+
+_As of now, we're working on allowing support for Buffers. The options for this will be provided on the `encoding` and `keyEncoding` keys._
+
+  <br>
+  <hr align="center" width="50%">
+  <br>
+
+## **Example**
+
+Now, let's see an example of what we've learned so far and how it would look in your code.
+
+```TypeScript
+const clientOptions = {
+  host: 'localhost',
+  port: 9092,
+}
+
+const topics = {
+  topic1: null,
+  topic2: null,
+}
+
+const kafka = Kafka(clientOptions, topics);
+
+kafka.consume('topic2', { autoCommit: true }, (data, error) => console.log(data.message));
+
+kafka.send('topic2', 'Hello, topic2!');
+```
 
   </section>
 
