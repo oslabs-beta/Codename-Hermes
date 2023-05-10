@@ -314,9 +314,9 @@ When the connection is closed due to client idling, will the client attempt to a
 
 The maximum async operations at a time toward the kafka cluster.
 
-    <br>
-    <hr align="center" width="50%">
-    <br>
+  <br>
+  <hr align="center" width="50%">
+  <br>
 
 ### **`topics`**
 
