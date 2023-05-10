@@ -388,18 +388,147 @@ const kafka = Kafka(clientOptions, topics);
 
 ### **Initilization**
 
-Initializing rabbitMQ
+Initilizing RabbitMQ will be similar as defined in the standards and Kakfa. With Rabbit, we use the "createRabbitClass" factory function to instantiate a variable to act as our broker.
 
-Initilizing RabbitMQ will be similar as defined in the standards with the only differance being, we're assigning the returned value of the "createRabbitClass" factory function to a variable.
+Is that an await? Yes, yes it is. Our RabbitMQ message broker has the syntatic sugar every developer craves.
 
 ```TypeScript
+
 const rabbit = await createRabbitClass(clientOptions, topics);
 
 ```
 
-Rabbit MQ Topics
+ <br>
+
+### **`clientOptions`**
+
+The Generic Message Brokers (mentioned above) are just the beginning. Thanks to the below customizable options, we can create a customizable broker to fit each need. 
 
 ```TypeScript
+{
+  username?: string;
+  password?: string;
+  protocol?: 'amqp' | 'amqps';
+  vhost?: string;
+  locale?: string;
+  frameMax?: number;
+  heartbeat?: number;
+}
+```
+
+
+**`username`** -
+_Default: empty string_
+
+Used in congruence with the password option to lock message 
+  <br>
+
+**`password`** -
+_Default: 30,000ms_
+
+Used to lock down message broker.
+
+  <br>
+
+**`protocol`** -
+_Default: amqp_
+
+The protocol used 
+
+**`vhost`** -
+_Default: empty string_
+
+**`locale`** -
+_Default: amqp_
+
+The protocol used 
+
+**`frameMax`** -
+_Default: amqp_
+
+**`heartbeat`** -
+_Default: amqp_
+
+### **`topics`**
+
+
+As previously mentioned, we follow this format:
+
+```TypeScript
+{
+    exchange: amqp.Options.AssertExchange & {
+      name: string;
+      type?: 'direct' | 'topic' | 'headers' | 'fanout' | 'match';
+    };
+  } & amqp.Options.AssertQueue & {
+      key?: string;
+    }
+
+```
+
+
+_Please refer to the `amqplib documentation` for more information and possible options to use for [AssertExchange](https://amqp-node.github.io/amqplib/channel_api.html#channel_assertExchange) and [AssertQueue](https://amqp-node.github.io/amqplib/channel_api.html#channel_assertExchange)_
+
+
+<br>
+So an example of implementing a topic might be:
+
+```TypeScript
+const topics = {
+topic1: {
+  exchange: {
+    name: "topics",
+    durable: false,
+    type: "topic",
+  },
+  durable: false,
+  key: "hermes",
+},
+};
+```
+
+<br>
+
+<section id="rabbit-produce">
+
+**`Produce`**
+
+In the wonderful world of Rabbit, to produce messages to our server we utilize the `send` method.
+<br>
+
+_short example_
+
+```TypeScript
+rabbit.send("topic1", "hello from sender.ts in ch lib test");
+
+```
+
+
+```TypeScript
+
+send(topic: string, message: string, options?: amqp.Options.Publish) {
+    this.channel?.publish(
+      this.topics[topic].exchange.name,
+      this.topics[topic].key ?? topic,
+      Buffer.from(message),
+      options
+    );
+
+}
+```
+
+<br>
+
+<section id="rabbit-consume">
+
+**`Consume`**
+
+### **Example**
+
+```TypeScript
+
+const clientOptions = { host: "localhost", port: 5672 };
+
 const topics: RabbitTopic = {
   topic1: {
     exchange: {
@@ -412,20 +541,11 @@ const topics: RabbitTopic = {
   },
 };
 
+
+const rabbit = await createRabbitClass(clientOptions, topics);
+
+
 ```
-
-<br>
-
-**`Send`**
-
-<br>
-
-This method is used to send topics on the Rabbit server
-
-```TypeScript
-rabbit.send("topic1", "hello from sender.ts in ch lib test");
-```
-
 
   <!-- Description for Rabbit implementation -->
   <!-- Docs -->
