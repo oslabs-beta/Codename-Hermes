@@ -416,17 +416,21 @@ The Generic Message Brokers (mentioned above) are just the beginning. Thanks to 
 }
 ```
 
+continue searching: https://www.rabbitmq.com/configure.html#config-file
+
 
 **`username`** -
-_Default: empty string_
+_Default: 'guest'_
 
-Used in congruence with the password option to lock message 
+User name to create when RabbitMQ creates a new database from scratch.
+
   <br>
 
 **`password`** -
-_Default: 30,000ms_
+_Default: 'guest'_
 
-Used to lock down message broker.
+Password for the default user.
+
 
   <br>
 
@@ -436,18 +440,27 @@ _Default: amqp_
 The protocol used 
 
 **`vhost`** -
-_Default: empty string_
+_Default: '/'_
+
+Virtual host to create when RabbitMQ creates a new database from scratch. The exchange `amq.rabbitmq.log` will exist in this virtual host.
 
 **`locale`** -
 _Default: amqp_
+
+
 
 The protocol used 
 
 **`frameMax`** -
 _Default: amqp_
 
+
+
+
 **`heartbeat`** -
-_Default: amqp_
+_Default: 60_
+
+Value representing the heartbeat timeout suggested by the server during connection parameter negotiation. 
 
 ### **`topics`**
 
