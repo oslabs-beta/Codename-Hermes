@@ -5,7 +5,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./media/CH-Logo-White.png">
     <source media="(prefers-color-scheme: light)" srcset="./media/CH-Logo-Black.png">
-    <img alt="Codename Hermes Logo" src="./media/CH-Logo-Black.png" width="300px" align="center">
+    <img alt="Codename Hermes Logo" src="./media/CH-Logo-Black.png" width="300px">
   </picture>
 
 <!-- Brief summary -->
@@ -20,6 +20,9 @@
   <div align="left">
   
   ## Directory
+
+  <!-- TODO: Add "how to install" -->
+  <!-- TODO: Add "how to contribute" -->
 
 - <a href="#standards">Standards</a>
 
@@ -221,6 +224,8 @@ Speaking of, we have some new options!
 
 ```TypeScript
 {
+  host: string;
+  port?: number;
   connectTimeout?: number;
   requestTimeout?: number;
   autoConnect?: boolean;
@@ -232,6 +237,20 @@ Speaking of, we have some new options!
 ```
 
 But what do they do? Let's get into that.
+
+  <br>
+
+**`host`** -
+_Default: localhost_
+
+The Kafka message broker hostname or IP address.
+
+  <br>
+
+**`port`** -
+_Default: 9092_
+
+The port your Kafka message broker is on.
 
   <br>
 
@@ -375,6 +394,76 @@ const kafka = Kafka(clientOptions, topics);
 
   </section>
 
+  <br>
+  <hr align="center" width="50%">
+  <br>
+
+  <section id="kafka-produce">
+
+### **Producing**
+
+Sending messages to topics has been made simple and straight forward.
+
+The only information you need are the name of the topic and the message you want to send.
+
+Though, we do have options to specify where exactly you want the message to go as well as a callback to perform actions after the message has sent or if it errors out.
+
+_For now, we only support strings as the `message`._
+
+```TypeScript
+kafka.send(topicName, message);
+kafka.send(topicName, message, options);
+kafka.send(topicName, message, callback);
+kafka.send(topicName, message, options, callback);
+```
+
+  <!-- TODO: Add in-depth info for all options -->
+
+  </section>
+
+  <br>
+  <hr align="center" width="50%">
+  <br>
+
+  <section id="kafka-consume">
+
+### **Consuming**
+
+Compared to sending messages to topics, consuming them is a little more involve but still straight forward.
+
+As you can see below, you can provide listener options. Although, if you want to just use the defaults that's valid too.
+
+```TypeScript
+kafka.consume(topics, callback)
+kafka.consume(topics, listenerOptions, callback)
+```
+
+First, let's overview what you can expect in the callback.
+
+**`callback`** -
+_Required_
+
+```TypeScript
+(message: KafkaMessage, error?: any) => void
+```
+
+A `KafkaMessage` contains the following:
+
+```TypeScript
+{
+  topic: string; /* (The topic name.) */
+  message: string; /* (The message received.) */
+  offset?: number; /* (The offset of the message.) */
+  partition?: number; /* (The partition the message was sent to.) */
+  highWaterOffset?: number; /* () */
+  key?: string; /* (The key. This is specified by you when you send a message.) */
+}
+```
+
+  <!-- TODO: Finish adding in-depth desc of options. -->
+
+  </section>
+
 </section>
 
 <br>
@@ -389,3 +478,6 @@ const kafka = Kafka(clientOptions, topics);
   <!-- Description for Rabbit implementation -->
   <!-- Docs -->
 </section>
+
+<!-- TODO: add special thanks for kafka-node and amqplib -->
+<!-- TODO: add contributers w/ linkedin pages -->
