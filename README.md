@@ -31,12 +31,14 @@
 
 - <a href="#kafka">Kafka</a>
 
+  - <a href="#kafka-init">Kafka Initilization</a>
   - <a href="#kafka-produce">Produce</a>
   - <a href="#kafka-consume">Consume</a>
 
   <br>
 
 - <a href="#rabbit">Rabbit</a>
+  - <a href="#rabbit-init">Rabbit Initilization</a>
   - <a href="#rabbit-produce">Produce</a>
   - <a href="#rabbit-consume">Consume</a>
     </div>
@@ -198,6 +200,8 @@ Following the same [standards](#standards) as we've gone over previously; Our Ka
 
   <!-- Docs -->
 
+  <section id="kafka-init">
+
 ### **Initilization**
 
 Much like you've seen, initilizing Kafka will be the exact same as defined in the standards with the only differance being, we're assigning the returned value of the Kafka factory function to a variable.
@@ -210,6 +214,10 @@ const kafka = Kafka(clientOptions, topics);
 For now, another discrepancy would be Kafka specific `clientOptions` and `topics`.
 
 Speaking of, we have some new options!
+
+  <br>
+
+### **`clientOptions`**
 
 ```TypeScript
 {
@@ -225,47 +233,147 @@ Speaking of, we have some new options!
 
 But what do they do? Let's get into that.
 
-<br>
+  <br>
 
-**`connectTimeout`**
+**`connectTimeout`** -
+_Default: 10,000ms_
 
-<br>
+How long, in ms, it takes to wait for a successful connection.
 
-**`requestTimeout`**
+  <br>
 
-<br>
+**`requestTimeout`** -
+_Default: 30,000ms_
 
-**`autoConnect`**
+How long, in ms, for a kafka request to timeout.
 
-<br>
+  <br>
 
-**`connectRetryOptions`**
+**`autoConnect`** -
+_Default: true_
 
-These options are to further customize how you want the client to reconnect to the Kafka broker.
+Should it automatically connect when Kafka is instantiated?
+
+  <br>
+
+**`connectRetryOptions`** -
+
+An object hash that applies to the initial connection to customize connection retries.
 
 ```TypeScript
 {
-  retries?: number;
-  factor?: number;
-  minTimeout?: number;
-  maxTimeout?: number;
-  randomize?: boolean;
+  retries?: number; /* (The maximum amount of times to retry the operation.) */
+  factor?: number; /* (The exponential factor to use.) */
+  minTimeout?: number; /* (The number of milliseconds before starting the first retry. Default is 1000.) */
+  maxTimeout?: number; /* (The maximum number of milliseconds between two retries. Default is Infinity.) */
+  randomize?: boolean; /* (Randomizes the timeouts by multiplying with a factor between 1 to 2. Default is false.) */
 }
 ```
 
-<br>
+_For more information about `connectRetryOptions`, please visit [here](https://www.npmjs.com/package/retry#user-content-retrytimeoutsoptions)._
 
-**`ildeConnection`**
+  <br>
 
-<br>
+**`ildeConnection`** -
+_Default: 5 minutes_
 
-**`reconnectOnIdle`**
+Allows the broker to disconnect an idle connection from a client.
 
-<br>
- 
-**`maxAsyncRequests`**
+The value is elapsed time in ms without any data written to the TCP socket.
 
-<br>
+  <br>
+
+**`reconnectOnIdle`** -
+_Default: true_
+
+When the connection is closed due to client idling, will the client attempt to auto-reconnect?
+
+  <br>
+  
+  **`maxAsyncRequests`** -
+  _Default: 10_
+
+The maximum async operations at a time toward the kafka cluster.
+
+    <br>
+    <hr align="center" width="50%">
+    <br>
+
+### **`topics`**
+
+Now that we've covered our Kafka specific `clientOptions`, let's get into our topic structure.
+
+As previously mentioned, we follow this format:
+
+```TypeScript
+{
+  [topicName: string]: KafkaTopic;
+}
+```
+
+What does that entail?
+
+Simply put, we're defining our topics as an object. This way we can have access to all of the information in our topics later on.
+
+An example of how a topic will look in your code is as follows:
+
+```TypeScript
+const topics = {
+  topic1: null,
+
+  topic2: {
+    partition: 2,
+  },
+
+  topic3: {
+    offset: 2,
+  },
+
+  topic4: {
+    partition: 2,
+    offset: 2,
+  },
+}
+```
+
+Now, why do we have null? It's because we're using null to say "use the default options for this topic".
+
+The default options for a topic is:
+
+```TypeScript
+{
+  partition: 0,
+  offset: 0,
+}
+```
+
+Alright, so you might be asking yourself: "What does the `partition` and `offset` do?"
+
+`partition` is just telling the Kafka broker "hey, this topic has X amount of sub-sections" and `offset` is saying "hey, start each partition at the offset X."
+
+  <br>
+  <hr align="center" width="50%">
+  <br>
+
+### **Example**
+
+Now that we have the background knowledge of what each argument is, let's see an example of how it would look in your code.
+
+```TypeScript
+const clientOptions = {
+  host: 'localhost',
+  port: 9092,
+}
+
+const topics = {
+  topic1: null,
+  topic2: null,
+}
+
+const kafka = Kafka(clientOptions, topics);
+```
+
+  </section>
 
 </section>
 
