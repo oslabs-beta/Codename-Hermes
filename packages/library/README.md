@@ -733,9 +733,11 @@ kafka.send('topic2', 'Hello, topic2!');
 <br>
 
 <!-- Rabbit section -->
-<section id=rabbit-init>
+<section id=rabbit>
 
 ## **RabbitMQ**
+
+<section id=rabbit-init>
 
 ### **Initilization**
 
@@ -1070,6 +1072,7 @@ rabbit.send("topic1", "hello from sender.ts in ch lib test");
 
   <!-- Description for Rabbit implementation -->
   <!-- Docs -->
+</section>
 </section>
 
 <br>

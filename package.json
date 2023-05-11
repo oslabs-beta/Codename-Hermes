@@ -1,4 +1,15 @@
 {
-  "name": "Codename_Hermes",
-  "packageManager": "yarn@3.4.1"
+  "name": "codename-hermes",
+  "packageManager": "yarn@3.4.1",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "yarn workspaces foreach -vpti run start",
+    "start:dev": "yarn workspaces foreach -vpti run start:dev",
+    "build": "yarn workspaces foreach -vpti run build",
+    "library:install": "yarn workspaces foreach -vpti run library:install",
+    "publish": "yarn workspaces library publish"
+  }
 }

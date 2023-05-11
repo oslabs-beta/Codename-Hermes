@@ -1,0 +1,58 @@
+
+
+.galImg {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-bottom: 5em;
+  img{
+    height: 30em;
+    width: auto;
+    border: outset;
+    border-width:1em;
+    border-color: #63c2ee;
+    margin: auto;
+    // margin-bottom: 5em;
+  }
+  p{
+    text-align: center;
+    font-size:2em;
+
+  }
+}
+
+.galDisp {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 80vw;
+  margin: auto;
+  margin-top: 5em;
+
+}
+
+.galHeading {
+    width: 76vw;
+    height: auto;
+    font-weight: 900;
+    font-size: 4em;
+    margin: auto;
+    margin-top: 1em;
+    align-self: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.galDescrip {
+  width: 75vw;
+  font-weight: 400;
+  font-size: 2em;
+  margin: auto;
+  justify-content: center;
+}
+
+.text {
+    font-family: var(--poppins-font);
+    font-weight: 300;
+}
+ 
