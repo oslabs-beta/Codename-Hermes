@@ -388,7 +388,7 @@ const kafka = Kafka(clientOptions, topics);
 
 ### **Initilization**
 
-Initilizing RabbitMQ is similar to the syntax you have seen previously with the standards and Kakfa. With RabbitMQ, we use the "createRabbitClass" factory function to instantiate a variable to act as our broker.
+Initilizing RabbitMQ is similar to the syntax you have seen previously with our standards and Kakfa. With RabbitMQ, we use the "createRabbitClass" factory function to instantiate a variable to act as our broker.
 
 Is that an await? Yes, yes it is. Our RabbitMQ message broker can be instantiated using promises.
 
@@ -435,14 +435,16 @@ Password for the default user.
 **`protocol`** -
 _Default: amqp_
 
-Mandatory option to specify what messaging protocol is used for the broker. For the Codename Hermes library, we have made the engineering the `AMQP 0-9-1 messaging protocol` because it is a mature and widely adopted messaging protocol that provides the necessary features and capabilities for building robust, scalable, and interoperable message broker systems.
+Mandatory option to specify what messaging protocol is used for the broker. The Codename Hermes team, decided to utilize the `AMQP 0-9-1 messaging protocol` because it is a mature and widely adopted messaging protocol that provides the necessary features and capabilities for building robust, scalable, and interoperable message broker systems.
+
+Please refer to [AMQP 0-9-1](https://www.rabbitmq.com/tutorials/amqp-concepts.html#what-is-amqp) to learn more!
 
  <br>
 
 **`vhost`** -
 _Default: '/'_
 
-The default name for the virtual host. For convenience, an absent path segment (e.g., as in the URLs just given) is interpreted as the virtual host named /, which is present in RabbitMQ out of the box.
+The name for the virtual host. RabbitMQ out of the box uses a virtual host named '/'. Changing this option beyond the default is needed when trying to create logical groupings and/or isolated messaging environments within your RabbitMQ broker.
 
 <br>
 
@@ -461,15 +463,15 @@ The size in bytes of the maximum frame allowed over the connection. 0 means no l
 <br>
 
 **`heartbeat`** -
-_Default: 60_
+_Default: 0_
 
 The period of the connection heartbeat, in seconds. Please refer to [heartbeating](https://amqp-node.github.io/amqplib/channel_api.https://amqp-node.github.io/amqplib/channel_api.html#heartbeating) for more inforamtion.
 
-<br><br>
+<br>
 
 ### **`topics`**
 
-Now that you have decided on your options, it is time to determine what type of topics you will be
+Now that you have decided on your options, it is time to determine what type of topics you will be. Let's keep reading to find out about our next topic, "topics".
 
 ```TypeScript
 {
@@ -485,7 +487,7 @@ Now that you have decided on your options, it is time to determine what type of 
 
 <br>
 
-### **`exchange object`**
+### **_`exchange object`_**
 
 
 **`name`** -
@@ -498,7 +500,7 @@ Name of the topic exchange. Get creative and specific here.
 **`type`** -
 _Default: topic_
 
-This option determines what type of exchange our rabbit broker will use. Although a developer could use any rabbit exchange type with our library, the Codename Hermes team decided to default to using topics because topic exchanges support the publish-subscribe messaging model as well as supports the scalability and extensibility of messaging systems.
+This option determines what type of exchange our RabbitMQ broker will use. Although a developer could use any rabbit exchange type with our library, the Codename Hermes team decided to default to using topics because topic exchanges support the publish-subscribe messaging model as well as supports the scalability and extensibility of messaging systems.
 
  <br>
 
@@ -532,7 +534,6 @@ _Default: ' ' (empty string)_
 
 an exchange to send messages to if this exchange can’t route them to any queues. Think backup exchange.
 
-
 <br>
 
 **`arguments`** -
@@ -548,10 +549,17 @@ Please refer to [AssertExchange options](https://amqp-node.github.io/amqplib/cha
 <br>
 
 
-#### **`Additional Properties on topic object`**
+### **_`Additional Properties on topic object`_**
 <br>
 
- #### **`amqp AssertQueue options`**
+**`key`** -
+_Default: ' ' (empty string)_
+
+This value represents the binding and routing keys to ensure produced messages are consumed by the appropriate rabbit broker.
+
+<br>
+
+#### **`amqp AssertQueue options`**
 
  <br>
 
@@ -563,24 +571,16 @@ if true, scopes the queue to the connection.
 <br>
 
 **`durable`** -
-_Default: false_
+_Default: true_
 
-if true, messages cannot be published directly to the exchange (i.e., it can only be the target of bindings, or possibly create messages ex-nihilo).
+if true, the queue will survive broker restarts, modulo the `effects` of exclusive and `autoDelete`.
 
 <br>
 
 **`autoDelete`** -
 _Default: false_
 
-if true, the exchange will be destroyed once the number of bindings for which it is the source drop to zero.
-
-<br>
-
-**`alternateExchange`** -
-_Default: ' ' (empty string)_
-
-an exchange to send messages to if this exchange can’t route them to any queues. Think backup exchange.
-
+if true, the queue will be deleted when the number of consumers drops to zero.
 
 <br>
 
@@ -591,19 +591,10 @@ any additional arguments that may be needed by an exchange type.
 
  <br>
 
- Please refer to [AssertQueue options](https://amqp-node.github.io/amqplib/channel_api.html#channel_assertQueue) for more inforamtion.
+ Please refer to [AssertQueue options](https://amqp-node.github.io/amqplib/channel_api.html#channel_assertQueue) for more inforamtion and potential arguments.
 
 <br>
-
-**`key`** -
-_Default: ' ' (empty string)_
-
-This value represents the binding and routing keys to ensure produced messages are consumed by the appropriate rabbit broker.
-
- <br>
-
-<br>
-So an example of implementing a topic might be:
+An example of implementing a topic might look like:
 
 ```TypeScript
 const topics = {
@@ -625,16 +616,59 @@ topic1: {
 
 **`Produce`**
 
-In the wonderful world of Rabbit, to produce messages to the exchange we utilize the `send` method.
+In the wonderful world of Rabbit, we still produce messages with our broker using our standard `send` method.
 
 <br>
 
-`NOTE:` the last argument is optional and is not required to send messages to the server.
+`NOTE:` the last argument is optional and is not required to send messages with your rabbit broker.
 
 ```TypeScript
 
 send(topic: string, message: string, options?: amqp.Options.Publish)
 ```
+<br>
+
+If you would like to enhance your messages, you are free to do so with the following publish options.
+ #### **`amqp Publish options`**
+
+ <br>
+
+**`expiration`** -
+_Default: ' ' (empty string)_
+
+If supplied, the message will be discarded from a queue once it’s been there longer than the given number of milliseconds. In the specification this is a string; numbers supplied here will be coerced to strings for transit.
+
+<br>
+
+**`userId`** -
+_Default: ' ' (empty string)_
+
+If supplied, RabbitMQ will compare it to the username supplied when opening the connection, and reject messages for which it does not match.
+
+<br>
+
+**`CC`** -
+_Default: ' ' (empty string)_
+
+A routing key as a string or an array of routing keys as strings; messages will be routed to these routing keys in addition to that given as the routingKey parameter. A string will be implicitly treated as an array containing just that string. This will override any value given for CC in the headers parameter. NB The property names CC and BCC are case-sensitive.
+
+ <br>
+
+ **`priority`** -
+_Default: 0_
+
+A priority for the message; ignored by versions of RabbitMQ older than 3.5.0, or if the queue is not a priority queue (see maxPriority above).
+
+ <br>
+
+ **`persistent`** -
+_Default: false_
+
+If truthy, the message will survive broker restarts provided it’s in a queue that also survives restarts. Corresponds to, and overrides, the property deliveryMode.
+
+<br>
+
+ Please refer to [Publish options](https://amqp-node.github.io/amqplib/channel_api.html#channel_publish) for more inforamtion and potential arguments.
 
 <br>
 
@@ -651,11 +685,12 @@ rabbit.send("topic1", "hello from sender.ts in ch lib test");
 
 **`Consume`**
 <br>
-_comming soon!_
+_Comming soon!_
 
- <br>
+<br>
   <hr align="center" width="50%">
-  <br>
+<br>
+
 ### **Example**
 
 ```TypeScript
@@ -681,7 +716,6 @@ const rabbit = await createRabbitClass(clientOptions,topics);
 rabbit.send("topic1", "hello from sender.ts in ch lib test");
 
 ```
-
   <!-- Description for Rabbit implementation -->
   <!-- Docs -->
 </section>
