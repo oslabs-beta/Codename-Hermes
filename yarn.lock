@@ -1406,6 +1406,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@codename-hermes/library@workspace:packages/library":
+  version: 0.0.0-use.local
+  resolution: "@codename-hermes/library@workspace:packages/library"
+  dependencies:
+    "@types/amqplib": ^0.10.1
+    amqplib: ^0.10.3
+    kafka-node: ^5.0.0
+    tsc: ^2.0.4
+    typescript: ^5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@cspotcode/source-map-support@npm:^0.8.0":
   version: 0.8.1
   resolution: "@cspotcode/source-map-support@npm:0.8.1"
@@ -2469,12 +2481,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"Codename_Hermes@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "Codename_Hermes@workspace:."
-  languageName: unknown
-  linkType: soft
-
 "abbrev@npm:1, abbrev@npm:^1.0.0":
   version: 1.1.1
   resolution: "abbrev@npm:1.1.1"
@@ -3303,6 +3309,12 @@ __metadata:
   checksum: 17d5666611f9b16d64fdf48176d9b7fb1c7d1c1607a189f7e600040a11a6616982876af148230336adb7d8fe728a559f743a4e29db3747e3b1a32fa7f4529681
   languageName: node
   linkType: hard
+
+"codename-hermes@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "codename-hermes@workspace:."
+  languageName: unknown
+  linkType: soft
 
 "color-convert@npm:^1.9.0":
   version: 1.9.3
@@ -5944,35 +5956,23 @@ __metadata:
 
 "library@file:../../../library::locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding":
   version: 0.0.1
-  resolution: "library@file:../../../library#../../../library::hash=ff3f00&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
+  resolution: "library@file:../../../library#../../../library::hash=8bba68&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
   dependencies:
     amqplib: ^0.10.3
     kafka-node: ^5.0.0
-  checksum: 5beefe23acfafcd4bbd0441e241cec9e2d7b1b21bcceccbcdc3a0efdbf3335841c54be3cbbff7ef56c125321a7480415c23698910564910f7a7a5e96e56e6c17
+  checksum: 74cb474eba1e7cf1d0bc1f44e057c70f3836cc27a4624e71e8c66294de1d0aebb06f95f13c6122d2984a7ae5610facc9b35e4a54f18c53977b0de4ffcfbd0af3
   languageName: node
   linkType: hard
 
 "library@file:../../../library::locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend":
   version: 0.0.1
-  resolution: "library@file:../../../library#../../../library::hash=ff3f00&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
+  resolution: "library@file:../../../library#../../../library::hash=8bba68&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
   dependencies:
     amqplib: ^0.10.3
     kafka-node: ^5.0.0
-  checksum: 5beefe23acfafcd4bbd0441e241cec9e2d7b1b21bcceccbcdc3a0efdbf3335841c54be3cbbff7ef56c125321a7480415c23698910564910f7a7a5e96e56e6c17
+  checksum: 74cb474eba1e7cf1d0bc1f44e057c70f3836cc27a4624e71e8c66294de1d0aebb06f95f13c6122d2984a7ae5610facc9b35e4a54f18c53977b0de4ffcfbd0af3
   languageName: node
   linkType: hard
-
-"library@workspace:packages/library":
-  version: 0.0.0-use.local
-  resolution: "library@workspace:packages/library"
-  dependencies:
-    "@types/amqplib": ^0.10.1
-    amqplib: ^0.10.3
-    kafka-node: ^5.0.0
-    tsc: ^2.0.4
-    typescript: ^5.0.4
-  languageName: unknown
-  linkType: soft
 
 "lines-and-columns@npm:^1.1.6":
   version: 1.2.4
