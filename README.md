@@ -23,26 +23,26 @@
 
   <!-- TODO: Add "how to install" -->
 
-- [Standards]("#standards")
+- [Standards](#standards)
 
-  - [Broker Initilization]("#standards-init")
-  - [Producing]("#standards-produce")
-  - [Consuming]("#standards-consume")
-
-  <br>
-
-- [Kafka]("#kafka")
-
-  - [Kafka Initilization]("#kafka-init")
-  - [Produce]("#kafka-produce")
-  - [Consume]("#kafka-consume")
+  - [Broker Initilization](#standards-init)
+  - [Producing](#standards-produce)
+  - [Consuming](#standards-consume)
 
   <br>
 
-- [Rabbit]("#rabbit")
-  - [Rabbit Initilization]("#rabbit-init")
-  - [Produce]("#rabbit-produce")
-  - [Consume]("#rabbit-consume")
+- [Kafka](#kafka)
+
+  - [Kafka Initilization](#kafka-init)
+  - [Produce](#kafka-produce)
+  - [Consume](#kafka-consume)
+
+  <br>
+
+- [Rabbit](#rabbit)
+  - [Rabbit Initilization](#rabbit-init)
+  - [Produce](#rabbit-produce)
+  - [Consume](#rabbit-consume)
 
 <br>
 
