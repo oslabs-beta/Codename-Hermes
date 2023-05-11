@@ -22,28 +22,33 @@
   ## Directory
 
   <!-- TODO: Add "how to install" -->
-  <!-- TODO: Add "how to contribute" -->
 
-- <a href="#standards">Standards</a>
+- [Standards]("#standards")
 
-  - <a href="#standards-init">Broker Initilization</a>
-  - <a href="#standards-produce">Producing</a>
-  - <a href="#standards-consume">Consuming</a>
-
-  <br>
-
-- <a href="#kafka">Kafka</a>
-
-  - <a href="#kafka-init">Kafka Initilization</a>
-  - <a href="#kafka-produce">Produce</a>
-  - <a href="#kafka-consume">Consume</a>
+  - [Broker Initilization]("#standards-init")
+  - [Producing]("#standards-produce")
+  - [Consuming]("#standards-consume")
 
   <br>
 
-- <a href="#rabbit">Rabbit</a>
-  - <a href="#rabbit-init">Rabbit Initilization</a>
-  - <a href="#rabbit-produce">Produce</a>
-  - <a href="#rabbit-consume">Consume</a>
+- [Kafka]("#kafka")
+
+  - [Kafka Initilization]("#kafka-init")
+  - [Produce]("#kafka-produce")
+  - [Consume]("#kafka-consume")
+
+  <br>
+
+- [Rabbit]("#rabbit")
+  - [Rabbit Initilization]("#rabbit-init")
+  - [Produce]("#rabbit-produce")
+  - [Consume]("#rabbit-consume")
+
+<br>
+
+- [Special Thanks](#special-thanks)
+- [Contribute](#contribute)
+- [Contributers](#contributers)
     </div>
   </div>
 
@@ -211,7 +216,9 @@ Much like you've seen, initilizing Kafka will be the exact same as defined in th
 
 ```TypeScript
 const kafka = Kafka(clientOptions, topics);
-
+const kafka = Kafka(clientOptions, topics, callback);
+const kafka = Kafka(clientOptions, topics, producerOptions);
+const kafka = Kafka(clientOptions, topics, producerOptions, callback);
 ```
 
 For now, another discrepancy would be Kafka specific `clientOptions` and `topics`.
@@ -374,6 +381,73 @@ Alright, so you might be asking yourself: "What does the `partition` and `offset
   <hr align="center" width="50%">
   <br>
 
+## **`producerOptions`**
+
+Producer options are a way for you to customize how you want to produce, or "send," messages to topics.
+
+```TypeScript
+{
+  requireAcks?: number;
+  ackTimeoutMs?: number;
+  partitionerType?: number;
+}
+```
+
+As usual, let's break down what everything does.
+
+**`requireAcks`** -
+_Default: 1_
+
+The amount of acknowledgments the leader has to have received before considering a request complete.
+
+  <br>
+
+**`ackTimeoutMs`** -
+_Default: 100ms_
+
+How long, in ms, to wait before considering acknowledgments.
+
+  <br>
+
+**`partitionerType`** -
+_Default: 2_
+
+The algorithm that determines which partition to send messages to.
+
+default = 0
+
+random = 1
+
+cyclic = 2
+
+keyed = 3
+
+  <!-- custom = 4 -->
+
+_Custom partitioners are currently in progess._
+
+  <br>
+
+_For more information regarding these `producerOptions`, please refer to [this](https://kafka.apache.org/documentation/#producerconfigs)._
+
+  <br>
+  <hr align="center" width="50%">
+  <br>
+
+## **`callback`**
+
+This callback is invoked when we successfully connect to the broker as a producer. It will also be invoked if there are any errors.
+
+If there is no error, the argument passed in will be `null`.
+
+```TypeScript
+(error: any | null) => void;
+```
+
+  <br>
+  <hr align="center" width="50%">
+  <br>
+
 ## **Example**
 
 Now that we have the background knowledge of what each argument is, let's see an example of how it would look in your code.
@@ -417,7 +491,56 @@ kafka.send(topicName, message, callback);
 kafka.send(topicName, message, options, callback);
 ```
 
-  <!-- TODO: Add in-depth info for all options -->
+### **`options`**
+
+Send options are a way to specify where you want your message to be delivered.
+
+```TypeScript
+{
+  key?: string;
+  partition?: number;
+  attributes?: number;
+}
+```
+
+**`key`** -
+_Default: ''_
+
+The key for the message.
+
+It's kind of like specifying the person you're sending a letter to.
+
+  <br>
+
+**`partition`** -
+_Default: 0_
+
+What partition, or sub-section, you want to send the message to.
+
+  <br>
+
+**`attributes`** -
+_Default: 0_
+
+Specifies whether or not you want to use compression for your message.
+
+No compression = 0
+
+GZip = 1
+
+snappy = 2
+
+  <br>
+
+### **`callback`**
+
+This callback will be invoked when the message successfully send and if there is an error.
+
+If there was an error, that error will be passed as an argument. Otherwise it will be `null`.
+
+```TypeScript
+(error: any | null) => void;
+```
 
   </section>
 
@@ -618,5 +741,37 @@ kafka.send('topic2', 'Hello, topic2!');
   <!-- Docs -->
 </section>
 
-<!-- TODO: add special thanks for kafka-node and amqplib -->
+<br>
+<hr>
+<br>
+
+<section id="special-thanks">
+
+## **Credits**
+
+A **major** special thanks to [kafka-node]() and [amqplib]() for allowing this project to have an accelerated launch!
+
+</section>
+
 <!-- TODO: add contributers w/ linkedin pages -->
+<section id="contribute">
+
+## **How to Contribute**
+
+Codename Hermes is currently in alpha, we would love to hear your feedback, encouragement, advice, suggestions, or problems! If you would like to contribute please contact us at info@\<DOMAIN-TBD\>
+
+</section>
+
+<section id="contributers">
+
+## **Contributers**
+
+Aaron Allen - [LinkedIn](https://www.linkedin.com/in/aaronrallen/) [GitHub](https://github.com/H3R01A)
+
+Mathew Hultquist - [LinkedIn](https://www.linkedin.com/in/mathewjhultquist/) [GitHub](https://github.com/mjhult)
+
+Jose Mencos - [LinkedIn](https://www.linkedin.com/in/jmencos/) [GitHub](https://github.com/Jmencos)
+
+Samantha Mills - [LinkedIn](https://www.linkedin.com/in/samanthamills/) [GitHub](https://github.com/Slmills14)
+
+</section>
