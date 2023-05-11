@@ -1,9 +1,10 @@
-import Kafka, {
+import {
   KafkaClientOptions,
   KafkaListenerOptions,
   KafkaMessage,
   KafkaSendOptions,
   KafkaTopic,
+  createKafkaClass,
 } from './brokers/kafka/main';
 
 import {
@@ -15,6 +16,7 @@ import {
 } from './brokers/rabbit/main';
 
 const Rabbit = createRabbitClass;
+const Kafka = createKafkaClass;
 
 // Individual Kafka exports
 export {
