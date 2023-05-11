@@ -1,23 +1,23 @@
 {
   "name": "@codename-hermes/library",
   "packageManager": "yarn@3.3.1",
-  "version": "0.0.5",
+  "version": "0.0.1",
   "main": "./lib/index.js",
   "description": "A library to abstract away and standardize the initial setup and implementation of connecting with message brokers.",
   "keywords": [
     "kafka",
     "rabbit"
   ],
-  "homepage": "https://github.com/oslabs-beta/Codename-Hermes",
+  "homepage": "https://hermeslib.com",
   "bugs": {
     "url": "https://github.com/oslabs-beta/Codename-Hermes/issues",
-    "email": "bugs@domain-tbd.tbd"
+    "email": "bugs@hermeslib.com"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/oslabs-beta/Codename-Hermes"
   },
-  "author": "Codename Hermes <hello@domain-tbd.tbd> (domain-tbd.tbd)",
+  "author": "Codename Hermes <hello@hermeslib.com> (hermeslib.com)",
   "license": "MIT",
   "engines": {
     "node": ">=6.0.0"

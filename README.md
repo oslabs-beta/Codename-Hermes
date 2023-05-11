@@ -840,7 +840,6 @@ Now that you have decided on your options, it is time to determine what type of 
 
 ### **_`exchange object`_**
 
-
 **`name`** -
 _Default: ' ' (empty string)_
 
@@ -855,7 +854,7 @@ This option determines what type of exchange our RabbitMQ broker will use. Altho
 
  <br>
 
- #### **`amqp AssertExchange options`**
+#### **`amqp AssertExchange options`**
 
  <br>
 
@@ -894,13 +893,12 @@ any additional arguments that may be needed by an exchange type.
 
  <br>
 
-
 Please refer to [AssertExchange options](https://amqp-node.github.io/amqplib/channel_api.html#channel_assertExchange) for more inforamtion.
 
 <br>
 
-
 ### **_`Additional Properties on topic object`_**
+
 <br>
 
 **`key`** -
@@ -942,7 +940,7 @@ any additional arguments that may be needed by an exchange type.
 
  <br>
 
- Please refer to [AssertQueue options](https://amqp-node.github.io/amqplib/channel_api.html#channel_assertQueue) for more inforamtion and potential arguments.
+Please refer to [AssertQueue options](https://amqp-node.github.io/amqplib/channel_api.html#channel_assertQueue) for more inforamtion and potential arguments.
 
 <br>
 An example of implementing a topic might look like:
@@ -977,10 +975,12 @@ In the wonderful world of Rabbit, we still produce messages with our broker usin
 
 send(topic: string, message: string, options?: amqp.Options.Publish)
 ```
+
 <br>
 
 If you would like to enhance your messages, you are free to do so with the following publish options.
- #### **`amqp Publish options`**
+
+#### **`amqp Publish options`**
 
  <br>
 
@@ -1005,21 +1005,21 @@ A routing key as a string or an array of routing keys as strings; messages will 
 
  <br>
 
- **`priority`** -
+**`priority`** -
 _Default: 0_
 
 A priority for the message; ignored by versions of RabbitMQ older than 3.5.0, or if the queue is not a priority queue (see maxPriority above).
 
  <br>
 
- **`persistent`** -
+**`persistent`** -
 _Default: false_
 
 If truthy, the message will survive broker restarts provided it’s in a queue that also survives restarts. Corresponds to, and overrides, the property deliveryMode.
 
 <br>
 
- Please refer to [Publish options](https://amqp-node.github.io/amqplib/channel_api.html#channel_publish) for more inforamtion and potential arguments.
+Please refer to [Publish options](https://amqp-node.github.io/amqplib/channel_api.html#channel_publish) for more inforamtion and potential arguments.
 
 <br>
 
@@ -1067,6 +1067,7 @@ const rabbit = await createRabbitClass(clientOptions,topics);
 rabbit.send("topic1", "hello from sender.ts in ch lib test");
 
 ```
+
   <!-- Description for Rabbit implementation -->
   <!-- Docs -->
 </section>
@@ -1088,7 +1089,7 @@ A **major** special thanks to [kafka-node]() and [amqplib]() for allowing this p
 
 ## **How to Contribute**
 
-Codename Hermes is currently in alpha, we would love to hear your feedback, encouragement, advice, suggestions, or problems! If you would like to contribute please contact us at info@\<DOMAIN-TBD\>
+Codename Hermes is currently in alpha, we would love to hear your feedback, encouragement, advice, suggestions, or problems! If you would like to contribute please contact us at info@hermeslib.com
 
 </section>
 
