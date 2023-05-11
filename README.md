@@ -388,9 +388,9 @@ const kafka = Kafka(clientOptions, topics);
 
 ### **Initilization**
 
-Initilizing RabbitMQ will be similar as defined in the standards and Kakfa. With Rabbit, we use the "createRabbitClass" factory function to instantiate a variable to act as our broker.
+Initilizing RabbitMQ is similar to the syntax you have seen previously with the standards and Kakfa. With RabbitMQ, we use the "createRabbitClass" factory function to instantiate a variable to act as our broker.
 
-Is that an await? Yes, yes it is. Our RabbitMQ message broker has the syntatic sugar every developer craves.
+Is that an await? Yes, yes it is. Our RabbitMQ message broker can be instantiated using promises.
 
 ```TypeScript
 
@@ -402,7 +402,7 @@ const rabbit = await createRabbitClass(clientOptions, topics);
 
 ### **`clientOptions`**
 
-The Generic Message Brokers (mentioned above) are just the beginning. Thanks to the below customizable options, we can create a customizable broker to fit each need. 
+With Codename Hermes, you can create a customaizable rabbit broker for any occasion thanks to the below client options. Continue reading to find out more! 
 
 ```TypeScript
 {
@@ -416,56 +416,60 @@ The Generic Message Brokers (mentioned above) are just the beginning. Thanks to 
 }
 ```
 
-continue searching: https://www.rabbitmq.com/configure.html#config-file
-
+<br>
 
 **`username`** -
-_Default: 'guest'_
+_Default: guest_
 
 User name to create when RabbitMQ creates a new database from scratch.
 
   <br>
 
 **`password`** -
-_Default: 'guest'_
+_Default: guest_
 
 Password for the default user.
 
-
-  <br>
+ <br>
 
 **`protocol`** -
 _Default: amqp_
 
-The protocol used 
+Mandatory option to specify what messaging protocol is used for the broker. For the Codename Hermes library, we have made the engineering the `AMQP 0-9-1 messaging protocol` because it is a mature and widely adopted messaging protocol that provides the necessary features and capabilities for building robust, scalable, and interoperable message broker systems. 
+
+ <br>
 
 **`vhost`** -
 _Default: '/'_
 
-Virtual host to create when RabbitMQ creates a new database from scratch. The exchange `amq.rabbitmq.log` will exist in this virtual host.
+The default name for the virtual host. For convenience, an absent path segment (e.g., as in the URLs just given) is interpreted as the virtual host named /, which is present in RabbitMQ out of the box. 
+
+<br>
 
 **`locale`** -
-_Default: amqp_
+_Default_: _en_US_
 
+The desired locale for error messages. `NOTE:` RabbitMQ only ever uses en_US.
 
-
-The protocol used 
+<br>
 
 **`frameMax`** -
-_Default: amqp_
+_Default: 0_
 
+The size in bytes of the maximum frame allowed over the connection. 0 means no limit. Please refer to [frameMax](https://amqp-node.github.io/amqplib/channel_api.html#connect) for more inforamtion.
 
+<br>
 
 
 **`heartbeat`** -
 _Default: 60_
 
-Value representing the heartbeat timeout suggested by the server during connection parameter negotiation. 
+The period of the connection heartbeat, in seconds. Please refer to [heartbeating](https://amqp-node.github.io/amqplib/channel_api.https://amqp-node.github.io/amqplib/channel_api.html#heartbeating) for more inforamtion.
 
+<br><br>
 ### **`topics`**
 
 
-As previously mentioned, we follow this format:
 
 ```TypeScript
 {
@@ -509,33 +513,31 @@ topic1: {
 In the wonderful world of Rabbit, to produce messages to our server we utilize the `send` method.
 <br>
 
-_short example_
+Send syntax. NOTE: last argument is optional and is not required to send messages to the server.
+
+```TypeScript
+
+send(topic: string, message: string, options?: amqp.Options.Publish)
+```
+
+_Quick example_
 
 ```TypeScript
 rabbit.send("topic1", "hello from sender.ts in ch lib test");
 
 ```
-
-
-```TypeScript
-
-send(topic: string, message: string, options?: amqp.Options.Publish) {
-    this.channel?.publish(
-      this.topics[topic].exchange.name,
-      this.topics[topic].key ?? topic,
-      Buffer.from(message),
-      options
-    );
-
-}
-```
-
 <br>
 
 <section id="rabbit-consume">
 
 **`Consume`**
+<br>
+_comming soon!_
 
+
+ <br>
+  <hr align="center" width="50%">
+  <br>
 ### **Example**
 
 ```TypeScript
