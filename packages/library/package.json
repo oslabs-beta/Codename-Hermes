@@ -1,7 +1,7 @@
 {
   "name": "@codename-hermes/library",
   "packageManager": "yarn@3.3.1",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "main": "./lib/index.js",
   "description": "A library to abstract away and standardize the initial setup and implementation of connecting with message brokers.",
   "keywords": [
@@ -28,6 +28,7 @@
   "engineStrict": true,
   "scripts": {
     "build": "yarn tsc",
+    "prepublish": "yarn build",
     "publish": "npm publish"
   },
   "devDependencies": {
