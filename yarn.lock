@@ -1406,6 +1406,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@codename-hermes/library@workspace:packages/library":
+  version: 0.0.0-use.local
+  resolution: "@codename-hermes/library@workspace:packages/library"
+  dependencies:
+    "@types/amqplib": ^0.10.1
+    amqplib: ^0.10.3
+    kafka-node: ^5.0.0
+    tsc: ^2.0.4
+    typescript: ^5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@cspotcode/source-map-support@npm:^0.8.0":
   version: 0.8.1
   resolution: "@cspotcode/source-map-support@npm:0.8.1"
@@ -2469,12 +2481,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"Codename_Hermes@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "Codename_Hermes@workspace:."
-  languageName: unknown
-  linkType: soft
-
 "abbrev@npm:1, abbrev@npm:^1.0.0":
   version: 1.1.1
   resolution: "abbrev@npm:1.1.1"
@@ -3303,6 +3309,12 @@ __metadata:
   checksum: 17d5666611f9b16d64fdf48176d9b7fb1c7d1c1607a189f7e600040a11a6616982876af148230336adb7d8fe728a559f743a4e29db3747e3b1a32fa7f4529681
   languageName: node
   linkType: hard
+
+"codename-hermes@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "codename-hermes@workspace:."
+  languageName: unknown
+  linkType: soft
 
 "color-convert@npm:^1.9.0":
   version: 1.9.3
@@ -5944,35 +5956,23 @@ __metadata:
 
 "library@file:../../../library::locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding":
   version: 0.0.1
-  resolution: "library@file:../../../library#../../../library::hash=65d010&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
+  resolution: "library@file:../../../library#../../../library::hash=8bba68&locator=bidding%40workspace%3Apackages%2Fdemo_app%2Fservices%2Fbidding"
   dependencies:
     amqplib: ^0.10.3
     kafka-node: ^5.0.0
-  checksum: 79401b8277d1cba27caefc01fd6a174ae1ff31260c5cb5046aa1372b4ab90bcfb7bc1495d1a0089bf5e95f9cb2d4f66b8daed1720709265bd86a06f8b13cb74f
+  checksum: 74cb474eba1e7cf1d0bc1f44e057c70f3836cc27a4624e71e8c66294de1d0aebb06f95f13c6122d2984a7ae5610facc9b35e4a54f18c53977b0de4ffcfbd0af3
   languageName: node
   linkType: hard
 
 "library@file:../../../library::locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend":
   version: 0.0.1
-  resolution: "library@file:../../../library#../../../library::hash=65d010&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
+  resolution: "library@file:../../../library#../../../library::hash=8bba68&locator=frontend%40workspace%3Apackages%2Fdemo_app%2Fservices%2Ffrontend"
   dependencies:
     amqplib: ^0.10.3
     kafka-node: ^5.0.0
-  checksum: 79401b8277d1cba27caefc01fd6a174ae1ff31260c5cb5046aa1372b4ab90bcfb7bc1495d1a0089bf5e95f9cb2d4f66b8daed1720709265bd86a06f8b13cb74f
+  checksum: 74cb474eba1e7cf1d0bc1f44e057c70f3836cc27a4624e71e8c66294de1d0aebb06f95f13c6122d2984a7ae5610facc9b35e4a54f18c53977b0de4ffcfbd0af3
   languageName: node
   linkType: hard
-
-"library@workspace:packages/library":
-  version: 0.0.0-use.local
-  resolution: "library@workspace:packages/library"
-  dependencies:
-    "@types/amqplib": ^0.10.1
-    amqplib: ^0.10.3
-    kafka-node: ^5.0.0
-    tsc: ^2.0.4
-    typescript: ^4.9.5
-  languageName: unknown
-  linkType: soft
 
 "lines-and-columns@npm:^1.1.6":
   version: 1.2.4
@@ -8612,13 +8612,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.9.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
-  version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
+"typescript@npm:^5.0.4":
+  version: 5.0.4
+  resolution: "typescript@npm:5.0.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
+  checksum: 82b94da3f4604a8946da585f7d6c3025fff8410779e5bde2855ab130d05e4fd08938b9e593b6ebed165bda6ad9292b230984f10952cf82f0a0ca07bbeaa08172
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@4.9.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
+  version: 4.9.5
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^5.0.4#~builtin<compat/typescript>":
+  version: 5.0.4
+  resolution: "typescript@patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=ad5954"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 6a1fe9a77bb9c5176ead919cc4a1499ee63e46b4e05bf667079f11bf3a8f7887f135aa72460a4c3b016e6e6bb65a822cb8689a6d86cbfe92d22cc9f501f09213
   languageName: node
   linkType: hard
 

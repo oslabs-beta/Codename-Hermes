@@ -84,6 +84,50 @@ export type KafkaMessage = GenericMessage & {
  */
 
 /**
+ * Purpose: to produce new Kafka message broker with async code.
+ * @param connection
+ * @param topics
+ * @returns Kafka object to be used as a message broker
+ */
+export async function createKafkaClass(
+  connection: KafkaClientOptions,
+  topics: KafkaTopic,
+  producerOptions?: ProducerOptions,
+  callback?: ErrorCallback
+): Promise<Kafka>;
+export async function createKafkaClass(
+  connection: KafkaClientOptions,
+  topics: KafkaTopic,
+  producerOptions?: ProducerOptions
+): Promise<Kafka>;
+export async function createKafkaClass(
+  connection: KafkaClientOptions,
+  topics: KafkaTopic,
+  callback?: ErrorCallback
+): Promise<Kafka>;
+export async function createKafkaClass(
+  connection: KafkaClientOptions,
+  topics: KafkaTopic,
+  producerOptionsOrCallback?: ProducerOptions | ErrorCallback,
+  callback?: ErrorCallback
+) {
+  let producerOptions: ProducerOptions | undefined;
+  if (
+    typeof producerOptionsOrCallback === 'object' ||
+    producerOptionsOrCallback === undefined
+  ) {
+    producerOptions = producerOptionsOrCallback;
+  } else {
+    callback = producerOptionsOrCallback;
+  }
+
+  const kafka = await new Promise((d) =>
+    d(new Kafka(connection, topics, producerOptions, callback))
+  );
+  return kafka;
+}
+
+/**
  * An abstraction to the kafka-node library.
  * @param topics Kafka topics
  * @param host Kafka host
