@@ -128,7 +128,7 @@ We haven't implemented support for messaging multiple topics at once as of yet.
 
 Consuming will be more in-depth than producing, though just as simple.
 
-The first things first, we need to setup a listener for each topic we want to consume. This can be acheived through the basic syntax below.
+The first things first, we need to setup a listener for each topic we want to consume. This can be achieved through the basic syntax below.
 
 ```TypeScript
 listen(topics: string[], options: GenericListenerOptions)
@@ -212,7 +212,7 @@ Following the same [standards](#standards) as we've gone over previously; Our Ka
 
 ## **Initilization**
 
-Much like you've seen, initilizing Kafka will be the exact same as defined in the standards with the only differance being, we're assigning the returned value of the Kafka factory function to a variable.
+Much like you've seen, initializing Kafka will be the exact same as defined in the standards with the only differance being, we're assigning the returned value of the Kafka factory function to a variable.
 
 ```TypeScript
 const kafka = Kafka(clientOptions, topics);
