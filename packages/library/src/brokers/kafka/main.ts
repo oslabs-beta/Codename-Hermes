@@ -294,8 +294,8 @@ export default class Kafka extends MessageBroker {
       throw new Error(`No listener found for topic "${topic}"`);
 
     this.consumers[topic]!.on('message', (msg: Message) =>
-      callback!(null, formatMessageToKafkaMessage(msg))
+      callback!(formatMessageToKafkaMessage(msg), null)
     );
-    this.consumers[topic]!.on('error', (err: any) => callback!(err, null));
+    this.consumers[topic]!.on('error', (err: any) => callback!(null, err));
   }
 }
