@@ -121,9 +121,18 @@ export async function createKafkaClass(
     callback = producerOptionsOrCallback;
   }
 
-  const kafka = await new Promise((d) =>
-    d(new Kafka(connection, topics, producerOptions, callback))
-  );
+  const kafka = await new Promise((d) => {
+    const formattedKafkaHost = `${connection.host || 'localhost'}:${
+      connection.port || 9092
+    }`;
+
+    const kafkaClient = new KafkaClient({
+      ...producerOptions,
+      kafkaHost: formattedKafkaHost,
+    });
+
+    d(new Kafka(kafkaClient, topics, producerOptions, callback));
+  });
   return kafka;
 }
 
@@ -134,56 +143,26 @@ export async function createKafkaClass(
  * @param options Kafka client options
  * @param callback Callback to be called when the producer has connected to kafka.
  */
-export default class Kafka extends MessageBroker {
-  private topics: KafkaTopic;
+
+// TODO: re-add abstract message broker class
+export default class Kafka /*extends MessageBroker*/ {
   private client: KafkaClient;
+  private topics: KafkaTopic;
   private producer: Producer;
   private consumers: {
     [topic: string]: Consumer;
   };
-  private host: string;
   constructor(
-    connection: KafkaClientOptions,
+    client: KafkaClient,
     topics: KafkaTopic,
     producerOptions?: ProducerOptions,
     callback?: ErrorCallback
-  );
-  constructor(
-    connection: KafkaClientOptions,
-    topics: KafkaTopic,
-    producerOptions?: ProducerOptions
-  );
-  constructor(
-    connection: KafkaClientOptions,
-    topics: KafkaTopic,
-    callback?: ErrorCallback
-  );
-  constructor(connection: KafkaClientOptions, topics: KafkaTopic);
-  constructor(
-    connection: KafkaClientOptions,
-    topics: KafkaTopic,
-    producerOptionsOrCallback?: ProducerOptions | ErrorCallback,
-    callback?: ErrorCallback
   ) {
-    let producerOptions: ProducerOptions | undefined;
-    if (
-      typeof producerOptionsOrCallback === 'object' ||
-      producerOptionsOrCallback === undefined
-    ) {
-      producerOptions = producerOptionsOrCallback;
-    } else {
-      callback = producerOptionsOrCallback;
-    }
+    // super(client, topics);
 
-    super(connection, topics);
+    this.client = client;
 
     this.topics = topics;
-    this.host = `${connection.host}:${connection.port}`;
-
-    this.client = new KafkaClient({
-      ...producerOptions,
-      kafkaHost: this.host,
-    });
 
     this.producer = new Producer(this.client, producerOptions);
     this.consumers = {};
