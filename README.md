@@ -16,6 +16,18 @@
 
 <br>
 
+# Installation
+
+### **NPM**
+
+`npm i @codename-hermes/library`
+
+### **Yarn**
+
+`yarn add @codename-hermes/library`
+
+<br>
+
   <!-- Directory -->
   <div align="left">
   
