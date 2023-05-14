@@ -165,7 +165,7 @@ consume(topicName: string, callback: MessageCallback)
 A MessageCallback will always be based off the example below, although it may change from broker to broker.
 
 ```TypeScript
-(data: GenericMessage<any>, error?: any) => void
+(error: any | null, data: GenericMessage<any> | null) => void
 ```
 
 Data will always look like:
