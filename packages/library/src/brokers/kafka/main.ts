@@ -87,8 +87,10 @@ export type KafkaMessage = GenericMessage & {
  * Purpose: to produce new Kafka message broker with async code.
  * @param connection
  * @param topics
+ * @deprecated callback
  * @returns Kafka object to be used as a message broker
  */
+// Handles the init for our kafka implementation. Also allows us to write tests utilizing MockClient and MockProducer
 export async function createKafkaClass(
   connection: KafkaClientOptions,
   topics: KafkaTopic,
@@ -121,7 +123,7 @@ export async function createKafkaClass(
     callback = producerOptionsOrCallback;
   }
 
-  const kafka = await new Promise((d) => {
+  const kafka = await new Promise((resolve, reject) => {
     const formattedKafkaHost = `${connection.host || 'localhost'}:${
       connection.port || 9092
     }`;
@@ -131,8 +133,13 @@ export async function createKafkaClass(
       kafkaHost: formattedKafkaHost,
     });
 
-    d(new Kafka(kafkaClient, topics, producerOptions, callback));
+    kafkaClient.on('error', (error) => reject(error));
+    kafkaClient.on('ready', () => {
+      const producer = new Producer(kafkaClient, producerOptions);
+      resolve(new Kafka(kafkaClient, producer, topics));
+    });
   });
+
   return kafka;
 }
 
@@ -152,26 +159,12 @@ export default class Kafka /*extends MessageBroker*/ {
   private consumers: {
     [topic: string]: Consumer;
   };
-  constructor(
-    client: KafkaClient,
-    topics: KafkaTopic,
-    producerOptions?: ProducerOptions,
-    callback?: ErrorCallback
-  ) {
+  constructor(client: KafkaClient, producer: Producer, topics: KafkaTopic) {
     // super(client, topics);
-
     this.client = client;
-
     this.topics = topics;
-
-    this.producer = new Producer(this.client, producerOptions);
+    this.producer = producer;
     this.consumers = {};
-
-    // Invoke the provided callback when the producer is ready or if there is an error.
-    if (callback !== undefined) {
-      this.producer.on('ready', () => callback!(null));
-      this.producer.on('error', callback);
-    }
   }
 
   /**
