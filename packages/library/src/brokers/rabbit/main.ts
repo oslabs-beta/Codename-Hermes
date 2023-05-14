@@ -54,80 +54,57 @@ export async function createRabbitClass(
   connection: RabbitClientOptions,
   topics: RabbitTopic
 ) {
-  const rabbit = new Rabbit(connection, topics);
-  await rabbit.init();
-  return rabbit;
+  return new Promise<Rabbit>(async (resolve, reject) => {
+    try {
+      const defaultConfig = {
+        ...connection,
+        // TODO: remove this when we add secure connection support. This overwrites what the user wants.
+        protocol: 'amqp',
+        host: connection.host || 'localhost',
+        port: connection.port || 5672,
+      };
+
+      const rabbitClient = await amqp.connect(defaultConfig);
+      const channel = await rabbitClient.createChannel();
+
+      Object.keys(topics).forEach(async (topic) => {
+        await channel.assertExchange(
+          topics[topic].exchange.name,
+          topics[topic].exchange.type ?? 'topic',
+          topics[topic].exchange ?? {}
+        );
+
+        await channel.assertQueue(topic, topics[topic] ?? {});
+
+        // TODO: research and implement "args"
+        await channel.bindQueue(
+          topic,
+          topics[topic].exchange.name,
+          topics[topic].key ?? topic
+        );
+      });
+
+      resolve(new Rabbit(rabbitClient, channel, topics));
+    } catch (error) {
+      reject(error as any);
+    }
+  });
 }
 
 // TODO: Add error handling
-export default class Rabbit extends MessageBroker {
-  private connection: Connection | null;
-  private channel: amqp.Channel | null;
+export default class Rabbit /*extends MessageBroker*/ {
+  private client: Connection;
+  private channel: amqp.Channel;
   private topics: RabbitTopic;
-  private defaultConfig: RabbitClientOptions;
   private consumerTags: { [topicName: string]: RabbitListenerOptions };
-  constructor(connection: RabbitClientOptions, topics: RabbitTopic) {
-    super(connection, topics);
+  constructor(client: Connection, channel: amqp.Channel, topics: RabbitTopic) {
+    // super(connection, topics);
 
-    // Let's create a default config, we are also relying on default options for the connect method.
-    //updated to add default config to the new object returned
-    this.defaultConfig = {
-      ...connection,
-      port: connection.port ?? 5672,
-      // protocol: connection.protocol ?? 'amqp',
-      // TODO: remove this when we add secure connection support. This overwrites what the user wants.
-      protocol: 'amqp',
-    };
+    this.client = client;
+    this.channel = channel;
 
     this.topics = topics;
     this.consumerTags = {};
-
-    // This is jank... I'm sorry
-    // REFACTOR: all this 👇
-    // TODO: fix channel null issue
-    this.connection = null;
-    this.channel = null;
-    const that = this;
-  }
-
-  //initialize method on Rabbit Class constructor to be used in the asynchronous factory function
-  //The method is used to setup the following
-  /**
-   * connection
-   * create exchange
-   * create queue
-   * bind exchange to queue via key (NOTE: key is determined when creating topics to pass into new Rabbit instatiation. The key here is the "binding key".
-   * in order for the queue to receive messages, the "routingKey" in the send function with publish MUST MATCH
-   * reference: https://www.rabbitmq.com/tutorials/tutorial-four-javascript.html )
-   */
-  async init() {
-    this.connection = await amqp.connect(this.defaultConfig);
-    if (this.connection === null)
-      throw new Error(
-        'No connection for Rabbit. Failed to initialize - connection'
-      );
-
-    this.channel = await this.connection!.createChannel();
-    if (this.channel === null)
-      throw new Error('No channel for Rabbit. Failed to initialize - channel');
-
-    Object.keys(this.topics).forEach(async (topic) => {
-      // POSSIBLE REFACTOR: Don't know if we need await
-      await this.channel?.assertExchange(
-        this.topics[topic].exchange.name,
-        this.topics[topic].exchange.type ?? 'topic',
-        this.topics[topic].exchange ?? {}
-      );
-
-      await this.channel?.assertQueue(topic, this.topics[topic] ?? {});
-
-      // TODO: research and implement "args"
-      await this.channel?.bindQueue(
-        topic,
-        this.topics[topic].exchange.name,
-        this.topics[topic].key ?? topic
-      );
-    });
   }
 
   // TODO: Add support for multi messages
