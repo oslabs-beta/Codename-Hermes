@@ -41,7 +41,7 @@ export type RabbitListenerOptions = GenericListenerOptions & {
   arguments?: any;
 };
 
-export type RabbitMessage = GenericMessage & {};
+export type RabbitMessage = GenericMessage<{}>;
 
 //function to act as asynchronous factory function
 /**
@@ -92,13 +92,13 @@ export async function createRabbitClass(
 }
 
 // TODO: Add error handling
-export default class Rabbit /*extends MessageBroker*/ {
+export default class Rabbit extends MessageBroker {
   private client: Connection;
   private channel: amqp.Channel;
   private topics: RabbitTopic;
   private consumerTags: { [topicName: string]: RabbitListenerOptions };
   constructor(client: Connection, channel: amqp.Channel, topics: RabbitTopic) {
-    // super(connection, topics);
+    super(client, channel, topics);
 
     this.client = client;
     this.channel = channel;
@@ -119,7 +119,8 @@ export default class Rabbit /*extends MessageBroker*/ {
     );
   }
 
-  listener(topics: string, options?: RabbitListenerOptions) {
+  // This isn't really needed 🤷‍♂️
+  protected listener(topics: string, options?: RabbitListenerOptions) {
     const convertedOptions = convertGenericListenerConfigToRabbitAmqpConfig(
       options ?? {}
     );

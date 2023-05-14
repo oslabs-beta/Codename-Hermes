@@ -56,12 +56,12 @@ export type KafkaListenerOptions = GenericListenerOptions & {
   // keyEncoding?: 'buffer' | 'utf8';
 };
 
-export type KafkaMessage = GenericMessage & {
+export type KafkaMessage = GenericMessage<{
   offset?: number;
   partition?: number;
   highWaterOffset?: number;
   key?: string;
-};
+}>;
 
 //TODO: error handling lol
 //TODO: comments lol
@@ -153,7 +153,7 @@ export async function createKafkaClass(
  */
 
 // TODO: re-add abstract message broker class
-export default class Kafka /*extends MessageBroker*/ {
+export default class Kafka extends MessageBroker {
   private client: KafkaClient;
   private topics: KafkaTopic;
   private producer: Producer;
@@ -161,7 +161,7 @@ export default class Kafka /*extends MessageBroker*/ {
     [topic: string]: Consumer;
   };
   constructor(client: KafkaClient, producer: Producer, topics: KafkaTopic) {
-    // super(client, topics);
+    super(client, producer, topics);
     this.client = client;
     this.topics = topics;
     this.producer = producer;
