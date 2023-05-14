@@ -717,11 +717,17 @@ const topics = {
   topic2: null,
 }
 
-const kafka = Kafka(clientOptions, topics);
+Kafka(clientOptions, topics).then(client => {
 
-kafka.consume('topic2', { autoCommit: true }, (data, error) => console.log(data.message));
+  kafka.consume('topic2', { autoCommit: true }, (data, error) => {
 
-kafka.send('topic2', 'Hello, topic2!');
+    console.log(data.message)
+
+  });
+
+  kafka.send('topic2', 'Hello, topic2!');
+});
+
 ```
 
   </section>
@@ -733,19 +739,21 @@ kafka.send('topic2', 'Hello, topic2!');
 <br>
 
 <!-- Rabbit section -->
-<section id=rabbit-init>
+<section id=rabbit>
 
 ## **RabbitMQ**
 
+<section id=rabbit-init>
+
 ### **Initilization**
 
-Initilizing RabbitMQ is similar to the syntax you have seen previously with our standards and Kakfa. With RabbitMQ, we use the "createRabbitClass" factory function to instantiate a variable to act as our broker.
+Initilizing RabbitMQ is similar to the syntax you have seen previously with our standards and Kakfa. With RabbitMQ, we use the "Rabbit" factory function to instantiate a variable to act as our broker.
 
 Is that an await? Yes, yes it is. Our RabbitMQ message broker can be instantiated using promises.
 
 ```TypeScript
 
-const rabbit = await createRabbitClass(clientOptions, topics);
+const rabbit = await Rabbit(clientOptions, topics);
 
 ```
 
@@ -757,6 +765,8 @@ With Codename Hermes, you can create a customaizable rabbit broker for any occas
 
 ```TypeScript
 {
+  host: string;
+  port: number;
   username?: string;
   password?: string;
   protocol?: 'amqp' | 'amqps';
@@ -947,15 +957,14 @@ An example of implementing a topic might look like:
 
 ```TypeScript
 const topics = {
-topic1: {
-  exchange: {
-    name: "topics",
+  topic1: {
+    exchange: {
+      name: "topics",
+      durable: false,
+      type: "topic",
+    },
     durable: false,
-    type: "topic",
   },
-  durable: false,
-  key: "hermes",
-},
 };
 ```
 
@@ -1026,7 +1035,7 @@ Please refer to [Publish options](https://amqp-node.github.io/amqplib/channel_ap
 _Quick example_
 
 ```TypeScript
-rabbit.send("topic1", "hello from sender.ts in ch lib test");
+rabbit.send("topic1", "Hello topic1!");
 
 ```
 
@@ -1046,9 +1055,10 @@ _Comming soon!_
 
 ```TypeScript
 
-import ch, { RabbitTopic, createRabbitClass } from "library";
-
-const clientOptions = { host: "localhost", port: 5672 };
+const clientOptions = {
+  host: "localhost",
+  port: 5672,
+};
 
 const topics: RabbitTopic = {
   topic1: {
@@ -1058,18 +1068,21 @@ const topics: RabbitTopic = {
       type: "topic",
     },
     durable: false,
-    key: "hermes",
   },
 };
 
-const rabbit = await createRabbitClass(clientOptions,topics);
+Rabbit(clientOptions, topics).then(client => {
 
-rabbit.send("topic1", "hello from sender.ts in ch lib test");
+  rabbit.send("topic1", "Hello topic1!");
+
+});
+
 
 ```
 
   <!-- Description for Rabbit implementation -->
   <!-- Docs -->
+</section>
 </section>
 
 <br>
