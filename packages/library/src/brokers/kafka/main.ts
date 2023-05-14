@@ -135,11 +135,7 @@ export async function createKafkaClass(
     kafkaClient.on('error', (error) => reject(error));
     kafkaClient.on('ready', () => {
       const producer = new Producer(kafkaClient, producerOptions);
-
-      producer.on('error', (error) => reject(error));
-      producer.on('ready', () => {
-        resolve(new Kafka(kafkaClient, producer, topics));
-      });
+      resolve(new Kafka(kafkaClient, producer, topics));
     });
   });
 }
