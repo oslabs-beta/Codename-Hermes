@@ -87,7 +87,6 @@ export type KafkaMessage = GenericMessage & {
  * Purpose: to produce new Kafka message broker with async code.
  * @param connection
  * @param topics
- * @deprecated callback
  * @returns Kafka object to be used as a message broker
  */
 // Handles the init for our kafka implementation. Also allows us to write tests utilizing MockClient and MockProducer
@@ -123,7 +122,7 @@ export async function createKafkaClass(
     callback = producerOptionsOrCallback;
   }
 
-  const kafka = await new Promise((resolve, reject) => {
+  return new Promise<Kafka>((resolve, reject) => {
     const formattedKafkaHost = `${connection.host || 'localhost'}:${
       connection.port || 9092
     }`;
@@ -136,11 +135,13 @@ export async function createKafkaClass(
     kafkaClient.on('error', (error) => reject(error));
     kafkaClient.on('ready', () => {
       const producer = new Producer(kafkaClient, producerOptions);
-      resolve(new Kafka(kafkaClient, producer, topics));
+
+      producer.on('error', (error) => reject(error));
+      producer.on('ready', () => {
+        resolve(new Kafka(kafkaClient, producer, topics));
+      });
     });
   });
-
-  return kafka;
 }
 
 /**
