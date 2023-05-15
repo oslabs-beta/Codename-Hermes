@@ -56,12 +56,12 @@ export type KafkaListenerOptions = GenericListenerOptions & {
   // keyEncoding?: 'buffer' | 'utf8';
 };
 
-export type KafkaMessage = GenericMessage & {
+export type KafkaMessage = GenericMessage<{
   offset?: number;
   partition?: number;
   highWaterOffset?: number;
   key?: string;
-};
+}>;
 
 //TODO: error handling lol
 //TODO: comments lol
@@ -89,6 +89,7 @@ export type KafkaMessage = GenericMessage & {
  * @param topics
  * @returns Kafka object to be used as a message broker
  */
+// Handles the init for our kafka implementation. Also allows us to write tests utilizing MockClient and MockProducer
 export async function createKafkaClass(
   connection: KafkaClientOptions,
   topics: KafkaTopic,
@@ -121,10 +122,22 @@ export async function createKafkaClass(
     callback = producerOptionsOrCallback;
   }
 
-  const kafka = await new Promise((d) =>
-    d(new Kafka(connection, topics, producerOptions, callback))
-  );
-  return kafka;
+  return new Promise<Kafka>((resolve, reject) => {
+    const formattedKafkaHost = `${connection.host || 'localhost'}:${
+      connection.port || 9092
+    }`;
+
+    const kafkaClient = new KafkaClient({
+      ...producerOptions,
+      kafkaHost: formattedKafkaHost,
+    });
+
+    kafkaClient.on('error', (error) => reject(error));
+    kafkaClient.on('ready', () => {
+      const producer = new Producer(kafkaClient, producerOptions);
+      resolve(new Kafka(kafkaClient, producer, topics));
+    });
+  });
 }
 
 /**
@@ -134,65 +147,21 @@ export async function createKafkaClass(
  * @param options Kafka client options
  * @param callback Callback to be called when the producer has connected to kafka.
  */
+
+// TODO: re-add abstract message broker class
 export default class Kafka extends MessageBroker {
-  private topics: KafkaTopic;
   private client: KafkaClient;
+  private topics: KafkaTopic;
   private producer: Producer;
   private consumers: {
     [topic: string]: Consumer;
   };
-  private host: string;
-  constructor(
-    connection: KafkaClientOptions,
-    topics: KafkaTopic,
-    producerOptions?: ProducerOptions,
-    callback?: ErrorCallback
-  );
-  constructor(
-    connection: KafkaClientOptions,
-    topics: KafkaTopic,
-    producerOptions?: ProducerOptions
-  );
-  constructor(
-    connection: KafkaClientOptions,
-    topics: KafkaTopic,
-    callback?: ErrorCallback
-  );
-  constructor(connection: KafkaClientOptions, topics: KafkaTopic);
-  constructor(
-    connection: KafkaClientOptions,
-    topics: KafkaTopic,
-    producerOptionsOrCallback?: ProducerOptions | ErrorCallback,
-    callback?: ErrorCallback
-  ) {
-    let producerOptions: ProducerOptions | undefined;
-    if (
-      typeof producerOptionsOrCallback === 'object' ||
-      producerOptionsOrCallback === undefined
-    ) {
-      producerOptions = producerOptionsOrCallback;
-    } else {
-      callback = producerOptionsOrCallback;
-    }
-
-    super(connection, topics);
-
+  constructor(client: KafkaClient, producer: Producer, topics: KafkaTopic) {
+    super(client, producer, topics);
+    this.client = client;
     this.topics = topics;
-    this.host = `${connection.host}:${connection.port}`;
-
-    this.client = new KafkaClient({
-      ...producerOptions,
-      kafkaHost: this.host,
-    });
-
-    this.producer = new Producer(this.client, producerOptions);
+    this.producer = producer;
     this.consumers = {};
-
-    // Invoke the provided callback when the producer is ready or if there is an error.
-    if (callback !== undefined) {
-      this.producer.on('ready', () => callback!(null));
-      this.producer.on('error', callback);
-    }
   }
 
   /**
