@@ -121,10 +121,44 @@ describe('Kafka', () => {
         testTopic: mockConsumer,
       };
 
-      kafka.consume('testTopic', () => mockConsumerCallback());
+      kafka.consume('testTopic', (err, data) =>
+        mockConsumerCallback(err, data)
+      );
       mockConsumer.trigger('message', kafkaNodeMessage);
 
+      expect(mockConsumerCallback.mock.calls[0]).toEqual([
+        null,
+        formatMessageToKafkaMessage(kafkaNodeMessage),
+      ]);
+    });
+
+    it('should consume errors', () => {
+      const mockConsumer = new MockConsumer();
+      const mockConsumerCallback = jest.fn(
+        (err: any, data: any) => err || data
+      );
+
+      const kafkaNodeMessage = {
+        topic: 'test',
+        value: 'test',
+        offset: 1,
+        partition: 2,
+        highWaterOffset: 2,
+        key: 'test',
+      };
+
+      kafka['consumers'] = {
+        // @ts-ignore
+        testTopic: mockConsumer,
+      };
+
+      kafka.consume('testTopic', (err, data) =>
+        mockConsumerCallback(err, data)
+      );
+      mockConsumer.trigger('error', 'error');
+
       expect(mockConsumerCallback.mock.calls).toHaveLength(1);
+      expect(mockConsumerCallback.mock.calls[0]).toEqual(['error', null]);
     });
 
     it('should throw an error if the topic is invalid', () => {
