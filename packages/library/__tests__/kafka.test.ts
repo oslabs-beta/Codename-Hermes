@@ -5,6 +5,7 @@ import {
   formatMessageToKafkaMessage,
 } from '../src/brokers/kafka/utils/utilFunctions';
 import { MockClient } from './mocks/MockClient';
+import MockConsumer from './mocks/MockConsumer';
 
 describe('Kafka', () => {
   const topics = {
@@ -102,7 +103,30 @@ describe('Kafka', () => {
 
   // TODO: need to add these tests teehee
   describe('Consumption', () => {
-    xit('should consume messages', () => {});
+    it('should consume messages', () => {
+      const mockConsumer = new MockConsumer();
+      const mockConsumerCallback = jest.fn();
+
+      const kafkaNodeMessage = {
+        topic: 'test',
+        value: 'test',
+        offset: 1,
+        partition: 2,
+        highWaterOffset: 2,
+        key: 'test',
+      };
+
+      kafka['consumers'] = {
+        // @ts-ignore
+        testTopic: mockConsumer,
+      };
+
+      kafka.consume('testTopic', () => mockConsumerCallback());
+      mockConsumer.trigger('message', kafkaNodeMessage);
+
+      expect(mockConsumerCallback.mock.calls).toHaveLength(1);
+    });
+
     it('should throw an error if the topic is invalid', () => {
       // Why is this test like this? Well, that is a funny story. Not really. the "toThrow()" test case kept failing because there was an error thrown?
       try {
