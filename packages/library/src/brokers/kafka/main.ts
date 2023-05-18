@@ -258,9 +258,7 @@ export default class Kafka extends MessageBroker {
     }
 
     if (!topic) throw new Error('No topic specified.');
-    this.listener(topic, listenerOptions);
-    if (!this.consumers[topic])
-      throw new Error(`No listener found for topic "${topic}"`);
+    if (!this.consumers[topic]) this.listener(topic, listenerOptions);
 
     this.consumers[topic]!.on('message', (msg: Message) =>
       callback!(null, formatMessageToKafkaMessage(msg))
