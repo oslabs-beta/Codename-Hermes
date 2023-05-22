@@ -101,7 +101,6 @@ describe('Kafka', () => {
     });
   });
 
-  // TODO: need to add these tests teehee
   describe('Consumption', () => {
     it('should consume messages', () => {
       const mockConsumer = new MockConsumer();
